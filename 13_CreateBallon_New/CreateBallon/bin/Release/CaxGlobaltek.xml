@@ -4,105 +4,53 @@
         <name>CaxGlobaltek</name>
     </assembly>
     <members>
-        <member name="M:CaxGlobaltek.CaxGetDatData.GetMETEDownload_Upload(CaxGlobaltek.METE_Download_Upload_Path@)">
+        <member name="M:CaxGlobaltek.CaxEnv.GetGlobaltekEnvDir">
             <summary>
-            取得METEDownload_Upload.dat資料
-            </summary>
-            <param name="cMETE_Download_Upload_Path"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CaxGlobaltek.CaxGetDatData.GetMETEDownloadData(CaxGlobaltek.METEDownloadData@)">
-            <summary>
-            取得METEDownloadData.dat資料
-            </summary>
-            <param name="cMETEDownloadData"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CaxGlobaltek.CaxGetDatData.GetTemplatePostData">
-            <summary>
-            取得template_post.dat內容
+            回傳：IP\Globaltek
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CaxGlobaltek.CaxGetDatData.GetControlerConfigData(CaxGlobaltek.ControlerConfig@)">
+        <member name="M:CaxGlobaltek.CaxEnv.GetGlobaltekTaskDir">
             <summary>
-            取得ControlerConfig.dat資料  (路徑：IP:Globaltek\TE_Config\ControlerConfig.dat)
-            </summary>
-            <param name="cControlerConfig"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CaxGlobaltek.CaxGetDatData.GetDraftingConfigData(CaxGlobaltek.DraftingConfig@)">
-            <summary>
-            取得DraftingConfig.dat資料  (路徑：IP:Globaltek\ME_Config\DraftingConfig.dat)
-            </summary>
-            <param name="cControlerConfig"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CaxGlobaltek.CaxGetDatData.GetAssignGaugeData(System.String[]@)">
-            <summary>
-            取得AssignGaugeData.dat資料  (路徑：IP:Globaltek\ME_Config\AssignGaugeData.dat)
-            </summary>
-            <param name="AGtxt"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CaxGlobaltek.CaxGetDatData.GetDraftingCoordinateData(CaxGlobaltek.CoordinateData@)">
-            <summary>
-            取得圖紙區域資料
-            </summary>
-            <param name="cCoordinateData"></param>
-            <returns></returns>
-        </member>
-        <member name="F:CaxGlobaltek.LoadingDlg.components">
-            <summary>
-            Required designer variable.
-            </summary>
-        </member>
-        <member name="M:CaxGlobaltek.LoadingDlg.Dispose(System.Boolean)">
-            <summary>
-            Clean up any resources being used.
-            </summary>
-            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        </member>
-        <member name="M:CaxGlobaltek.LoadingDlg.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="M:CaxGlobaltek.CaxCheckDat.CheckMETEDownload_Upload">
-            <summary>
-            檢查METEDownload_Upload.dat是否存在
+            回傳：IP\Globaltek\Task
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CaxGlobaltek.CaxCheckDat.CheckCustomerName">
+        <member name="M:CaxGlobaltek.CaxEnv.GetLocalTaskDir">
             <summary>
-            檢查CustomerName.dat是否存在
+            回傳：[Local]\Globaltek\Task
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CaxGlobaltek.CaxCheckDat.CheckOperationArray">
+        <member name="M:CaxGlobaltek.CaxEnv.GetGlobaltekPostProcessorDir">
             <summary>
-            檢查OperationArray.dat是否存在
+            回傳：IP\Globaltek\MACH\resource\postprocessor
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CaxGlobaltek.CaxCheckDat.CheckMETEDownloadData">
+        <member name="M:CaxGlobaltek.CaxAsm.GetCompChildren(System.Collections.Generic.List{NXOpen.Assemblies.Component}@,NXOpen.Assemblies.Component)">
             <summary>
-            檢查METEDownloadData.dat是否存在
+            取得子Comp集合(只找下一層)
             </summary>
+            <param name="compAry"></param>
+            <param name="comp"></param>
             <returns></returns>
         </member>
-        <member name="M:CaxGlobaltek.CaxCheckDat.CheckTemplatePostDat">
+        <member name="M:CaxGlobaltek.CaxAsm.GetCompChildren(NXOpen.Assemblies.Component,System.Collections.Generic.List{NXOpen.Assemblies.Component}@,System.Boolean)">
             <summary>
-            檢查template_post.dat是否存在
+            取得子Comp集合(IsCycle=true 遞迴; IsCycle=false 不遞迴，預設為true)
             </summary>
+            <param name="FatherComp"></param>
+            <param name="ListChildrenComp"></param>
             <returns></returns>
         </member>
-        <member name="M:CaxGlobaltek.CaxCheckDat.CheckControlerConfigDat">
+        <member name="M:CaxGlobaltek.CaxAsm.RenamePart(NXOpen.Part,System.String,System.Boolean)">
             <summary>
-            檢查ControlerConfig.dat是否存在  (路徑：IP:Globaltek\TE_Config\ControlerConfig.dat)
+            以另存檔案的方式修改Part名稱，可指定是否刪除原檔案，預設為刪除
             </summary>
+            <param name="Part"></param>
+            <param name="NewPartName"></param>
+            <param name="DeleteOldPart"></param>
             <returns></returns>
         </member>
         <member name="M:CaxGlobaltek.CaxPublic.OpenFileDialog(System.String@,System.String@,System.String,System.String)">
@@ -198,6 +146,107 @@
             License檢查
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxGetDatData.GetMETEDownload_Upload(CaxGlobaltek.METE_Download_Upload_Path@)">
+            <summary>
+            取得METEDownload_Upload.dat資料
+            </summary>
+            <param name="cMETE_Download_Upload_Path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxGetDatData.GetMETEDownloadData(CaxGlobaltek.METEDownloadData@)">
+            <summary>
+            取得METEDownloadData.dat資料
+            </summary>
+            <param name="cMETEDownloadData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxGetDatData.GetTemplatePostData">
+            <summary>
+            取得template_post.dat內容
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxGetDatData.GetControlerConfigData(CaxGlobaltek.ControlerConfig@)">
+            <summary>
+            取得ControlerConfig.dat資料  (路徑：IP:Globaltek\TE_Config\ControlerConfig.dat)
+            </summary>
+            <param name="cControlerConfig"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxGetDatData.GetDraftingConfigData(CaxGlobaltek.DraftingConfig@)">
+            <summary>
+            取得DraftingConfig.dat資料  (路徑：IP:Globaltek\ME_Config\DraftingConfig.dat)
+            </summary>
+            <param name="cControlerConfig"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxGetDatData.GetAssignGaugeData(System.String[]@)">
+            <summary>
+            取得AssignGaugeData.dat資料  (路徑：IP:Globaltek\ME_Config\AssignGaugeData.dat)
+            </summary>
+            <param name="AGtxt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxGetDatData.GetDraftingCoordinateData(CaxGlobaltek.CoordinateData@)">
+            <summary>
+            取得圖紙區域資料
+            </summary>
+            <param name="cCoordinateData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxCheckDat.CheckMETEDownload_Upload">
+            <summary>
+            檢查METEDownload_Upload.dat是否存在
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxCheckDat.CheckCustomerName">
+            <summary>
+            檢查CustomerName.dat是否存在
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxCheckDat.CheckOperationArray">
+            <summary>
+            檢查OperationArray.dat是否存在
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxCheckDat.CheckMETEDownloadData">
+            <summary>
+            檢查METEDownloadData.dat是否存在
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxCheckDat.CheckTemplatePostDat">
+            <summary>
+            檢查template_post.dat是否存在
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxCheckDat.CheckControlerConfigDat">
+            <summary>
+            檢查ControlerConfig.dat是否存在  (路徑：IP:Globaltek\TE_Config\ControlerConfig.dat)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:CaxGlobaltek.LoadingDlg.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:CaxGlobaltek.LoadingDlg.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:CaxGlobaltek.LoadingDlg.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
         </member>
         <member name="M:CaxGlobaltek.CaxOper.AskOperNameFromTag(NXOpen.Tag)">
             <summary>
@@ -418,68 +467,6 @@
             <param name="view"></param>
             <returns></returns>
         </member>
-        <member name="M:CaxGlobaltek.CaxEnv.GetGlobaltekEnvDir">
-            <summary>
-            回傳：IP\Globaltek
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:CaxGlobaltek.CaxEnv.GetGlobaltekTaskDir">
-            <summary>
-            回傳：IP\Globaltek\Task
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:CaxGlobaltek.CaxEnv.GetLocalTaskDir">
-            <summary>
-            回傳：[Local]\Globaltek\Task
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:CaxGlobaltek.CaxEnv.GetGlobaltekPostProcessorDir">
-            <summary>
-            回傳：IP\Globaltek\MACH\resource\postprocessor
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:CaxGlobaltek.CaxAsm.GetCompChildren(System.Collections.Generic.List{NXOpen.Assemblies.Component}@,NXOpen.Assemblies.Component)">
-            <summary>
-            取得子Comp集合(只找下一層)
-            </summary>
-            <param name="compAry"></param>
-            <param name="comp"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CaxGlobaltek.CaxAsm.GetCompChildren(NXOpen.Assemblies.Component,System.Collections.Generic.List{NXOpen.Assemblies.Component}@,System.Boolean)">
-            <summary>
-            取得子Comp集合(IsCycle=true 遞迴; IsCycle=false 不遞迴，預設為true)
-            </summary>
-            <param name="FatherComp"></param>
-            <param name="ListChildrenComp"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CaxGlobaltek.CaxAsm.RenamePart(NXOpen.Part,System.String,System.Boolean)">
-            <summary>
-            以另存檔案的方式修改Part名稱，可指定是否刪除原檔案，預設為刪除
-            </summary>
-            <param name="Part"></param>
-            <param name="NewPartName"></param>
-            <param name="DeleteOldPart"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CaxGlobaltek.CaxPE.GetPEConfigDir">
-            <summary>
-            回傳：IP\Globaltek\PE\Config
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:CaxGlobaltek.CaxPE.ReadPECreateData(System.String,CaxGlobaltek.PECreateData@)">
-            <summary>
-            取得每一筆料號的製程資料
-            </summary>
-            <param name="cPECreateData"></param>
-            <returns></returns>
-        </member>
         <member name="M:CaxGlobaltek.CaxPart.OpenBaseDisplay(System.String,NXOpen.BasePart@)">
             <summary>
             開啟選擇的檔案
@@ -501,6 +488,19 @@
             </summary>
             <param name="closeModified"></param>
             <param name="responses"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxPE.GetPEConfigDir">
+            <summary>
+            回傳：IP\Globaltek\PE\Config
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxPE.ReadPECreateData(System.String,CaxGlobaltek.PECreateData@)">
+            <summary>
+            取得每一筆料號的製程資料
+            </summary>
+            <param name="cPECreateData"></param>
             <returns></returns>
         </member>
     </members>
