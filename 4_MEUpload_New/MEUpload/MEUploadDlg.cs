@@ -14,6 +14,7 @@ using NHibernate;
 using MEUpload.DatabaseClass;
 using NXOpen.Utilities;
 using DevComponents.DotNetBar;
+using NXOpen.Annotations;
 
 namespace MEUpload
 {
@@ -386,28 +387,59 @@ namespace MEUpload
             
             #region 取得所有量測尺寸資料
             
-            List<CaxME.DimensionData> listDimensionData = new List<CaxME.DimensionData>();
-            NXOpen.Drawings.DrawingSheet FirstSheet = null;
-            for (int i = 0; i < SheetCount; i++)
+            //取得泡泡特徵，並記錄總共有幾個泡泡，後續比對數量用
+            IdSymbolCollection BallonCollection = workPart.Annotations.IdSymbols;
+            IdSymbol[] BallonAry = BallonCollection.ToArray();
+            int balloonCount = 0;
+            foreach (IdSymbol i in BallonAry)
             {
-                //打開Sheet並記錄所有OBJ
-                NXOpen.Drawings.DrawingSheet CurrentSheet = (NXOpen.Drawings.DrawingSheet)NXObjectManager.Get(SheetTagAry[i]);
-                if (CurrentSheet.Name == "S1")
+                try
                 {
-                    FirstSheet = CurrentSheet;
+                    i.GetStringAttribute("BalloonAtt");
+                    balloonCount++;
                 }
-                listDrawingSheet.Add(CurrentSheet);
-                CurrentSheet.Open();
-                CurrentSheet.View.UpdateDisplay();
-                DisplayableObject[] SheetObj = CurrentSheet.View.AskVisibleObjects();
-                //status = Function.RecordDimension(SheetObj, sWorkPartAttribute, ref Database.listDimensionData);
-                status = CaxME.RecordDimension(SheetObj, sWorkPartAttribute, ref listDimensionData);
-                if (!status)
+                catch (System.Exception ex)
                 {
-                    this.Close();
-                    return;
+                    continue;
                 }
             }
+
+            List<CaxME.DimensionData> listDimensionData = new List<CaxME.DimensionData>();
+            List<int> listBalloonCount = new List<int>();
+            NXOpen.Drawings.DrawingSheet FirstSheet = null;
+            while (listBalloonCount.Count != balloonCount)
+            {
+                for (int i = 0; i < SheetCount; i++)
+                {
+                    //打開Sheet並記錄所有OBJ
+                    NXOpen.Drawings.DrawingSheet CurrentSheet = (NXOpen.Drawings.DrawingSheet)NXObjectManager.Get(SheetTagAry[i]);
+                    if (CurrentSheet.Name == "S1")
+                    {
+                        FirstSheet = CurrentSheet;
+                    }
+                    //listDrawingSheet.Add(CurrentSheet);
+                    CurrentSheet.Open();
+                    CurrentSheet.View.UpdateDisplay();
+                    DisplayableObject[] SheetObj = CurrentSheet.View.AskVisibleObjects();
+                    //status = Function.RecordDimension(SheetObj, sWorkPartAttribute, ref Database.listDimensionData);
+                    status = CaxME.RecordDimension(SheetObj, sWorkPartAttribute, ref listDimensionData);
+                    if (!status)
+                    {
+                        this.Close();
+                        return;
+                    }
+                }
+                
+                
+                foreach (CaxME.DimensionData i in listDimensionData)
+                {
+                    if (!listBalloonCount.Contains(i.ballonNum))
+                    {
+                        listBalloonCount.Add(i.ballonNum);
+                    }
+                }
+            }
+
             #endregion
 
           
