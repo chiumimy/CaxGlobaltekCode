@@ -217,7 +217,7 @@ public class Program
                         CaxME.BoxCoordinate cBoxCoordinate = new CaxME.BoxCoordinate();
                         //GetTextBoxCoordinate(DimeType, singleObj, out cBoxCoordinate);
                         
-                        //可以將NXOpen直接轉型成Annotation
+                        //可以將NXObject直接轉型成Annotation
                         CaxME.GetTextBoxCoordinate(((NXOpen.Annotations.Annotation)singleObj).Tag, out cBoxCoordinate);
                         
                         #region 計算泡泡座標
