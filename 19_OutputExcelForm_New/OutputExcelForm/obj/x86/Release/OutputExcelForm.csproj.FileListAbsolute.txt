@@ -187,3 +187,6 @@ D:\CaxGlobaltekCode\19_OutputExcelForm_New\OutputExcelForm\bin\Release\NXOpen.Ut
 D:\CaxGlobaltekCode\19_OutputExcelForm_New\OutputExcelForm\bin\Release\NXOpenUI.xml
 D:\CaxGlobaltekCode\19_OutputExcelForm_New\OutputExcelForm\bin\Release\Newtonsoft.Json.pdb
 D:\CaxGlobaltekCode\19_OutputExcelForm_New\OutputExcelForm\bin\Release\Newtonsoft.Json.xml
+D:\NewSourceTree\19_OutputExcelForm_New\OutputExcelForm\bin\Release\OutputExcelForm.exe.config
+D:\NewSourceTree\19_OutputExcelForm_New\OutputExcelForm\obj\x86\Release\OutputExcelForm.exe
+D:\NewSourceTree\19_OutputExcelForm_New\OutputExcelForm\obj\x86\Release\OutputExcelForm.pdb

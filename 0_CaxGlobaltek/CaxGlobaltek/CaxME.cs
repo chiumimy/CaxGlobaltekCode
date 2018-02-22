@@ -1611,6 +1611,8 @@ namespace CaxGlobaltek
 
                 printPDFBuilder1.Scale = 1.0;
 
+                printPDFBuilder1.Colors = NXOpen.PrintPDFBuilder.Color.BlackOnWhite;
+
                 printPDFBuilder1.Size = NXOpen.PrintPDFBuilder.SizeOption.ScaleFactor;
 
                 printPDFBuilder1.OutputText = NXOpen.PrintPDFBuilder.OutputTextOption.Polylines;
