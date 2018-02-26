@@ -6,3 +6,9 @@ C:\Users\Alex_Chiu\Desktop\Server_PFMEA_NX75\Server_PFMEA_NX75\obj\x86\Debug\Ser
 C:\Users\Alex_Chiu\Desktop\Server_PFMEA_NX75\Server_PFMEA_NX75\obj\x86\Debug\Server_PFMEA_NX75.pdb
 D:\GlobalCode\31_EXE\Server\Server_PFMEA_NX75\Server_PFMEA_NX75\obj\x86\Debug\Server_PFMEA_NX75.exe
 D:\GlobalCode\31_EXE\Server\Server_PFMEA_NX75\Server_PFMEA_NX75\obj\x86\Debug\Server_PFMEA_NX75.pdb
+D:\NewSourceTree\31_EXE\Server\Server_PFMEA_NX75\Server_PFMEA_NX75\obj\x86\Debug\Server_PFMEA_NX75.Properties.Resources.resources
+D:\NewSourceTree\31_EXE\Server\Server_PFMEA_NX75\Server_PFMEA_NX75\obj\x86\Debug\Server_PFMEA_NX75.csproj.GenerateResource.Cache
+D:\NewSourceTree\31_EXE\Server\Server_PFMEA_NX75\Server_PFMEA_NX75\bin\Debug\C_S_PFMEA_NX75.exe
+D:\NewSourceTree\31_EXE\Server\Server_PFMEA_NX75\Server_PFMEA_NX75\bin\Debug\C_S_PFMEA_NX75.pdb
+D:\NewSourceTree\31_EXE\Server\Server_PFMEA_NX75\Server_PFMEA_NX75\obj\x86\Debug\C_S_PFMEA_NX75.exe
+D:\NewSourceTree\31_EXE\Server\Server_PFMEA_NX75\Server_PFMEA_NX75\obj\x86\Debug\C_S_PFMEA_NX75.pdb

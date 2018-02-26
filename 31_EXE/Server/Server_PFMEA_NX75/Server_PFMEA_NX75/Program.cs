@@ -19,7 +19,7 @@ namespace Server_PFMEA_NX75
 
             try
             {
-                System.Diagnostics.Process.Start(@"\\192.168.35.1\cax\Globaltek\Server_NX75\PFMEA_S_NX75.bat");
+                System.Diagnostics.Process.Start(@"\\192.168.35.1\cax\Globaltek\C_Server_NX75\PFMEA_S_NX75.bat");
             }
             catch (System.Exception ex)
             {

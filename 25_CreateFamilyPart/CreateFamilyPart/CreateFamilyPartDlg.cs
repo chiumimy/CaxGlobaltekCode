@@ -1338,7 +1338,8 @@ namespace CreateFamilyPart
                             listMEFileName.Add(j.DisplayName + ".prt");
                             //由三階檔案取得四階檔案
                             List<NXOpen.Assemblies.Component> fourthChildenComp = new List<NXOpen.Assemblies.Component>();
-                            CaxAsm.GetCompChildren(out fourthChildenComp, j);
+                            //CaxAsm.GetCompChildren(out fourthChildenComp, j);
+                            CaxAsm.GetCompChildren(j, ref fourthChildenComp);
                             foreach (NXOpen.Assemblies.Component k in fourthChildenComp)
                             {
                                 //加入四階檔案
@@ -1351,7 +1352,8 @@ namespace CreateFamilyPart
                             listTEFileName.Add(j.DisplayName + ".prt");
                             //由三階檔案取得四階檔案
                             List<NXOpen.Assemblies.Component> fourthChildenComp = new List<NXOpen.Assemblies.Component>();
-                            CaxAsm.GetCompChildren(out fourthChildenComp, j);
+                            //CaxAsm.GetCompChildren(out fourthChildenComp, j);
+                            CaxAsm.GetCompChildren(j, ref fourthChildenComp);
                             foreach (NXOpen.Assemblies.Component k in fourthChildenComp)
                             {
                                 //加入四階檔案

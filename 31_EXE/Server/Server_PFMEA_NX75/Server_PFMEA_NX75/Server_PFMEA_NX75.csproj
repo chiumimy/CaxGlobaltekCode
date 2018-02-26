@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Server_PFMEA_NX75</RootNamespace>
-    <AssemblyName>Server_PFMEA_NX75</AssemblyName>
+    <AssemblyName>C_S_PFMEA_NX75</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
