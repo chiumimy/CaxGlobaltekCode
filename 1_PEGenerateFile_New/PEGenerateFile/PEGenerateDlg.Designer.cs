@@ -95,8 +95,6 @@
             this.labelX15 = new DevComponents.DotNetBar.LabelX();
             this.BilletFileName = new DevComponents.DotNetBar.LabelX();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.UpdateBtn = new DevComponents.DotNetBar.ButtonX();
-            this.labelX12 = new DevComponents.DotNetBar.LabelX();
             this.labelX11 = new DevComponents.DotNetBar.LabelX();
             this.tabItem1 = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel2 = new DevComponents.DotNetBar.TabControlPanel();
@@ -108,6 +106,8 @@
             this.labelX14 = new DevComponents.DotNetBar.LabelX();
             this.labelX13 = new DevComponents.DotNetBar.LabelX();
             this.tabItem2 = new DevComponents.DotNetBar.TabItem(this.components);
+            this.UpdateBtn = new DevComponents.DotNetBar.ButtonX();
+            this.labelX12 = new DevComponents.DotNetBar.LabelX();
             this.ImportFile = new DevComponents.DotNetBar.ButtonX();
             this.SaveFile = new DevComponents.DotNetBar.ButtonX();
             this.Close = new DevComponents.DotNetBar.ButtonX();
@@ -976,34 +976,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "ERP";
             // 
-            // UpdateBtn
-            // 
-            this.UpdateBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.UpdateBtn.BackColor = System.Drawing.Color.Transparent;
-            this.UpdateBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.Flat;
-            this.UpdateBtn.Image = global::PEGenerateFile.Properties.Resources.cycle_24px;
-            this.UpdateBtn.Location = new System.Drawing.Point(879, 41);
-            this.UpdateBtn.Name = "UpdateBtn";
-            this.UpdateBtn.Size = new System.Drawing.Size(27, 27);
-            this.UpdateBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.UpdateBtn.TabIndex = 21;
-            this.UpdateBtn.Tooltip = "更新ERP編號";
-            this.UpdateBtn.Click += new System.EventHandler(this.UpdateBtn_Click);
-            // 
-            // labelX12
-            // 
-            this.labelX12.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX12.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelX12.Location = new System.Drawing.Point(778, 46);
-            this.labelX12.Name = "labelX12";
-            this.labelX12.Size = new System.Drawing.Size(62, 23);
-            this.labelX12.TabIndex = 22;
-            this.labelX12.Text = "去碼數：";
-            // 
             // labelX11
             // 
             this.labelX11.BackColor = System.Drawing.Color.Transparent;
@@ -1154,6 +1126,34 @@
             this.tabItem2.Name = "tabItem2";
             this.tabItem2.Text = "編輯製程";
             // 
+            // UpdateBtn
+            // 
+            this.UpdateBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.UpdateBtn.BackColor = System.Drawing.Color.Transparent;
+            this.UpdateBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.Flat;
+            this.UpdateBtn.Image = global::PEGenerateFile.Properties.Resources.cycle_24px;
+            this.UpdateBtn.Location = new System.Drawing.Point(879, 41);
+            this.UpdateBtn.Name = "UpdateBtn";
+            this.UpdateBtn.Size = new System.Drawing.Size(27, 27);
+            this.UpdateBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.UpdateBtn.TabIndex = 21;
+            this.UpdateBtn.Tooltip = "更新ERP編號";
+            this.UpdateBtn.Click += new System.EventHandler(this.UpdateBtn_Click);
+            // 
+            // labelX12
+            // 
+            this.labelX12.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX12.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelX12.Location = new System.Drawing.Point(778, 46);
+            this.labelX12.Name = "labelX12";
+            this.labelX12.Size = new System.Drawing.Size(62, 23);
+            this.labelX12.TabIndex = 22;
+            this.labelX12.Text = "去碼數：";
+            // 
             // ImportFile
             // 
             this.ImportFile.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
@@ -1289,7 +1289,7 @@
             this.tabControlPanel4.Location = new System.Drawing.Point(0, 26);
             this.tabControlPanel4.Name = "tabControlPanel4";
             this.tabControlPanel4.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel4.Size = new System.Drawing.Size(539, 66);
+            this.tabControlPanel4.Size = new System.Drawing.Size(507, 66);
             this.tabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
             this.tabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
             this.tabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;

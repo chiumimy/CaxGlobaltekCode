@@ -27,6 +27,13 @@ namespace CreateFamilyPart
         public static PECreateData cPECreateData = new PECreateData();
         public static Com_PEMain cCom_PEMain = new Com_PEMain();
         public static Com_PEMain oldPEMain = new Com_PEMain();
+        public static List<MaterialComboTree> ListMaterialComboTree = new List<MaterialComboTree>();
+
+        public struct MaterialComboTree
+        {
+            public string category { get; set; }
+            public string materialName { get; set; }
+        }
 
         public CreateFamilyPartDlg()
         {
@@ -53,8 +60,20 @@ namespace CreateFamilyPart
             //取得材質資料庫並加入到下拉選單中
             IList<Sys_Material> listSysMaterial = session.QueryOver<Sys_Material>().List<Sys_Material>();
             foreach (Sys_Material i in listSysMaterial)
-                New_Material.Items.Add(i.materialName);
-
+            {
+                MaterialComboTree s = new MaterialComboTree();
+                if (i.category == null)
+                {
+                    s.category = "其他";
+                }
+                else
+                {
+                    s.category = i.category;
+                }
+                s.materialName = i.materialName;
+                ListMaterialComboTree.Add(s);
+            }
+            
             #region 預設
             Old_PartNo.Enabled = false;
             Old_CusRev.Enabled = false;
@@ -71,7 +90,6 @@ namespace CreateFamilyPart
             New_CusBillet.Enabled = false;
             PartFileSame.Enabled = false; BilletFileSame.Enabled = false;
             #endregion
-            
         }
 
         private void Old_Cus_SelectedIndexChanged(object sender, EventArgs e)
@@ -247,7 +265,17 @@ namespace CreateFamilyPart
         {
             if (MaterialSame.Checked == true)
             {
-                New_Material.Text = Old_Material.Text;
+                MaterialComboTree materialvalue = new MaterialComboTree();
+                materialvalue.materialName = Old_Material.Text;
+                materialvalue.category = "隨便加一個分類，並不會顯示在下拉選單中，因為等到按下拉選單的時候，會在被資料庫的材質庫更新";
+                New_Material.BackgroundStyle.Class = "TextBoxBorder";
+                New_Material.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+                New_Material.ButtonDropDown.Visible = true;
+                New_Material.DisplayMembers = "materialName";
+                New_Material.GroupingMembers = "category";
+                List<MaterialComboTree> temp = new List<MaterialComboTree>();
+                temp.Add(materialvalue);
+                New_Material.DataSource = temp;
                 New_Material.Enabled = false;
             }
             else
@@ -1915,6 +1943,17 @@ namespace CreateFamilyPart
             {
                 New_BilletFile.Text = "";
             }
+        }
+
+        private void New_Material_ButtonDropDownClick(object sender, CancelEventArgs e)
+        {
+            New_Material.BackgroundStyle.Class = "TextBoxBorder";
+            New_Material.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            New_Material.ButtonDropDown.Visible = true;
+            New_Material.DisplayMembers = "materialName";
+            New_Material.GroupingMembers = "category";
+            New_Material.DataSource = ListMaterialComboTree;
+            New_Material.DropDownWidth = 350;
         }
 
     }

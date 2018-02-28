@@ -58,7 +58,6 @@
             this.New_CusBillet = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.DeletePartFile = new DevComponents.DotNetBar.ButtonX();
             this.New_CompBillet = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.New_Material = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.New_BilletFile = new DevComponents.DotNetBar.LabelX();
             this.New_PartFile = new DevComponents.DotNetBar.LabelX();
             this.SeleteBilletFile = new DevComponents.DotNetBar.ButtonX();
@@ -87,6 +86,7 @@
             this.SeeProcess = new DevComponents.DotNetBar.ButtonX();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.keepMETE = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.New_Material = new DevComponents.DotNetBar.Controls.ComboTree();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -379,13 +379,13 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.New_Material);
             this.groupBox2.Controls.Add(this.BilletFileSame);
             this.groupBox2.Controls.Add(this.PartFileSame);
             this.groupBox2.Controls.Add(this.DeleteBilletFile);
             this.groupBox2.Controls.Add(this.New_CusBillet);
             this.groupBox2.Controls.Add(this.DeletePartFile);
             this.groupBox2.Controls.Add(this.New_CompBillet);
-            this.groupBox2.Controls.Add(this.New_Material);
             this.groupBox2.Controls.Add(this.New_BilletFile);
             this.groupBox2.Controls.Add(this.New_PartFile);
             this.groupBox2.Controls.Add(this.SeleteBilletFile);
@@ -496,19 +496,6 @@
             this.New_CompBillet.TabIndex = 16;
             this.New_CompBillet.Text = "自備胚";
             this.New_CompBillet.CheckedChanged += new System.EventHandler(this.New_CompBillet_CheckedChanged);
-            // 
-            // New_Material
-            // 
-            this.New_Material.DisplayMember = "Text";
-            this.New_Material.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.New_Material.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.New_Material.FormattingEnabled = true;
-            this.New_Material.ItemHeight = 16;
-            this.New_Material.Location = new System.Drawing.Point(71, 162);
-            this.New_Material.Name = "New_Material";
-            this.New_Material.Size = new System.Drawing.Size(163, 22);
-            this.New_Material.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.New_Material.TabIndex = 30;
             // 
             // New_BilletFile
             // 
@@ -865,6 +852,23 @@
             this.keepMETE.TabIndex = 6;
             this.keepMETE.Text = "保留ME、TE檔案";
             // 
+            // New_Material
+            // 
+            this.New_Material.BackColor = System.Drawing.SystemColors.Window;
+            // 
+            // 
+            // 
+            this.New_Material.BackgroundStyle.Class = "TextBoxBorder";
+            this.New_Material.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.New_Material.ButtonDropDown.Visible = true;
+            this.New_Material.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.New_Material.Location = new System.Drawing.Point(71, 161);
+            this.New_Material.Name = "New_Material";
+            this.New_Material.Size = new System.Drawing.Size(163, 23);
+            this.New_Material.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.New_Material.TabIndex = 33;
+            this.New_Material.ButtonDropDownClick += new System.ComponentModel.CancelEventHandler(this.New_Material_ButtonDropDownClick);
+            // 
             // CreateFamilyPartDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -939,12 +943,12 @@
         private DevComponents.DotNetBar.ButtonX SeeProcess;
         private DevComponents.DotNetBar.ButtonX OK;
         private DevComponents.DotNetBar.ButtonX Close;
-        private DevComponents.DotNetBar.Controls.ComboBoxEx New_Material;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private DevComponents.DotNetBar.ButtonX DeleteBilletFile;
         private DevComponents.DotNetBar.ButtonX DeletePartFile;
         private DevComponents.DotNetBar.Controls.CheckBoxX BilletFileSame;
         private DevComponents.DotNetBar.Controls.CheckBoxX PartFileSame;
         private DevComponents.DotNetBar.Controls.CheckBoxX keepMETE;
+        private DevComponents.DotNetBar.Controls.ComboTree New_Material;
     }
 }

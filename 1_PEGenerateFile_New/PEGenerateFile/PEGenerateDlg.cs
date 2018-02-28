@@ -3512,7 +3512,7 @@ namespace PEGenerateFile
                 
                 MaterialComboTree materialvalue = new MaterialComboTree();
                 materialvalue.materialName = cPECreateData.material;
-                materialvalue.category = "隨便加一個分類，並不會顯示在下拉選單中";
+                //materialvalue.category = "隨便加一個分類，並不會顯示在下拉選單中，因為等到按下拉選單的時候，會在被資料庫的材質庫更新";
                 List<MaterialComboTree> tempMaterial = new List<MaterialComboTree>();
                 tempMaterial.Add(materialvalue);
                 AddTemp_Material(tempMaterial);
