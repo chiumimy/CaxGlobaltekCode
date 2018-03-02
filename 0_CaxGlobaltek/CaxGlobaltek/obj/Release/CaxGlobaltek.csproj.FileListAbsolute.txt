@@ -179,3 +179,4 @@ D:\NewSourceTree\0_CaxGlobaltek\CaxGlobaltek\obj\Release\CaxGlobaltek.LoadingDlg
 D:\NewSourceTree\0_CaxGlobaltek\CaxGlobaltek\obj\Release\CaxGlobaltek.csproj.GenerateResource.Cache
 D:\NewSourceTree\0_CaxGlobaltek\CaxGlobaltek\obj\Release\CaxGlobaltek.dll
 D:\NewSourceTree\0_CaxGlobaltek\CaxGlobaltek\obj\Release\CaxGlobaltek.pdb
+D:\NewSourceTree\0_CaxGlobaltek\CaxGlobaltek\bin\Release\CaxGlobaltek.XML

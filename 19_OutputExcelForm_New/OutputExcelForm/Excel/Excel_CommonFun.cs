@@ -7,11 +7,11 @@ using CaxGlobaltek;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using Microsoft.Office.Core;
+using System.Drawing;
 
 namespace OutputExcelForm.Excel
 {
-    
-
     public class Excel_CommonFun
     {
         public static bool AddNewSheet(int dataCount, int SheetCountPerOne, ApplicationClass excelApp, Worksheet workSheet)
@@ -239,457 +239,308 @@ namespace OutputExcelForm.Excel
             {
                 Dictionary<int, bool> TranslateWords = new Dictionary<int, bool>();
                 int start = 1, length = 0;
-                if (cCom_Dimension.characteristic != "" && cCom_Dimension.characteristic != null && cCom_Dimension.characteristic != "None")
-                {
-                    worksheet.Cells[currentRow, dimenColumn] = cCom_Dimension.characteristic;
-                    length = cCom_Dimension.characteristic.Length;
-                    for (int i = 0; i < length;i++ )
-                    {
-                        TranslateWords.Add(start, true);
-                        start++;
-                    }
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                    TranslateWords.Add(start, false);
-                    start++;
-                    //strLen = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value.ToString().Length;
-                    //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "GDT";
-                    //start = start + length;
-                }
-                if (cCom_Dimension.zoneShape != "" && cCom_Dimension.zoneShape != null && cCom_Dimension.zoneShape != "None")
-                {
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.zoneShape;
-                    length = cCom_Dimension.zoneShape.Length;
-                    for (int i = 0; i < length; i++)
-                    {
-                        TranslateWords.Add(start, true);
-                        start++;
-                    }
-                    //int StrLen = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value.ToString().Length;
-                    //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "GDT";
-                    //start = start + length;
-                }
-                if (cCom_Dimension.toleranceValue != "" && cCom_Dimension.toleranceValue != null && cCom_Dimension.toleranceValue != "None")
-                {
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.toleranceValue;
-                    length = cCom_Dimension.toleranceValue.Length;
-                    for (int i = 0; i < length; i++)
-                    {
-                        TranslateWords.Add(start, false);
-                        start++;
-                    }
-                    //if (cCom_Dimension.materialModifier != "" & cCom_Dimension.materialModifier != null & cCom_Dimension.materialModifier != "None")
-                    //{
-                    //}
-                    //else
-                    //{
-                    //    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                    //    TranslateWords.Add(start, false);
-                    //    start++;
-                    //}
-                    
-                    //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "Arial";
-                    //start = start + length;
-                }
-                if (cCom_Dimension.materialModifier != "" && cCom_Dimension.materialModifier != null && cCom_Dimension.materialModifier != "None")
-                {
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.materialModifier;
-                    length = cCom_Dimension.materialModifier.Length;
-                    for (int i = 0; i < length; i++)
-                    {
-                        TranslateWords.Add(start, true);
-                        start++;
-                    }
-                    
-                    //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "GDT";
-                    //start = start + length;
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.materialModifer;
-                }
-                if (/*cCom_Dimension.primaryDatum != "" &*/ cCom_Dimension.primaryDatum != null /*& cCom_Dimension.primaryDatum != "None"*/)
-                {
 
-                    //worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                    //TranslateWords.Add(start, false);
-                    //start++;
-                    string[] splitPrimaryDatum = cCom_Dimension.primaryDatum.Split(',');
-                    string[] splitPrimaryMaterialModifier = new string[splitPrimaryDatum.Length];
-                    for (int i = 0; i < splitPrimaryDatum.Length;i++ )
-                    {
-                        splitPrimaryMaterialModifier[i] = "X";
-                    }
-                    if (cCom_Dimension.primaryMaterialModifier != null)
-                    {
-                        splitPrimaryMaterialModifier = new string[]{};
-                        splitPrimaryMaterialModifier = cCom_Dimension.primaryMaterialModifier.Split(',');
-                    }
-                    
-
-                    for (int i = 0; i < splitPrimaryDatum.Length; i++)
-                    {
-                        if (i >= 1)
-                        {
-                            worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "-";
-                            TranslateWords.Add(start, false);
-                            start++;
-                        }
-
-                        if (splitPrimaryDatum[i] == "X")
-                        {
-                            if (splitPrimaryMaterialModifier[i] == "X")
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                if (i == 0)
-                                {
-                                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                                    TranslateWords.Add(start, false);
-                                    start++;
-                                }
-                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitPrimaryMaterialModifier[i];
-                                TranslateWords.Add(start, true);
-                                start++;
-                                continue;
-                            }
-                        }
-                        else
-                        {
-                            if (i == 0)
-                            {
-                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                                TranslateWords.Add(start, false);
-                                start++;
-                            }
-                            worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitPrimaryDatum[i];
-                            TranslateWords.Add(start, false);
-                            start++;
-                            if (splitPrimaryMaterialModifier[i] == "X")
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitPrimaryMaterialModifier[i];
-                                TranslateWords.Add(start, true);
-                                start++;
-                                continue;
-                            }
-                        }
-                    }
-
-                    //if (cCom_Dimension.primaryMaterialModifier != "" & cCom_Dimension.primaryMaterialModifier != null & cCom_Dimension.primaryMaterialModifier != "None")
-                    //{
-                    //}
-                    //else
-                    //{
-                    //    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                    //    TranslateWords.Add(start, false);
-                    //    start++;
-                    //}
-                    
-                    //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "Arial";
-                    //start = start + length;
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.primaryDatum;
-                }
-                /*
-                if (cCom_Dimension.primaryMaterialModifier != "" & cCom_Dimension.primaryMaterialModifier != null & cCom_Dimension.primaryMaterialModifier != "None")
+                if (cCom_Dimension.toleranceType == "Basic" || cCom_Dimension.toleranceType == "Reference")
                 {
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.primaryMaterialModifier;
-                    length = cCom_Dimension.primaryMaterialModifier.Length;
-                    for (int i = 0; i < length; i++)
+                    string text = "";
+                    #region 基本公差
+                    if (cCom_Dimension.characteristic != "" && cCom_Dimension.characteristic != null && cCom_Dimension.characteristic != "None")
                     {
-                        TranslateWords.Add(start, true);
-                        start++;
-                    }
-                    
-                    //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "GDT";
-                    //start = start + length;
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.primaryMaterialModifier;
-                }
-                */
-                if (/*cCom_Dimension.secondaryDatum != "" &  */cCom_Dimension.secondaryDatum != null /*& cCom_Dimension.secondaryDatum != "None"*/)
-                {
-                    //worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                    //TranslateWords.Add(start, false);
-                    //start++;
-                    string[] splitSecondaryDatum = cCom_Dimension.secondaryDatum.Split(',');
-                    
-                    string[] splitSecondaryMaterialModifier = new string[splitSecondaryDatum.Length];
-                    for (int i = 0; i < splitSecondaryDatum.Length; i++)
-                    {
-                        splitSecondaryMaterialModifier[i] = "X";
-                    }
-                    if (cCom_Dimension.primaryMaterialModifier != null)
-                    {
-                        splitSecondaryMaterialModifier = new string[] { };
-                        splitSecondaryMaterialModifier = cCom_Dimension.secondaryMaterialModifier.Split(',');
-                    }
-
-                    for (int i = 0; i < splitSecondaryDatum.Length; i++)
-                    {
-                        if (i >= 1)
-                        {
-                            worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "-";
-                            TranslateWords.Add(start, false);
-                            start++;
-                        }
-
-                        if (splitSecondaryDatum[i] == "X")
-                        {
-                            if (splitSecondaryMaterialModifier[i] == "X")
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                if (i == 0)
-                                {
-                                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                                    TranslateWords.Add(start, false);
-                                    start++;
-                                }
-                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitSecondaryMaterialModifier[i];
-                                TranslateWords.Add(start, true);
-                                start++;
-                                continue;
-                            }
-                        }
-                        else
-                        {
-                            if (i == 0)
-                            {
-                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                                TranslateWords.Add(start, false);
-                                start++;
-                            }
-                            worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitSecondaryDatum[i];
-                            TranslateWords.Add(start, false);
-                            start++;
-                            if (splitSecondaryMaterialModifier[i] == "X")
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitSecondaryMaterialModifier[i];
-                                TranslateWords.Add(start, true);
-                                start++;
-                                continue;
-                            }
-                        }
-                    }
-                    //if (cCom_Dimension.secondaryMaterialModifier != "" & cCom_Dimension.secondaryMaterialModifier != null & cCom_Dimension.secondaryMaterialModifier != "None")
-                    //{
-                    //}
-                    //else
-                    //{
-                    //    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                    //    TranslateWords.Add(start, false);
-                    //    start++;
-                    //}
-                    //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "Arial";
-                    //start = start + length;
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.secondaryDatum;
-                }
-                /*
-                if (cCom_Dimension.secondaryMaterialModifier != "" & cCom_Dimension.secondaryMaterialModifier != null & cCom_Dimension.secondaryMaterialModifier != "None")
-                {
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.secondaryMaterialModifier;
-                    length = cCom_Dimension.secondaryMaterialModifier.Length;
-                    for (int i = 0; i < length; i++)
-                    {
-                        TranslateWords.Add(start, true);
-                        start++;
-                    }
-                    //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "GDT";
-                    //start = start + length;
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.secondaryMaterialModifier;
-                }
-                */
-                if (/*cCom_Dimension.tertiaryDatum != "" & */cCom_Dimension.tertiaryDatum != null  /*& cCom_Dimension.tertiaryDatum != "None"*/)
-                {
-                    //worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                    //TranslateWords.Add(start, false);
-                    //start++;
-
-                    string[] splitTertiaryDatum = cCom_Dimension.tertiaryDatum.Split(',');
-   
-                    string[] splitTertiaryMaterialModifier = new string[splitTertiaryDatum.Length];
-                    for (int i = 0; i < splitTertiaryDatum.Length; i++)
-                    {
-                        splitTertiaryMaterialModifier[i] = "X";
-                    }
-                    if (cCom_Dimension.primaryMaterialModifier != null)
-                    {
-                        splitTertiaryMaterialModifier = new string[] { };
-                        splitTertiaryMaterialModifier = cCom_Dimension.tertiaryMaterialModifier.Split(',');
-                    }
-
-                    for (int i = 0; i < splitTertiaryDatum.Length; i++)
-                    {
-                        if (i >= 1)
-                        {
-                            worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "-";
-                            TranslateWords.Add(start, false);
-                            start++;
-                        }
-
-                        if (splitTertiaryDatum[i] == "X")
-                        {
-                            if (splitTertiaryMaterialModifier[i] == "X")
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                if (i == 0)
-                                {
-                                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                                    TranslateWords.Add(start, false);
-                                    start++;
-                                }
-                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitTertiaryMaterialModifier[i];
-                                TranslateWords.Add(start, true);
-                                start++;
-                                continue;
-                            }
-                        }
-                        else
-                        {
-                            if (i == 0)
-                            {
-                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                                TranslateWords.Add(start, false);
-                                start++;
-                            }
-                            worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitTertiaryDatum[i];
-                            TranslateWords.Add(start, false);
-                            start++;
-                            if (splitTertiaryMaterialModifier[i] == "X")
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitTertiaryMaterialModifier[i];
-                                TranslateWords.Add(start, true);
-                                start++;
-                                continue;
-                            }
-                        }
-                    }
-                    //if (cCom_Dimension.tertiaryMaterialModifier != "" & cCom_Dimension.tertiaryMaterialModifier != null & cCom_Dimension.tertiaryMaterialModifier != "None")
-                    //{
-                    //}
-                    //else
-                    //{
-                    //    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                    //    TranslateWords.Add(start, false);
-                    //    start++;
-                    //}
-                    //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "Arial";
-                    //start = start + length;
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.tertiaryDatum;
-                }
-                /*
-                if (cCom_Dimension.tertiaryMaterialModifier != "" & cCom_Dimension.tertiaryMaterialModifier != null & cCom_Dimension.tertiaryMaterialModifier != "None")
-                {
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.tertiaryMaterialModifier;
-                    length = cCom_Dimension.tertiaryMaterialModifier.Length;
-                    for (int i = 0; i < length; i++)
-                    {
-                        TranslateWords.Add(start, true);
-                        start++;
-                    }
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
-                    TranslateWords.Add(start, false);
-                    start++;
-                    //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "GDT";
-                    //start = start + length;
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.tertiaryMaterialModifier;
-                }
-                */
-                if (cCom_Dimension.aboveText != "" && cCom_Dimension.aboveText != null && cCom_Dimension.aboveText != "None")
-                {
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.aboveText;
-                    length = cCom_Dimension.aboveText.Length;
-                    for (int i = 0; i < length; i++)
-                    {
-                        TranslateWords.Add(start, false);
-                        start++;
-                    }
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.aboveText;
-                }
-                if (cCom_Dimension.beforeText != "" && cCom_Dimension.beforeText != null && cCom_Dimension.beforeText != "None")
-                {
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.beforeText;
-                    length = cCom_Dimension.beforeText.Length;
-                    for (int i = 0; i < length; i++)
-                    {
-                        TranslateWords.Add(start, true);
-                        start++;
-                    }
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.beforeText;
-                }
-                if (cCom_Dimension.toleranceSymbol != "" && cCom_Dimension.toleranceSymbol != null && cCom_Dimension.toleranceSymbol != "None")
-                {
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.toleranceSymbol;
-                    //length = cCom_Dimension.toleranceSymbol.Length;
-                    //for (int i = 0; i < length; i++)
-                    //{
-                    //    TranslateWords.Add(start, true);
-                    //    start++;
-                    //}
-                    length = cCom_Dimension.toleranceSymbol.Length;
-                    if (cCom_Dimension.toleranceSymbol == "R")
-                    {
+                        text = cCom_Dimension.characteristic;
+                        length = cCom_Dimension.characteristic.Length;
                         for (int i = 0; i < length; i++)
                         {
-                            TranslateWords.Add(start, false);
+                            TranslateWords.Add(start, true);
                             start++;
                         }
+                        text = text + "|";
+                        TranslateWords.Add(start, false);
+                        start++;
                     }
-                    else
+                    if (cCom_Dimension.zoneShape != "" && cCom_Dimension.zoneShape != null && cCom_Dimension.zoneShape != "None")
                     {
+                        text = text + cCom_Dimension.zoneShape;
+                        length = cCom_Dimension.zoneShape.Length;
                         for (int i = 0; i < length; i++)
                         {
                             TranslateWords.Add(start, true);
                             start++;
                         }
                     }
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.toleranceSymbol;
-                }
-                if (cCom_Dimension.mainText != "" && cCom_Dimension.mainText != null && cCom_Dimension.mainText != "None")
-                {
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.mainText;
-                    length = cCom_Dimension.mainText.Length;
-                    char[] splitText = cCom_Dimension.mainText.ToCharArray();
-                    for (int i = 0; i < length; i++)
+                    if (cCom_Dimension.toleranceValue != "" && cCom_Dimension.toleranceValue != null && cCom_Dimension.toleranceValue != "None")
                     {
-                        if (splitText[i] == '~')
+                        text = text + cCom_Dimension.toleranceValue;
+                        length = cCom_Dimension.toleranceValue.Length;
+                        for (int i = 0; i < length; i++)
+                        {
+                            TranslateWords.Add(start, false);
+                            start++;
+                        }
+                    }
+                    if (cCom_Dimension.materialModifier != "" && cCom_Dimension.materialModifier != null && cCom_Dimension.materialModifier != "None")
+                    {
+                        text = text + cCom_Dimension.materialModifier;
+                        length = cCom_Dimension.materialModifier.Length;
+                        for (int i = 0; i < length; i++)
                         {
                             TranslateWords.Add(start, true);
+                            start++;
+                        }
+                    }
+                    if (/*cCom_Dimension.primaryDatum != "" &*/ cCom_Dimension.primaryDatum != null /*& cCom_Dimension.primaryDatum != "None"*/)
+                    {
+                        string[] splitPrimaryDatum = cCom_Dimension.primaryDatum.Split(',');
+                        string[] splitPrimaryMaterialModifier = new string[splitPrimaryDatum.Length];
+                        for (int i = 0; i < splitPrimaryDatum.Length; i++)
+                        {
+                            splitPrimaryMaterialModifier[i] = "X";
+                        }
+                        if (cCom_Dimension.primaryMaterialModifier != null)
+                        {
+                            splitPrimaryMaterialModifier = new string[] { };
+                            splitPrimaryMaterialModifier = cCom_Dimension.primaryMaterialModifier.Split(',');
+                        }
+
+
+                        for (int i = 0; i < splitPrimaryDatum.Length; i++)
+                        {
+                            if (i >= 1)
+                            {
+                                text = text + "-";
+                                TranslateWords.Add(start, false);
+                                start++;
+                            }
+
+                            if (splitPrimaryDatum[i] == "X")
+                            {
+                                if (splitPrimaryMaterialModifier[i] == "X")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    if (i == 0)
+                                    {
+                                        text = text + "|";
+                                        TranslateWords.Add(start, false);
+                                        start++;
+                                    }
+                                    text = text + splitPrimaryMaterialModifier[i];
+                                    TranslateWords.Add(start, true);
+                                    start++;
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                if (i == 0)
+                                {
+                                    text = text + "|";
+                                    TranslateWords.Add(start, false);
+                                    start++;
+                                }
+                                text = text + splitPrimaryDatum[i];
+                                TranslateWords.Add(start, false);
+                                start++;
+                                if (splitPrimaryMaterialModifier[i] == "X")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    text = text + splitPrimaryMaterialModifier[i];
+                                    TranslateWords.Add(start, true);
+                                    start++;
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                    if (/*cCom_Dimension.secondaryDatum != "" &  */cCom_Dimension.secondaryDatum != null /*& cCom_Dimension.secondaryDatum != "None"*/)
+                    {
+                        string[] splitSecondaryDatum = cCom_Dimension.secondaryDatum.Split(',');
+
+                        string[] splitSecondaryMaterialModifier = new string[splitSecondaryDatum.Length];
+                        for (int i = 0; i < splitSecondaryDatum.Length; i++)
+                        {
+                            splitSecondaryMaterialModifier[i] = "X";
+                        }
+                        if (cCom_Dimension.primaryMaterialModifier != null)
+                        {
+                            splitSecondaryMaterialModifier = new string[] { };
+                            splitSecondaryMaterialModifier = cCom_Dimension.secondaryMaterialModifier.Split(',');
+                        }
+
+                        for (int i = 0; i < splitSecondaryDatum.Length; i++)
+                        {
+                            if (i >= 1)
+                            {
+                                text = text + "-";
+                                TranslateWords.Add(start, false);
+                                start++;
+                            }
+
+                            if (splitSecondaryDatum[i] == "X")
+                            {
+                                if (splitSecondaryMaterialModifier[i] == "X")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    if (i == 0)
+                                    {
+                                        text = text + "|";
+                                        TranslateWords.Add(start, false);
+                                        start++;
+                                    }
+                                    text = text + splitSecondaryMaterialModifier[i];
+                                    TranslateWords.Add(start, true);
+                                    start++;
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                if (i == 0)
+                                {
+                                    text = text + "|";
+                                    TranslateWords.Add(start, false);
+                                    start++;
+                                }
+                                text = text + splitSecondaryDatum[i];
+                                TranslateWords.Add(start, false);
+                                start++;
+                                if (splitSecondaryMaterialModifier[i] == "X")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    text = text + splitSecondaryMaterialModifier[i];
+                                    TranslateWords.Add(start, true);
+                                    start++;
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                    if (/*cCom_Dimension.tertiaryDatum != "" & */cCom_Dimension.tertiaryDatum != null  /*& cCom_Dimension.tertiaryDatum != "None"*/)
+                    {
+
+                        string[] splitTertiaryDatum = cCom_Dimension.tertiaryDatum.Split(',');
+
+                        string[] splitTertiaryMaterialModifier = new string[splitTertiaryDatum.Length];
+                        for (int i = 0; i < splitTertiaryDatum.Length; i++)
+                        {
+                            splitTertiaryMaterialModifier[i] = "X";
+                        }
+                        if (cCom_Dimension.primaryMaterialModifier != null)
+                        {
+                            splitTertiaryMaterialModifier = new string[] { };
+                            splitTertiaryMaterialModifier = cCom_Dimension.tertiaryMaterialModifier.Split(',');
+                        }
+
+                        for (int i = 0; i < splitTertiaryDatum.Length; i++)
+                        {
+                            if (i >= 1)
+                            {
+                                text = text + "-";
+                                TranslateWords.Add(start, false);
+                                start++;
+                            }
+
+                            if (splitTertiaryDatum[i] == "X")
+                            {
+                                if (splitTertiaryMaterialModifier[i] == "X")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    if (i == 0)
+                                    {
+                                        text = text + "|";
+                                        TranslateWords.Add(start, false);
+                                        start++;
+                                    }
+                                    text = text + splitTertiaryMaterialModifier[i];
+                                    TranslateWords.Add(start, true);
+                                    start++;
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                if (i == 0)
+                                {
+                                    text = text + "|";
+                                    TranslateWords.Add(start, false);
+                                    start++;
+                                }
+                                text = text + splitTertiaryDatum[i];
+                                TranslateWords.Add(start, false);
+                                start++;
+                                if (splitTertiaryMaterialModifier[i] == "X")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    text = text + splitTertiaryMaterialModifier[i];
+                                    TranslateWords.Add(start, true);
+                                    start++;
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                    if (cCom_Dimension.aboveText != "" && cCom_Dimension.aboveText != null && cCom_Dimension.aboveText != "None")
+                    {
+                        text = text + cCom_Dimension.aboveText;
+                        length = cCom_Dimension.aboveText.Length;
+                        for (int i = 0; i < length; i++)
+                        {
+                            TranslateWords.Add(start, false);
+                            start++;
+                        }
+                    }
+                    if (cCom_Dimension.beforeText != "" && cCom_Dimension.beforeText != null && cCom_Dimension.beforeText != "None")
+                    {
+                        text = text + cCom_Dimension.beforeText;
+                        length = cCom_Dimension.beforeText.Length;
+                        for (int i = 0; i < length; i++)
+                        {
+                            TranslateWords.Add(start, true);
+                            start++;
+                        }
+                    }
+                    if (cCom_Dimension.toleranceSymbol != "" && cCom_Dimension.toleranceSymbol != null && cCom_Dimension.toleranceSymbol != "None")
+                    {
+                        text = text + cCom_Dimension.toleranceSymbol;
+                        length = cCom_Dimension.toleranceSymbol.Length;
+                        if (cCom_Dimension.toleranceSymbol == "R")
+                        {
+                            for (int i = 0; i < length; i++)
+                            {
+                                TranslateWords.Add(start, false);
+                                start++;
+                            }
                         }
                         else
                         {
-                            TranslateWords.Add(start, false);
+                            for (int i = 0; i < length; i++)
+                            {
+                                TranslateWords.Add(start, true);
+                                start++;
+                            }
                         }
-                        start++;
                     }
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.mainText;
-                }
-                if ((cCom_Dimension.upTolerance != "" && cCom_Dimension.upTolerance != null && cCom_Dimension.upTolerance != "None") ||
-                    (cCom_Dimension.lowTolerance != "" && cCom_Dimension.upTolerance != null && cCom_Dimension.upTolerance != "None"))
-                {
-                    if (cCom_Dimension.upTolerance == cCom_Dimension.lowTolerance)
+                    if (cCom_Dimension.mainText != "" && cCom_Dimension.mainText != null && cCom_Dimension.mainText != "None")
                     {
-                        //如果上下公差相同，則加入±到字串中，所以在TranslateWords中必須加一次資訊
-                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "±";
-                        TranslateWords.Add(start, false); start++;
-                        //加入公差的長度
-                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.upTolerance;
-                        length = cCom_Dimension.upTolerance.Length;
-                        char[] splitText = cCom_Dimension.upTolerance.ToCharArray();
+                        text = text + cCom_Dimension.mainText;
+                        length = cCom_Dimension.mainText.Length;
+                        char[] splitText = cCom_Dimension.mainText.ToCharArray();
                         for (int i = 0; i < length; i++)
                         {
                             if (splitText[i] == '~')
@@ -700,25 +551,681 @@ namespace OutputExcelForm.Excel
                             {
                                 TranslateWords.Add(start, false);
                             }
-                            //TranslateWords.Add(start, false);
                             start++;
                         }
                     }
-                    else
+                    if ((cCom_Dimension.upTolerance != "" && cCom_Dimension.upTolerance != null && cCom_Dimension.upTolerance != "None") ||
+                        (cCom_Dimension.lowTolerance != "" && cCom_Dimension.upTolerance != null && cCom_Dimension.upTolerance != "None"))
                     {
-                        if (Math.Abs(Convert.ToDouble(cCom_Dimension.upTolerance)) * 10000 > 0)
+                        if (cCom_Dimension.upTolerance == cCom_Dimension.lowTolerance)
                         {
-                            //表示有上公差，所以加入+到字串中，所以在TranslateWords中必須加一次資訊
-                            //如果遇到上公差是-的，則不能加+
-                            if (cCom_Dimension.upTolerance.Contains('-'))
+                            //如果上下公差相同，則加入±到字串中，所以在TranslateWords中必須加一次資訊
+                            text = text + "±";
+                            TranslateWords.Add(start, false); start++;
+                            //加入公差的長度
+                            text = text + cCom_Dimension.upTolerance;
+                            length = cCom_Dimension.upTolerance.Length;
+                            char[] splitText = cCom_Dimension.upTolerance.ToCharArray();
+                            for (int i = 0; i < length; i++)
                             {
+                                if (splitText[i] == '~')
+                                {
+                                    TranslateWords.Add(start, true);
+                                }
+                                else
+                                {
+                                    TranslateWords.Add(start, false);
+                                }
+                                start++;
+                            }
+                        }
+                        else
+                        {
+                            if (Math.Abs(Convert.ToDouble(cCom_Dimension.upTolerance)) * 10000 > 0)
+                            {
+                                //表示有上公差，所以加入+到字串中，所以在TranslateWords中必須加一次資訊
+                                //如果遇到上公差是-的，則不能加+
+                                if (cCom_Dimension.upTolerance.Contains('-'))
+                                {
+                                }
+                                else
+                                {
+                                    text = text + "+";
+                                    TranslateWords.Add(start, false); start++;
+                                }
+
+                                //加入公差的長度
+                                text = text + cCom_Dimension.upTolerance;
+                                length = cCom_Dimension.upTolerance.Length;
+                                char[] splitText = cCom_Dimension.upTolerance.ToCharArray();
+                                for (int i = 0; i < length; i++)
+                                {
+                                    if (splitText[i] == '~')
+                                    {
+                                        TranslateWords.Add(start, true);
+                                    }
+                                    else
+                                    {
+                                        TranslateWords.Add(start, false);
+                                    }
+                                    start++;
+                                }
+                            }
+                            if (Convert.ToDouble(cCom_Dimension.lowTolerance) * 10000 > 0)
+                            {
+                                text = text + "/";
+                                TranslateWords.Add(start, false);
+                                start++;
+                                //表示有下公差，所以加入-到字串中，所以在TranslateWords中必須加一次資訊
+                                //如果遇到下公差是+的，則不能加-
+                                if (cCom_Dimension.lowTolerance.Contains('+'))
+                                {
+                                }
+                                else
+                                {
+                                    text = text + "-";
+                                    TranslateWords.Add(start, false); start++;
+                                }
+
+                                //加入公差的長度
+                                text = text + cCom_Dimension.lowTolerance;
+                                length = cCom_Dimension.lowTolerance.Length;
+                                char[] splitText = cCom_Dimension.lowTolerance.ToCharArray();
+                                for (int i = 0; i < length; i++)
+                                {
+                                    if (splitText[i] == '~')
+                                    {
+                                        TranslateWords.Add(start, true);
+                                    }
+                                    else
+                                    {
+                                        TranslateWords.Add(start, false);
+                                    }
+                                    start++;
+                                }
+                            }
+                        }
+                    }
+                    if (cCom_Dimension.minTolerance != "" && cCom_Dimension.minTolerance != null && cCom_Dimension.minTolerance != "None" && cCom_Dimension.excelType != "FQC")
+                    {
+                        //先加入"("符號
+                        text = text + "(";
+                        TranslateWords.Add(start, false);
+                        start++;
+                        //再加入最小公差
+                        text = text + cCom_Dimension.minTolerance;
+                        length = cCom_Dimension.minTolerance.Length;
+                        char[] splitText = cCom_Dimension.minTolerance.ToCharArray();
+                        for (int i = 0; i < length; i++)
+                        {
+                            if (splitText[i] == '~')
+                            {
+                                TranslateWords.Add(start, true);
                             }
                             else
                             {
-                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "+";
-                                TranslateWords.Add(start, false); start++;
+                                TranslateWords.Add(start, false);
                             }
-                            
+                            start++;
+                        }
+                    }
+                    if (cCom_Dimension.maxTolerance != "" && cCom_Dimension.maxTolerance != null && cCom_Dimension.maxTolerance != "None" && cCom_Dimension.excelType != "FQC")
+                    {
+                        //先加入"~"符號
+                        text = text + "~";
+                        TranslateWords.Add(start, false);
+                        start++;
+                        //再加入最小公差
+                        text = text + cCom_Dimension.maxTolerance;
+                        length = cCom_Dimension.maxTolerance.Length;
+                        char[] splitText = cCom_Dimension.maxTolerance.ToCharArray();
+                        for (int i = 0; i < length; i++)
+                        {
+                            if (splitText[i] == '~')
+                            {
+                                TranslateWords.Add(start, true);
+                            }
+                            else
+                            {
+                                TranslateWords.Add(start, false);
+                            }
+                            start++;
+                        }
+                        //再加入")"符號
+                        text = text + ")";
+                        TranslateWords.Add(start, false);
+                        start++;
+                    }
+                    if (cCom_Dimension.x != "" && cCom_Dimension.x != null && cCom_Dimension.x != "None")
+                    {
+                        text = text + cCom_Dimension.x;
+                        length = cCom_Dimension.x.Length;
+                        for (int i = 0; i < length; i++)
+                        {
+                            TranslateWords.Add(start, false);
+                            start++;
+                        }
+                    }
+                    if (cCom_Dimension.chamferAngle != "" && cCom_Dimension.chamferAngle != null && cCom_Dimension.chamferAngle != "None")
+                    {
+                        text = text + cCom_Dimension.chamferAngle;
+                        length = cCom_Dimension.chamferAngle.Length;
+                        char[] splitText = cCom_Dimension.chamferAngle.ToCharArray();
+                        for (int i = 0; i < length; i++)
+                        {
+                            if (splitText[i] == '~')
+                            {
+                                TranslateWords.Add(start, true);
+                            }
+                            else
+                            {
+                                TranslateWords.Add(start, false);
+                            }
+                            start++;
+                        }
+                    }
+                    if (cCom_Dimension.afterText != "" && cCom_Dimension.afterText != null && cCom_Dimension.afterText != "None")
+                    {
+                        text = text + cCom_Dimension.afterText;
+                        length = cCom_Dimension.afterText.Length;
+                        char[] splitText = cCom_Dimension.afterText.ToCharArray();
+                        for (int i = 0; i < length; i++)
+                        {
+                            if (splitText[i] == '~')
+                            {
+                                TranslateWords.Add(start, true);
+                            }
+                            else
+                            {
+                                TranslateWords.Add(start, false);
+                            }
+                            start++;
+                        }
+                    }
+                    #endregion
+                    //拉高Row
+                    ((Range)worksheet.Rows[currentRow.ToString() + ":" + currentRow.ToString()]).RowHeight = 30;
+                    //計算初始高度&初始左偏度
+                    //初始高度 
+                    double topDistance = 0;
+                    for (int i = 1; i < currentRow; i++)
+                    {
+                        Range workRange = (Range)worksheet.Cells[i, 1];
+                        topDistance = topDistance + Convert.ToDouble(workRange.RowHeight);
+                    }
+                    //初始左偏度
+                    double leftDistance = 0;
+                    for (int i = 1; i < dimenColumn; i++)
+                    {
+                        Range workRange = (Range)worksheet.Cells[1, i];
+                        leftDistance = leftDistance + Convert.ToDouble(workRange.Width);
+                    }
+                    //建立文字方塊放在格子正中心，設定透明，字體黑色，字體置中
+                    Microsoft.Office.Interop.Excel.Shape b = null;
+                    CreateTextBox(worksheet, leftDistance + 55, topDistance + 4.5, 20, 20, text, ref b);
+                    foreach (KeyValuePair<int, bool> kvp in TranslateWords)
+                    {
+                        if (kvp.Value)
+                        {
+                            b.TextFrame2.TextRange.Characters[kvp.Key, 1].Font.Name = "GDT";
+                        }
+                        else
+                        {
+                            b.TextFrame2.TextRange.Characters[kvp.Key, 1].Font.Name = "Arial";
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    #region 非基本公差
+                    if (cCom_Dimension.characteristic != "" && cCom_Dimension.characteristic != null && cCom_Dimension.characteristic != "None")
+                    {
+                        worksheet.Cells[currentRow, dimenColumn] = cCom_Dimension.characteristic;
+                        length = cCom_Dimension.characteristic.Length;
+                        for (int i = 0; i < length; i++)
+                        {
+                            TranslateWords.Add(start, true);
+                            start++;
+                        }
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                        TranslateWords.Add(start, false);
+                        start++;
+                        //strLen = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value.ToString().Length;
+                        //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "GDT";
+                        //start = start + length;
+                    }
+                    if (cCom_Dimension.zoneShape != "" && cCom_Dimension.zoneShape != null && cCom_Dimension.zoneShape != "None")
+                    {
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.zoneShape;
+                        length = cCom_Dimension.zoneShape.Length;
+                        for (int i = 0; i < length; i++)
+                        {
+                            TranslateWords.Add(start, true);
+                            start++;
+                        }
+                        //int StrLen = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value.ToString().Length;
+                        //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "GDT";
+                        //start = start + length;
+                    }
+                    if (cCom_Dimension.toleranceValue != "" && cCom_Dimension.toleranceValue != null && cCom_Dimension.toleranceValue != "None")
+                    {
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.toleranceValue;
+                        length = cCom_Dimension.toleranceValue.Length;
+                        for (int i = 0; i < length; i++)
+                        {
+                            TranslateWords.Add(start, false);
+                            start++;
+                        }
+                        //if (cCom_Dimension.materialModifier != "" & cCom_Dimension.materialModifier != null & cCom_Dimension.materialModifier != "None")
+                        //{
+                        //}
+                        //else
+                        //{
+                        //    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                        //    TranslateWords.Add(start, false);
+                        //    start++;
+                        //}
+
+                        //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "Arial";
+                        //start = start + length;
+                    }
+                    if (cCom_Dimension.materialModifier != "" && cCom_Dimension.materialModifier != null && cCom_Dimension.materialModifier != "None")
+                    {
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.materialModifier;
+                        length = cCom_Dimension.materialModifier.Length;
+                        for (int i = 0; i < length; i++)
+                        {
+                            TranslateWords.Add(start, true);
+                            start++;
+                        }
+
+                        //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "GDT";
+                        //start = start + length;
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.materialModifer;
+                    }
+                    if (/*cCom_Dimension.primaryDatum != "" &*/ cCom_Dimension.primaryDatum != null /*& cCom_Dimension.primaryDatum != "None"*/)
+                    {
+
+                        //worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                        //TranslateWords.Add(start, false);
+                        //start++;
+                        string[] splitPrimaryDatum = cCom_Dimension.primaryDatum.Split(',');
+                        string[] splitPrimaryMaterialModifier = new string[splitPrimaryDatum.Length];
+                        for (int i = 0; i < splitPrimaryDatum.Length; i++)
+                        {
+                            splitPrimaryMaterialModifier[i] = "X";
+                        }
+                        if (cCom_Dimension.primaryMaterialModifier != null)
+                        {
+                            splitPrimaryMaterialModifier = new string[] { };
+                            splitPrimaryMaterialModifier = cCom_Dimension.primaryMaterialModifier.Split(',');
+                        }
+
+
+                        for (int i = 0; i < splitPrimaryDatum.Length; i++)
+                        {
+                            if (i >= 1)
+                            {
+                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "-";
+                                TranslateWords.Add(start, false);
+                                start++;
+                            }
+
+                            if (splitPrimaryDatum[i] == "X")
+                            {
+                                if (splitPrimaryMaterialModifier[i] == "X")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    if (i == 0)
+                                    {
+                                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                                        TranslateWords.Add(start, false);
+                                        start++;
+                                    }
+                                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitPrimaryMaterialModifier[i];
+                                    TranslateWords.Add(start, true);
+                                    start++;
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                if (i == 0)
+                                {
+                                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                                    TranslateWords.Add(start, false);
+                                    start++;
+                                }
+                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitPrimaryDatum[i];
+                                TranslateWords.Add(start, false);
+                                start++;
+                                if (splitPrimaryMaterialModifier[i] == "X")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitPrimaryMaterialModifier[i];
+                                    TranslateWords.Add(start, true);
+                                    start++;
+                                    continue;
+                                }
+                            }
+                        }
+
+                        //if (cCom_Dimension.primaryMaterialModifier != "" & cCom_Dimension.primaryMaterialModifier != null & cCom_Dimension.primaryMaterialModifier != "None")
+                        //{
+                        //}
+                        //else
+                        //{
+                        //    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                        //    TranslateWords.Add(start, false);
+                        //    start++;
+                        //}
+
+                        //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "Arial";
+                        //start = start + length;
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.primaryDatum;
+                    }
+                    /*
+                    if (cCom_Dimension.primaryMaterialModifier != "" & cCom_Dimension.primaryMaterialModifier != null & cCom_Dimension.primaryMaterialModifier != "None")
+                    {
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.primaryMaterialModifier;
+                        length = cCom_Dimension.primaryMaterialModifier.Length;
+                        for (int i = 0; i < length; i++)
+                        {
+                            TranslateWords.Add(start, true);
+                            start++;
+                        }
+                    
+                        //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "GDT";
+                        //start = start + length;
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.primaryMaterialModifier;
+                    }
+                    */
+                    if (/*cCom_Dimension.secondaryDatum != "" &  */cCom_Dimension.secondaryDatum != null /*& cCom_Dimension.secondaryDatum != "None"*/)
+                    {
+                        //worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                        //TranslateWords.Add(start, false);
+                        //start++;
+                        string[] splitSecondaryDatum = cCom_Dimension.secondaryDatum.Split(',');
+
+                        string[] splitSecondaryMaterialModifier = new string[splitSecondaryDatum.Length];
+                        for (int i = 0; i < splitSecondaryDatum.Length; i++)
+                        {
+                            splitSecondaryMaterialModifier[i] = "X";
+                        }
+                        if (cCom_Dimension.primaryMaterialModifier != null)
+                        {
+                            splitSecondaryMaterialModifier = new string[] { };
+                            splitSecondaryMaterialModifier = cCom_Dimension.secondaryMaterialModifier.Split(',');
+                        }
+
+                        for (int i = 0; i < splitSecondaryDatum.Length; i++)
+                        {
+                            if (i >= 1)
+                            {
+                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "-";
+                                TranslateWords.Add(start, false);
+                                start++;
+                            }
+
+                            if (splitSecondaryDatum[i] == "X")
+                            {
+                                if (splitSecondaryMaterialModifier[i] == "X")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    if (i == 0)
+                                    {
+                                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                                        TranslateWords.Add(start, false);
+                                        start++;
+                                    }
+                                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitSecondaryMaterialModifier[i];
+                                    TranslateWords.Add(start, true);
+                                    start++;
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                if (i == 0)
+                                {
+                                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                                    TranslateWords.Add(start, false);
+                                    start++;
+                                }
+                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitSecondaryDatum[i];
+                                TranslateWords.Add(start, false);
+                                start++;
+                                if (splitSecondaryMaterialModifier[i] == "X")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitSecondaryMaterialModifier[i];
+                                    TranslateWords.Add(start, true);
+                                    start++;
+                                    continue;
+                                }
+                            }
+                        }
+                        //if (cCom_Dimension.secondaryMaterialModifier != "" & cCom_Dimension.secondaryMaterialModifier != null & cCom_Dimension.secondaryMaterialModifier != "None")
+                        //{
+                        //}
+                        //else
+                        //{
+                        //    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                        //    TranslateWords.Add(start, false);
+                        //    start++;
+                        //}
+                        //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "Arial";
+                        //start = start + length;
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.secondaryDatum;
+                    }
+                    /*
+                    if (cCom_Dimension.secondaryMaterialModifier != "" & cCom_Dimension.secondaryMaterialModifier != null & cCom_Dimension.secondaryMaterialModifier != "None")
+                    {
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.secondaryMaterialModifier;
+                        length = cCom_Dimension.secondaryMaterialModifier.Length;
+                        for (int i = 0; i < length; i++)
+                        {
+                            TranslateWords.Add(start, true);
+                            start++;
+                        }
+                        //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "GDT";
+                        //start = start + length;
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.secondaryMaterialModifier;
+                    }
+                    */
+                    if (/*cCom_Dimension.tertiaryDatum != "" & */cCom_Dimension.tertiaryDatum != null  /*& cCom_Dimension.tertiaryDatum != "None"*/)
+                    {
+                        //worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                        //TranslateWords.Add(start, false);
+                        //start++;
+
+                        string[] splitTertiaryDatum = cCom_Dimension.tertiaryDatum.Split(',');
+
+                        string[] splitTertiaryMaterialModifier = new string[splitTertiaryDatum.Length];
+                        for (int i = 0; i < splitTertiaryDatum.Length; i++)
+                        {
+                            splitTertiaryMaterialModifier[i] = "X";
+                        }
+                        if (cCom_Dimension.primaryMaterialModifier != null)
+                        {
+                            splitTertiaryMaterialModifier = new string[] { };
+                            splitTertiaryMaterialModifier = cCom_Dimension.tertiaryMaterialModifier.Split(',');
+                        }
+
+                        for (int i = 0; i < splitTertiaryDatum.Length; i++)
+                        {
+                            if (i >= 1)
+                            {
+                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "-";
+                                TranslateWords.Add(start, false);
+                                start++;
+                            }
+
+                            if (splitTertiaryDatum[i] == "X")
+                            {
+                                if (splitTertiaryMaterialModifier[i] == "X")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    if (i == 0)
+                                    {
+                                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                                        TranslateWords.Add(start, false);
+                                        start++;
+                                    }
+                                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitTertiaryMaterialModifier[i];
+                                    TranslateWords.Add(start, true);
+                                    start++;
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                if (i == 0)
+                                {
+                                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                                    TranslateWords.Add(start, false);
+                                    start++;
+                                }
+                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitTertiaryDatum[i];
+                                TranslateWords.Add(start, false);
+                                start++;
+                                if (splitTertiaryMaterialModifier[i] == "X")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + splitTertiaryMaterialModifier[i];
+                                    TranslateWords.Add(start, true);
+                                    start++;
+                                    continue;
+                                }
+                            }
+                        }
+                        //if (cCom_Dimension.tertiaryMaterialModifier != "" & cCom_Dimension.tertiaryMaterialModifier != null & cCom_Dimension.tertiaryMaterialModifier != "None")
+                        //{
+                        //}
+                        //else
+                        //{
+                        //    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                        //    TranslateWords.Add(start, false);
+                        //    start++;
+                        //}
+                        //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "Arial";
+                        //start = start + length;
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.tertiaryDatum;
+                    }
+                    /*
+                    if (cCom_Dimension.tertiaryMaterialModifier != "" & cCom_Dimension.tertiaryMaterialModifier != null & cCom_Dimension.tertiaryMaterialModifier != "None")
+                    {
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.tertiaryMaterialModifier;
+                        length = cCom_Dimension.tertiaryMaterialModifier.Length;
+                        for (int i = 0; i < length; i++)
+                        {
+                            TranslateWords.Add(start, true);
+                            start++;
+                        }
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "|";
+                        TranslateWords.Add(start, false);
+                        start++;
+                        //((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[start, length].Font.Name = "GDT";
+                        //start = start + length;
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.tertiaryMaterialModifier;
+                    }
+                    */
+                    if (cCom_Dimension.aboveText != "" && cCom_Dimension.aboveText != null && cCom_Dimension.aboveText != "None")
+                    {
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.aboveText;
+                        length = cCom_Dimension.aboveText.Length;
+                        for (int i = 0; i < length; i++)
+                        {
+                            TranslateWords.Add(start, false);
+                            start++;
+                        }
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.aboveText;
+                    }
+                    if (cCom_Dimension.beforeText != "" && cCom_Dimension.beforeText != null && cCom_Dimension.beforeText != "None")
+                    {
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.beforeText;
+                        length = cCom_Dimension.beforeText.Length;
+                        for (int i = 0; i < length; i++)
+                        {
+                            TranslateWords.Add(start, true);
+                            start++;
+                        }
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.beforeText;
+                    }
+                    if (cCom_Dimension.toleranceSymbol != "" && cCom_Dimension.toleranceSymbol != null && cCom_Dimension.toleranceSymbol != "None")
+                    {
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.toleranceSymbol;
+                        //length = cCom_Dimension.toleranceSymbol.Length;
+                        //for (int i = 0; i < length; i++)
+                        //{
+                        //    TranslateWords.Add(start, true);
+                        //    start++;
+                        //}
+                        length = cCom_Dimension.toleranceSymbol.Length;
+                        if (cCom_Dimension.toleranceSymbol == "R")
+                        {
+                            for (int i = 0; i < length; i++)
+                            {
+                                TranslateWords.Add(start, false);
+                                start++;
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < length; i++)
+                            {
+                                TranslateWords.Add(start, true);
+                                start++;
+                            }
+                        }
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.toleranceSymbol;
+                    }
+                    if (cCom_Dimension.mainText != "" && cCom_Dimension.mainText != null && cCom_Dimension.mainText != "None")
+                    {
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.mainText;
+                        length = cCom_Dimension.mainText.Length;
+                        char[] splitText = cCom_Dimension.mainText.ToCharArray();
+                        for (int i = 0; i < length; i++)
+                        {
+                            if (splitText[i] == '~')
+                            {
+                                TranslateWords.Add(start, true);
+                            }
+                            else
+                            {
+                                TranslateWords.Add(start, false);
+                            }
+                            start++;
+                        }
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.mainText;
+                    }
+                    if ((cCom_Dimension.upTolerance != "" && cCom_Dimension.upTolerance != null && cCom_Dimension.upTolerance != "None") ||
+                        (cCom_Dimension.lowTolerance != "" && cCom_Dimension.upTolerance != null && cCom_Dimension.upTolerance != "None"))
+                    {
+                        if (cCom_Dimension.upTolerance == cCom_Dimension.lowTolerance)
+                        {
+                            //如果上下公差相同，則加入±到字串中，所以在TranslateWords中必須加一次資訊
+                            worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "±";
+                            TranslateWords.Add(start, false); start++;
                             //加入公差的長度
                             worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.upTolerance;
                             length = cCom_Dimension.upTolerance.Length;
@@ -737,325 +1244,359 @@ namespace OutputExcelForm.Excel
                                 start++;
                             }
                         }
-                        if (Convert.ToDouble(cCom_Dimension.lowTolerance) * 10000 > 0)
+                        else
                         {
-                            worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "/";
-                            TranslateWords.Add(start, false);
-                            start++;
-                            //表示有下公差，所以加入-到字串中，所以在TranslateWords中必須加一次資訊
-                            //如果遇到下公差是+的，則不能加-
-                            if (cCom_Dimension.lowTolerance.Contains('+'))
+                            if (Math.Abs(Convert.ToDouble(cCom_Dimension.upTolerance)) * 10000 > 0)
                             {
-                            }
-                            else
-                            {
-                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "-";
-                                TranslateWords.Add(start, false); start++;
-                            }
-                            
-                            //加入公差的長度
-                            worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.lowTolerance;
-                            length = cCom_Dimension.lowTolerance.Length;
-                            char[] splitText = cCom_Dimension.lowTolerance.ToCharArray();
-                            for (int i = 0; i < length; i++)
-                            {
-                                if (splitText[i] == '~')
+                                //表示有上公差，所以加入+到字串中，所以在TranslateWords中必須加一次資訊
+                                //如果遇到上公差是-的，則不能加+
+                                if (cCom_Dimension.upTolerance.Contains('-'))
                                 {
-                                    TranslateWords.Add(start, true);
                                 }
                                 else
                                 {
-                                    TranslateWords.Add(start, false);
+                                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "+";
+                                    TranslateWords.Add(start, false); start++;
                                 }
-                                //TranslateWords.Add(start, false);
+
+                                //加入公差的長度
+                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.upTolerance;
+                                length = cCom_Dimension.upTolerance.Length;
+                                char[] splitText = cCom_Dimension.upTolerance.ToCharArray();
+                                for (int i = 0; i < length; i++)
+                                {
+                                    if (splitText[i] == '~')
+                                    {
+                                        TranslateWords.Add(start, true);
+                                    }
+                                    else
+                                    {
+                                        TranslateWords.Add(start, false);
+                                    }
+                                    //TranslateWords.Add(start, false);
+                                    start++;
+                                }
+                            }
+                            if (Convert.ToDouble(cCom_Dimension.lowTolerance) * 10000 > 0)
+                            {
+                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "/";
+                                TranslateWords.Add(start, false);
                                 start++;
+                                //表示有下公差，所以加入-到字串中，所以在TranslateWords中必須加一次資訊
+                                //如果遇到下公差是+的，則不能加-
+                                if (cCom_Dimension.lowTolerance.Contains('+'))
+                                {
+                                }
+                                else
+                                {
+                                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "-";
+                                    TranslateWords.Add(start, false); start++;
+                                }
+
+                                //加入公差的長度
+                                worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.lowTolerance;
+                                length = cCom_Dimension.lowTolerance.Length;
+                                char[] splitText = cCom_Dimension.lowTolerance.ToCharArray();
+                                for (int i = 0; i < length; i++)
+                                {
+                                    if (splitText[i] == '~')
+                                    {
+                                        TranslateWords.Add(start, true);
+                                    }
+                                    else
+                                    {
+                                        TranslateWords.Add(start, false);
+                                    }
+                                    //TranslateWords.Add(start, false);
+                                    start++;
+                                }
                             }
                         }
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + "+" + cCom_Dimension.upTolerance;
                     }
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + "+" + cCom_Dimension.upTolerance;
-                }
-                if (cCom_Dimension.minTolerance != "" && cCom_Dimension.minTolerance != null && cCom_Dimension.minTolerance != "None" && cCom_Dimension.excelType != "FQC")
-                {
-                    //先加入"("符號
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "(";
-                    TranslateWords.Add(start, false);
-                    start++;
-                    //再加入最小公差
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.minTolerance;
-                    length = cCom_Dimension.minTolerance.Length;
-                    char[] splitText = cCom_Dimension.minTolerance.ToCharArray();
-                    for (int i = 0; i < length; i++)
+                    if (cCom_Dimension.minTolerance != "" && cCom_Dimension.minTolerance != null && cCom_Dimension.minTolerance != "None" && cCom_Dimension.excelType != "FQC")
                     {
-                        if (splitText[i] == '~')
-                        {
-                            TranslateWords.Add(start, true);
-                        }
-                        else
-                        {
-                            TranslateWords.Add(start, false);
-                        }
+                        //先加入"("符號
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "(";
+                        TranslateWords.Add(start, false);
                         start++;
+                        //再加入最小公差
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.minTolerance;
+                        length = cCom_Dimension.minTolerance.Length;
+                        char[] splitText = cCom_Dimension.minTolerance.ToCharArray();
+                        for (int i = 0; i < length; i++)
+                        {
+                            if (splitText[i] == '~')
+                            {
+                                TranslateWords.Add(start, true);
+                            }
+                            else
+                            {
+                                TranslateWords.Add(start, false);
+                            }
+                            start++;
+                        }
                     }
-                }
-                if (cCom_Dimension.maxTolerance != "" && cCom_Dimension.maxTolerance != null && cCom_Dimension.maxTolerance != "None" && cCom_Dimension.excelType != "FQC")
-                {
-                    //先加入"~"符號
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "~";
-                    TranslateWords.Add(start, false);
-                    start++;
-                    //再加入最小公差
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.maxTolerance;
-                    length = cCom_Dimension.maxTolerance.Length;
-                    char[] splitText = cCom_Dimension.maxTolerance.ToCharArray();
-                    for (int i = 0; i < length; i++)
+                    if (cCom_Dimension.maxTolerance != "" && cCom_Dimension.maxTolerance != null && cCom_Dimension.maxTolerance != "None" && cCom_Dimension.excelType != "FQC")
                     {
-                        if (splitText[i] == '~')
-                        {
-                            TranslateWords.Add(start, true);
-                        }
-                        else
-                        {
-                            TranslateWords.Add(start, false);
-                        }
+                        //先加入"~"符號
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + "~";
+                        TranslateWords.Add(start, false);
                         start++;
-                    }
-                    //再加入")"符號
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + ")";
-                    TranslateWords.Add(start, false);
-                    start++;
-                }
-                //if (cCom_Dimension.lowTolerance != "" & cCom_Dimension.lowTolerance != null & cCom_Dimension.lowTolerance != "None")
-                //{
-                //    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.lowTolerance;
-                //    length = cCom_Dimension.lowTolerance.Length;
-                //    for (int i = 0; i < length; i++)
-                //    {
-                //        TranslateWords.Add(start, false);
-                //        start++;
-                //    }
-                //}
-                if (cCom_Dimension.x != "" && cCom_Dimension.x != null && cCom_Dimension.x != "None")
-                {
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.x;
-                    length = cCom_Dimension.x.Length;
-                    for (int i = 0; i < length; i++)
-                    {
+                        //再加入最小公差
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.maxTolerance;
+                        length = cCom_Dimension.maxTolerance.Length;
+                        char[] splitText = cCom_Dimension.maxTolerance.ToCharArray();
+                        for (int i = 0; i < length; i++)
+                        {
+                            if (splitText[i] == '~')
+                            {
+                                TranslateWords.Add(start, true);
+                            }
+                            else
+                            {
+                                TranslateWords.Add(start, false);
+                            }
+                            start++;
+                        }
+                        //再加入")"符號
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + ")";
                         TranslateWords.Add(start, false);
                         start++;
                     }
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.x.ToUpper();
-                }
-                if (cCom_Dimension.chamferAngle != "" && cCom_Dimension.chamferAngle != null && cCom_Dimension.chamferAngle != "None")
-                {
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.chamferAngle;
-                    length = cCom_Dimension.chamferAngle.Length;
-                    char[] splitText = cCom_Dimension.chamferAngle.ToCharArray();
-                    for (int i = 0; i < length; i++)
+                    //if (cCom_Dimension.lowTolerance != "" & cCom_Dimension.lowTolerance != null & cCom_Dimension.lowTolerance != "None")
+                    //{
+                    //    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.lowTolerance;
+                    //    length = cCom_Dimension.lowTolerance.Length;
+                    //    for (int i = 0; i < length; i++)
+                    //    {
+                    //        TranslateWords.Add(start, false);
+                    //        start++;
+                    //    }
+                    //}
+                    if (cCom_Dimension.x != "" && cCom_Dimension.x != null && cCom_Dimension.x != "None")
                     {
-                        if (splitText[i] == '~')
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.x;
+                        length = cCom_Dimension.x.Length;
+                        for (int i = 0; i < length; i++)
                         {
-                            TranslateWords.Add(start, true);
+                            TranslateWords.Add(start, false);
+                            start++;
+                        }
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.x.ToUpper();
+                    }
+                    if (cCom_Dimension.chamferAngle != "" && cCom_Dimension.chamferAngle != null && cCom_Dimension.chamferAngle != "None")
+                    {
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.chamferAngle;
+                        length = cCom_Dimension.chamferAngle.Length;
+                        char[] splitText = cCom_Dimension.chamferAngle.ToCharArray();
+                        for (int i = 0; i < length; i++)
+                        {
+                            if (splitText[i] == '~')
+                            {
+                                TranslateWords.Add(start, true);
+                            }
+                            else
+                            {
+                                TranslateWords.Add(start, false);
+                            }
+                            start++;
+                        }
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.chamferAngle;
+                    }
+                    if (cCom_Dimension.afterText != "" && cCom_Dimension.afterText != null && cCom_Dimension.afterText != "None")
+                    {
+                        worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.afterText;
+                        length = cCom_Dimension.afterText.Length;
+                        //MessageBox.Show(length.ToString());
+                        char[] splitText = cCom_Dimension.afterText.ToCharArray();
+                        //MessageBox.Show(splitText.Length.ToString());
+                        for (int i = 0; i < length; i++)
+                        {
+                            //MessageBox.Show(splitText[i].ToString());
+                            if (splitText[i] == '~')
+                            {
+                                TranslateWords.Add(start, true);
+                            }
+                            else
+                            {
+                                TranslateWords.Add(start, false);
+                            }
+                            start++;
+                        }
+                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.afterText.ToUpper();
+                    }
+                    //MessageBox.Show(((Range)worksheet.Cells[currentRow, dimenColumn]).Value.ToString());
+                    foreach (KeyValuePair<int, bool> kvp in TranslateWords)
+                    {
+                        if (kvp.Value)
+                        {
+                            ((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[kvp.Key, 1].Font.Name = "GDT";
                         }
                         else
                         {
-                            TranslateWords.Add(start, false);
+                            ((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[kvp.Key, 1].Font.Name = "Arial";
                         }
-                        start++;
                     }
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.chamferAngle;
-                }
-                if (cCom_Dimension.afterText != "" && cCom_Dimension.afterText != null && cCom_Dimension.afterText != "None")
-                {
-                    worksheet.Cells[currentRow, dimenColumn] = ((Range)worksheet.Cells[currentRow, dimenColumn]).Value + cCom_Dimension.afterText;
-                    length = cCom_Dimension.afterText.Length;
-                    //MessageBox.Show(length.ToString());
-                    char[] splitText = cCom_Dimension.afterText.ToCharArray();
-                    //MessageBox.Show(splitText.Length.ToString());
-                    for (int i = 0; i < length; i++)
+
+                    /*
+                    if (cCom_Dimension.dimensionType == "NXOpen.Annotations.DraftingFcf")
                     {
-                        //MessageBox.Show(splitText[i].ToString());
-                        if (splitText[i] == '~')
+                        #region InitialData
+                        if (cCom_Dimension.characteristic != "")
                         {
-                            TranslateWords.Add(start, true);
+                            //workRange[currentRow, dimenColumn] = GetCharacteristicSymbol(cCom_Dimension.characteristic);
+                            workRange[currentRow, dimenColumn] = cCom_Dimension.characteristic;
                         }
-                        else
+                        if (cCom_Dimension.zoneShape != "")
                         {
-                            TranslateWords.Add(start, false);
+                            //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + GetZoneShapeSymbol(cCom_Dimension.zoneShape);
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.zoneShape;
                         }
-                        start++;
+                        if (cCom_Dimension.toleranceValue != "")
+                        {
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.toleranceValue;
+                        }
+                        if (cCom_Dimension.materialModifer != "" & cCom_Dimension.materialModifer != "None")
+                        {
+                            string ValueStr = cCom_Dimension.materialModifer;
+                            if (ValueStr == "LeastMaterialCondition")
+                            {
+                                ValueStr = "l";
+                            }
+                            else if (ValueStr == "MaximumMaterialCondition")
+                            {
+                                ValueStr = "m";
+                            }
+                            else if (ValueStr == "RegardlessOfFeatureSize")
+                            {
+                                ValueStr = "s";
+                            }
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + ValueStr;
+                        }
+                        #endregion
+
+                        #region Primary
+                        if (cCom_Dimension.primaryDatum != "")
+                        {
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.primaryDatum;
+                        }
+                        if (cCom_Dimension.primaryMaterialModifier != "" & cCom_Dimension.primaryMaterialModifier != "None")
+                        {
+                            string ValueStr = cCom_Dimension.primaryMaterialModifier;
+                            if (ValueStr == "LeastMaterialCondition")
+                            {
+                                ValueStr = "l";
+                            }
+                            else if (ValueStr == "MaximumMaterialCondition")
+                            {
+                                ValueStr = "m";
+                            }
+                            else if (ValueStr == "RegardlessOfFeatureSize")
+                            {
+                                ValueStr = "s";
+                            }
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + ValueStr;
+                        }
+                        #endregion
+                    
+                        #region Secondary
+                        if (cCom_Dimension.secondaryDatum != "")
+                        {
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.secondaryDatum;
+                        }
+                        if (cCom_Dimension.secondaryMaterialModifier != "" & cCom_Dimension.secondaryMaterialModifier != "None")
+                        {
+                            string ValueStr = cCom_Dimension.secondaryMaterialModifier;
+                            if (ValueStr == "LeastMaterialCondition")
+                            {
+                                ValueStr = "l";
+                            }
+                            else if (ValueStr == "MaximumMaterialCondition")
+                            {
+                                ValueStr = "m";
+                            }
+                            else if (ValueStr == "RegardlessOfFeatureSize")
+                            {
+                                ValueStr = "s";
+                            }
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + ValueStr;
+                        }
+                        #endregion
+                    
+                        #region Tertiary
+                        if (cCom_Dimension.tertiaryDatum != "")
+                        {
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.tertiaryDatum;
+                        }
+                        if (cCom_Dimension.tertiaryMaterialModifier != "" & cCom_Dimension.tertiaryMaterialModifier != "None")
+                        {
+                            string ValueStr = cCom_Dimension.tertiaryMaterialModifier;
+                            if (ValueStr == "LeastMaterialCondition")
+                            {
+                                ValueStr = "l";
+                            }
+                            else if (ValueStr == "MaximumMaterialCondition")
+                            {
+                                ValueStr = "m";
+                            }
+                            else if (ValueStr == "RegardlessOfFeatureSize")
+                            {
+                                ValueStr = "s";
+                            }
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + ValueStr;
+                        }
+                        #endregion
                     }
-                    //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.afterText.ToUpper();
-                }
-                //MessageBox.Show(((Range)worksheet.Cells[currentRow, dimenColumn]).Value.ToString());
-                foreach (KeyValuePair<int, bool> kvp in TranslateWords)
-                {
-                    if (kvp.Value)
+                    else if (cCom_Dimension.dimensionType == "NXOpen.Annotations.Label")
                     {
-                        ((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[kvp.Key, 1].Font.Name = "GDT";
+                        workRange[currentRow, dimenColumn] = cCom_Dimension.mainText;
                     }
                     else
                     {
-                        ((Range)worksheet.Cells[currentRow, dimenColumn]).Cells.Characters[kvp.Key, 1].Font.Name = "Lucida Bright";
-                    }
-
-                }
-                
-                /*
-                if (cCom_Dimension.dimensionType == "NXOpen.Annotations.DraftingFcf")
-                {
-                    #region InitialData
-                    if (cCom_Dimension.characteristic != "")
-                    {
-                        //workRange[currentRow, dimenColumn] = GetCharacteristicSymbol(cCom_Dimension.characteristic);
-                        workRange[currentRow, dimenColumn] = cCom_Dimension.characteristic;
-                    }
-                    if (cCom_Dimension.zoneShape != "")
-                    {
-                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + GetZoneShapeSymbol(cCom_Dimension.zoneShape);
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.zoneShape;
-                    }
-                    if (cCom_Dimension.toleranceValue != "")
-                    {
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.toleranceValue;
-                    }
-                    if (cCom_Dimension.materialModifer != "" & cCom_Dimension.materialModifer != "None")
-                    {
-                        string ValueStr = cCom_Dimension.materialModifer;
-                        if (ValueStr == "LeastMaterialCondition")
-                        {
-                            ValueStr = "l";
-                        }
-                        else if (ValueStr == "MaximumMaterialCondition")
-                        {
-                            ValueStr = "m";
-                        }
-                        else if (ValueStr == "RegardlessOfFeatureSize")
-                        {
-                            ValueStr = "s";
-                        }
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + ValueStr;
-                    }
-                    #endregion
-
-                    #region Primary
-                    if (cCom_Dimension.primaryDatum != "")
-                    {
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.primaryDatum;
-                    }
-                    if (cCom_Dimension.primaryMaterialModifier != "" & cCom_Dimension.primaryMaterialModifier != "None")
-                    {
-                        string ValueStr = cCom_Dimension.primaryMaterialModifier;
-                        if (ValueStr == "LeastMaterialCondition")
-                        {
-                            ValueStr = "l";
-                        }
-                        else if (ValueStr == "MaximumMaterialCondition")
-                        {
-                            ValueStr = "m";
-                        }
-                        else if (ValueStr == "RegardlessOfFeatureSize")
-                        {
-                            ValueStr = "s";
-                        }
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + ValueStr;
-                    }
-                    #endregion
+                        #region Dimension
                     
-                    #region Secondary
-                    if (cCom_Dimension.secondaryDatum != "")
-                    {
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.secondaryDatum;
-                    }
-                    if (cCom_Dimension.secondaryMaterialModifier != "" & cCom_Dimension.secondaryMaterialModifier != "None")
-                    {
-                        string ValueStr = cCom_Dimension.secondaryMaterialModifier;
-                        if (ValueStr == "LeastMaterialCondition")
+                        if (cCom_Dimension.beforeText != null)
                         {
-                            ValueStr = "l";
+                            //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + GetGDTWord(cCom_Dimension.beforeText);
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.beforeText;
                         }
-                        else if (ValueStr == "MaximumMaterialCondition")
+                        if (cCom_Dimension.mainText != "")
                         {
-                            ValueStr = "m";
+                            //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + GetGDTWord(cCom_Dimension.mainText);
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.mainText;
                         }
-                        else if (ValueStr == "RegardlessOfFeatureSize")
+                        if (cCom_Dimension.upTolerance != "" & cCom_Dimension.toleranceType == "BilateralOneLine")
                         {
-                            ValueStr = "s";
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + "±";
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.upTolerance;
+                            string MaxMinStr = "(" + (Convert.ToDouble(cCom_Dimension.mainText) - Convert.ToDouble(cCom_Dimension.upTolerance)).ToString() + "-" + (Convert.ToDouble(cCom_Dimension.mainText) + Convert.ToDouble(cCom_Dimension.upTolerance)).ToString() + ")";
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + MaxMinStr;
                         }
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + ValueStr;
-                    }
-                    #endregion
-                    
-                    #region Tertiary
-                    if (cCom_Dimension.tertiaryDatum != "")
-                    {
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.tertiaryDatum;
-                    }
-                    if (cCom_Dimension.tertiaryMaterialModifier != "" & cCom_Dimension.tertiaryMaterialModifier != "None")
-                    {
-                        string ValueStr = cCom_Dimension.tertiaryMaterialModifier;
-                        if (ValueStr == "LeastMaterialCondition")
+                        else if (cCom_Dimension.upTolerance != "" & cCom_Dimension.toleranceType == "BilateralTwoLines")
                         {
-                            ValueStr = "l";
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + "+";
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.upTolerance;
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + "/";
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.lowTolerance;
+                            string MaxMinStr = "(" + (Convert.ToDouble(cCom_Dimension.mainText) + Convert.ToDouble(cCom_Dimension.lowTolerance)).ToString() + "-" + (Convert.ToDouble(cCom_Dimension.mainText) + Convert.ToDouble(cCom_Dimension.upTolerance)).ToString() + ")";
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + MaxMinStr;
                         }
-                        else if (ValueStr == "MaximumMaterialCondition")
+                        else if (cCom_Dimension.upTolerance != "" & cCom_Dimension.toleranceType == "UnilateralAbove")
                         {
-                            ValueStr = "m";
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + "+";
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.upTolerance;
                         }
-                        else if (ValueStr == "RegardlessOfFeatureSize")
+                        else if (cCom_Dimension.upTolerance != "" & cCom_Dimension.toleranceType == "UnilateralBelow")
                         {
-                            ValueStr = "s";
+                            workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.lowTolerance;
                         }
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + ValueStr;
-                    }
-                    #endregion
-                }
-                else if (cCom_Dimension.dimensionType == "NXOpen.Annotations.Label")
-                {
-                    workRange[currentRow, dimenColumn] = cCom_Dimension.mainText;
-                }
-                else
-                {
-                    #region Dimension
-                    
-                    if (cCom_Dimension.beforeText != null)
-                    {
-                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + GetGDTWord(cCom_Dimension.beforeText);
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.beforeText;
-                    }
-                    if (cCom_Dimension.mainText != "")
-                    {
-                        //workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + GetGDTWord(cCom_Dimension.mainText);
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.mainText;
-                    }
-                    if (cCom_Dimension.upTolerance != "" & cCom_Dimension.toleranceType == "BilateralOneLine")
-                    {
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + "±";
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.upTolerance;
-                        string MaxMinStr = "(" + (Convert.ToDouble(cCom_Dimension.mainText) - Convert.ToDouble(cCom_Dimension.upTolerance)).ToString() + "-" + (Convert.ToDouble(cCom_Dimension.mainText) + Convert.ToDouble(cCom_Dimension.upTolerance)).ToString() + ")";
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + MaxMinStr;
-                    }
-                    else if (cCom_Dimension.upTolerance != "" & cCom_Dimension.toleranceType == "BilateralTwoLines")
-                    {
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + "+";
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.upTolerance;
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + "/";
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.lowTolerance;
-                        string MaxMinStr = "(" + (Convert.ToDouble(cCom_Dimension.mainText) + Convert.ToDouble(cCom_Dimension.lowTolerance)).ToString() + "-" + (Convert.ToDouble(cCom_Dimension.mainText) + Convert.ToDouble(cCom_Dimension.upTolerance)).ToString() + ")";
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + MaxMinStr;
-                    }
-                    else if (cCom_Dimension.upTolerance != "" & cCom_Dimension.toleranceType == "UnilateralAbove")
-                    {
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + "+";
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.upTolerance;
-                    }
-                    else if (cCom_Dimension.upTolerance != "" & cCom_Dimension.toleranceType == "UnilateralBelow")
-                    {
-                        workRange[currentRow, dimenColumn] = ((Range)workRange[currentRow, dimenColumn]).Value + cCom_Dimension.lowTolerance;
-                    }
 
+                        #endregion
+                    }
+                    */
                     #endregion
                 }
-                */
             }
             catch (System.Exception ex)
             {
@@ -2109,6 +2650,27 @@ namespace OutputExcelForm.Excel
             {
 
             }
-        }   
+        }
+        public static void CreateTextBox(Worksheet workSheet, double left, double top, double width, double height, string text, ref Microsoft.Office.Interop.Excel.Shape b)
+        {
+            b = null;
+            try
+            {
+                b = workSheet.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, (float)left, (float)top, (float)width, (float)height);
+                b.Fill.Visible = MsoTriState.msoFalse;
+                b.TextFrame2.VerticalAnchor = MsoVerticalAnchor.msoAnchorMiddle;
+                b.TextFrame2.TextRange.ParagraphFormat.Alignment = MsoParagraphAlignment.msoAlignCenter;
+                b.TextFrame2.TextRange.Font.Size = 9;
+                b.TextFrame2.TextRange.Characters.Text = text;
+                b.TextFrame2.WordWrap = MsoTriState.msoFalse;
+                b.TextFrame2.AutoSize = MsoAutoSize.msoAutoSizeShapeToFitText;
+                b.Line.Visible = MsoTriState.msoTrue;
+                b.Line.ForeColor.RGB = ColorTranslator.ToOle(Color.FromArgb(0, 0, 0));
+            }
+            catch (System.Exception ex)
+            {
+            	
+            }
+        }
     }
 }
