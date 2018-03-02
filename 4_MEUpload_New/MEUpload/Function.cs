@@ -77,7 +77,7 @@ namespace MEUpload
                         DicPartDirData.Add(i.DisplayName, sPartDirData);
                         listView1.Items.Add(i.DisplayName + ".prt");
                     }
-                    //判斷檔案是否為_MEXXX，如果有就取得他的子comp並記錄起來要寫到TE的下載文檔中
+                    //判斷檔案是否為_ME_XXX，如果有就取得他的子comp並記錄起來要寫到TE的下載文檔中
                     if (i.DisplayName.Contains("_ME_" + MEUploadDlg.sPartInfo.OpNum))
                     {
                         List<NXOpen.Assemblies.Component> listComp = new List<NXOpen.Assemblies.Component>();
