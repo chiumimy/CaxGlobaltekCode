@@ -45,8 +45,9 @@ namespace MEUpload
             public string spcControl { get; set; }
         }
 
-        public static bool GetComponentPath(Part displayPart, METE_Download_Upload_Path cMETE_Download_Upload_Path, ListView listView1, ref Dictionary<string, PartDirData> DicPartDirData)
+        public static bool GetComponentPath(Part displayPart, METE_Download_Upload_Path cMETE_Download_Upload_Path, ListView listView1, out List<string> TEDownloadText, ref Dictionary<string, PartDirData> DicPartDirData)
         {
+            TEDownloadText = new List<string>();
             try
             {
                 PartDirData sPartDirData = new PartDirData();
@@ -75,6 +76,16 @@ namespace MEUpload
                         sPartDirData.PartServer1Dir = ServerPartPath;
                         DicPartDirData.Add(i.DisplayName, sPartDirData);
                         listView1.Items.Add(i.DisplayName + ".prt");
+                    }
+                    //判斷檔案是否為_MEXXX，如果有就取得他的子comp並記錄起來要寫到TE的下載文檔中
+                    if (i.DisplayName.Contains("_ME_" + MEUploadDlg.sPartInfo.OpNum))
+                    {
+                        List<NXOpen.Assemblies.Component> listComp = new List<NXOpen.Assemblies.Component>();
+                        CaxAsm.GetCompChildren(out listComp, i);
+                        foreach (NXOpen.Assemblies.Component j in listComp)
+                        {
+                            TEDownloadText.Add(j.DisplayName + ".prt");
+                        }
                     }
                     //sPartDirData.PartServer2Dir = string.Format(@"{0}\{1}", cMETE_Download_Upload_Path.Server_ShareStr, "OP" + PartInfo.OIS);
                 }

@@ -30,7 +30,8 @@ namespace MEUpload
         public static Dictionary<string, Function.PartDirData> DicPartDirData = new Dictionary<string, Function.PartDirData>();
         public static ExcelDirData sExcelDirData = new ExcelDirData();
         public static ISession session = MyHibernateHelper.SessionFactory.OpenSession();
-        public PartInfo sPartInfo = new PartInfo();
+        public static PartInfo sPartInfo = new PartInfo();
+        public static List<string> TEDownloadText = new List<string>();
         public static bool status;
 
         
@@ -99,7 +100,7 @@ namespace MEUpload
 
 
             //處理Part的路徑
-            status = Function.GetComponentPath(displayPart, cMETE_Download_Upload_Path, listView1, ref DicPartDirData);
+            status = Function.GetComponentPath(displayPart, cMETE_Download_Upload_Path, listView1, out TEDownloadText, ref DicPartDirData);
             if (!status)
             {
                 MessageBox.Show("零件路徑取得失敗，無法上傳");
@@ -264,7 +265,18 @@ namespace MEUpload
                 return;
             }
             System.IO.File.WriteAllLines(string.Format(@"{0}\{1}\{2}", cMETE_Download_Upload_Path.Server_ShareStr, "OP" + sPartInfo.OpNum, "PartNameText_OIS.txt"), ListPartName.ToArray());
-            
+            //新增TE的下載文件
+            if (TEDownloadText.Count > 0)
+            {
+                string PartNameText_CAM = string.Format(@"{0}\{1}\{2}", cMETE_Download_Upload_Path.Server_ShareStr, "OP" + sPartInfo.OpNum, "PartNameText_CAM.txt");
+                foreach (string i in TEDownloadText)
+                {
+                    using (StreamWriter sw = File.AppendText(PartNameText_CAM))
+                    {
+                        sw.WriteLine(i);
+                    }
+                }
+            }
 
             #region (註解)Excel上傳
             /*
