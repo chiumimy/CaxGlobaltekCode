@@ -42,8 +42,8 @@ namespace OutputExcelForm
             //public static string env = "\\\\192.168.35.1\\cax\\Globaltek";
 
             //發佈
-            //public static string env = CaxEnv.GetGlobaltekEnvDir();
-            //public static string env_Task = CaxEnv.GetGlobaltekTaskDir();
+            public static string env = CaxEnv.GetGlobaltekEnvDir();
+            public static string env_Task = CaxEnv.GetGlobaltekTaskDir();
             //本機
             //public static string env = "D:\\cax\\Globaltek";
             //public static string env_Task = "D:\\cax\\Globaltek\\Task";
@@ -51,8 +51,8 @@ namespace OutputExcelForm
             //public static string env = "\\\\192.168.35.1\\cax\\Globaltek";
             //public static string env_Task = "\\\\192.168.35.1\\cax\\Globaltek\\Task";
             //新屋10.0
-            public static string env = "\\\\192.168.35.1\\cax\\Globaltek";
-            public static string env_Task = "\\\\192.168.35.1\\cax\\Globaltek\\Task_NX10";
+            //public static string env = "\\\\192.168.35.1\\cax\\Globaltek";
+            //public static string env_Task = "\\\\192.168.35.1\\cax\\Globaltek\\Task_NX10";
         }
 //         public string partNoComboboxText
 //         {

@@ -24,8 +24,8 @@ namespace CaxGlobaltek
                         Configuration configuration = new Configuration();
                         //configuration.Configure();//預設抓目錄下的hibernate.cfg.xml
                         //或者給絕對路徑↓
-                        //string xmppath = string.Format(@"{0}\{1}", CaxEnv.GetGlobaltekEnvDir(), "hibernate.cfg.xml");
-                        string xmppath = string.Format(@"{0}\{1}", "\\\\192.168.35.1\\cax", "hibernate.cfg.xml");
+                        string xmppath = string.Format(@"{0}\{1}", CaxEnv.GetGlobaltekEnvDir(), "hibernate.cfg.xml");
+                        //string xmppath = string.Format(@"{0}\{1}", "\\\\192.168.35.1\\cax", "hibernate.cfg.xml");
                         
                         configuration.Configure(xmppath);
                         //configuration.AddAssembly(Assembly.GetExecutingAssembly());
