@@ -91,6 +91,8 @@ namespace AddDeleteDB
         {
             try
             {
+                //使用BeginUpdate,減少控制項的重繪頻率,降低系統的負擔.
+                AdvTree.BeginUpdate();
                 foreach (KeyValuePair<string, List<string>> kvp in DicData)
                 {
                     Node node1 = new Node();
@@ -105,6 +107,7 @@ namespace AddDeleteDB
                     }
                     AdvTree.Nodes.Add(node1);
                 }
+                AdvTree.EndUpdate();
             }
             catch (System.Exception ex)
             {

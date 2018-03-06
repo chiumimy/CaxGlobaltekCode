@@ -177,7 +177,7 @@ namespace AddDeleteDB
                 {
                     #region 取得製程別
                     DicOperation2 = new Dictionary<string, List<string>>();
-                    Op2Tree.BeginUpdate();
+                    //Op2Tree.BeginUpdate();
                     status = Operation2.GetOperation2Data(out DicOperation2);
                     if (!status)
                     {
@@ -197,14 +197,14 @@ namespace AddDeleteDB
                         return;
                     }
 
-                    Op2Tree.EndUpdate();
+                    //Op2Tree.EndUpdate();
                     #endregion
                 }
                 else if (TabControl.SelectedTab.Text == "材質")
                 {
                     #region 取得材質
                     DicMaterial = new Dictionary<string, List<string>>();
-                    MaterialTree.BeginUpdate();
+                    //MaterialTree.BeginUpdate();
                     status = Material.GetMaterialData(out DicMaterial);
                     if (!status)
                     {
@@ -224,7 +224,7 @@ namespace AddDeleteDB
                         return;
                     }
 
-                    MaterialTree.EndUpdate();
+                    //MaterialTree.EndUpdate();
                     #endregion
                 }
                 else if (TabControl.SelectedTab.Text == "量具")
@@ -248,7 +248,7 @@ namespace AddDeleteDB
                 {
                     #region 取得機台型號
                     DicMachine = new Dictionary<string, List<MachineNoData>>();
-                    MachineTree.BeginUpdate();
+                    //MachineTree.BeginUpdate();
                     status = Machine.GetMachineData(out DicMachine);
                     if (!status)
                     {
@@ -275,7 +275,7 @@ namespace AddDeleteDB
                         }
                         MachineTree.Nodes.Add(node1);
                     }
-                    MachineTree.EndUpdate();
+                    //MachineTree.EndUpdate();
                     #endregion
                 }
                 else if (TabControl.SelectedTab.Text == "尺寸類型")
