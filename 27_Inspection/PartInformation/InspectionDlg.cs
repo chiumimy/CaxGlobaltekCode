@@ -742,7 +742,7 @@ namespace PartInformation
                         Point3d TextPt = new Point3d();
                         string FontSize = "";
                         Functions.GetTextPos(sDrafting, kvp.Key, kvp.Value, PartUnitText.Text, out TextPt, out FontSize);
-                        Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
+                        Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidCenter);
                     }
                     #endregion
 
@@ -752,7 +752,7 @@ namespace PartInformation
                         Point3d TextPt = new Point3d();
                         string FontSize = "";
                         Functions.GetTextPos(sDrafting, kvp.Key, kvp.Value, PartUnitText.Text, out TextPt, out FontSize);
-                        Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
+                        Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidCenter);
                     }
                     #endregion
 
@@ -762,7 +762,7 @@ namespace PartInformation
                         Point3d TextPt = new Point3d();
                         string FontSize = "";
                         Functions.GetTextPos(sDrafting, kvp.Key, kvp.Value, PartUnitText.Text, out TextPt, out FontSize);
-                        Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
+                        Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidCenter);
                     }
                     #endregion
 
