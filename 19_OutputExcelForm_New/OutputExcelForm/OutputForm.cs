@@ -469,17 +469,21 @@ namespace OutputExcelForm
                 {
                     Directory.CreateDirectory(ExcelFolder);
                 }
-                foreach (GridRow gridRow1 in OutputForm.FixInsPanel.Rows)
+                foreach (GridRow i in OutputForm.FixInsPanel.Rows)
                 {
-                    if (!(gridRow1.GetCell(1).Value.ToString() == "PDF") || !(bool)gridRow1.GetCell(0).Value)
+                    //if (!(gridRow1.GetCell(1).Value.ToString() == "PDF") || !(bool)gridRow1.GetCell(0).Value)
+                    //{
+                    //    continue;
+                    //}
+                    if (!i.GetCell(1).Value.ToString().Contains(".pdf"))
                     {
                         continue;
                     }
-                    CopyNC.CopyFixOISPDFToDesktop(this.CusComboBox.Text, this.PartNoCombobox.Text, this.CusVerCombobox.Text, this.OpVerCombobox.Text, this.Op1Combobox.Text, gridRow1.GetCell(2).Value.ToString());
+                    CopyNC.CopyFixOISPDFToDesktop(this.CusComboBox.Text, this.PartNoCombobox.Text, this.CusVerCombobox.Text, this.OpVerCombobox.Text, this.Op1Combobox.Text, i.GetCell(1).Value.ToString());
                 }
                 foreach (GridRow i in FixInsPanel.Rows)
                 {
-                    if (((bool)i.GetCell(0).Value) != true || i.GetCell(1).Value.ToString() == "PDF")
+                    if (((bool)i.GetCell(0).Value) != true || i.GetCell(1).Value.ToString().Contains(".pdf")/*|| i.GetCell(1).Value.ToString() == "PDF"*/)
                     {
                         continue;
                     }

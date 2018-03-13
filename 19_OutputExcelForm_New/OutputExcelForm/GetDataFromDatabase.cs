@@ -577,13 +577,20 @@ namespace OutputExcelForm
             try
             {
                 IList<Com_FixInspection> listComFixIns = session.QueryOver<Com_FixInspection>().Where(x => x.comPartOperation == comPartOperation).List();
-                int FixInsCount = -1;
+                //int FixInsCount = -1;
                 foreach (Com_FixInspection i in listComFixIns)
                 {
-                    FixInsCount++;
+                    //FixInsCount++;
                     object[] o = new object[] { false, i.fixPartName, i.fixinsDescription, i.fixinsNo, i.fixinsERP};
                     FixInsPanel.Rows.Add(new GridRow(o));
-                    FixInsPanel.GetCell(FixInsCount, 0).Value = false;
+                    //FixInsPanel.GetCell(FixInsCount, 0).Value = false;
+                    string pdfString = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}\{6}\{7}", OutputForm.EnvVariables.env_Task, cus, partNo, cusVer, opVer, "OP" + op1, "OIS", i.fixPartName);
+                    string[] pdfFiles = System.IO.Directory.GetFileSystemEntries(pdfString, "*.pdf");
+                    if (pdfFiles.Length > 0)
+                    {
+                        o = new object[] { false, i.fixPartName + ".pdf", "", "", "" };
+                        FixInsPanel.Rows.Add(new GridRow(o));
+                    }
                 }
             }
             catch (System.Exception ex)

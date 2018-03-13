@@ -49,15 +49,16 @@ namespace OutputExcelForm.Excel
             }
             return true;
         }
-        public static bool CopyFixOISPDFToDesktop(string cus, string partNo, string cusVer, string opVer, string op1, string sheet)
+        public static bool CopyFixOISPDFToDesktop(string cus, string partNo, string cusVer, string opVer, string op1, string fileName)
         {
             bool flag;
             try
             {
-                object[] envTask = new object[] { OutputForm.EnvVariables.env_Task, cus, partNo, cusVer, opVer, string.Concat("OP", op1), "OIS", sheet, sheet };
-                string str = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}\{6}\{7}\{8}.pdf", envTask);
-                object[] folderPath = new object[] { Environment.GetFolderPath(Environment.SpecialFolder.Desktop), partNo, cusVer, opVer, sheet };
-                File.Copy(str, string.Format(@"{0}\{1}_{2}_{3}\{4}.pdf", folderPath), true);
+                string S_PDF = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}\{6}\{7}\{8}", OutputForm.EnvVariables.env_Task, cus, partNo, cusVer, opVer, string.Concat("OP", op1), "OIS", Path.GetFileNameWithoutExtension(fileName), fileName);
+                //object[] envTask = new object[] { OutputForm.EnvVariables.env_Task, cus, partNo, cusVer, opVer, string.Concat("OP", op1), "OIS", sheet, sheet };
+                //string str = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}\{6}\{7}\{8}.pdf", envTask);
+                object[] folderPath = new object[] { Environment.GetFolderPath(Environment.SpecialFolder.Desktop), partNo, cusVer, opVer, fileName };
+                File.Copy(S_PDF, string.Format(@"{0}\{1}_{2}_{3}\{4}", folderPath), true);
                 return true;
             }
             catch (Exception exception)
