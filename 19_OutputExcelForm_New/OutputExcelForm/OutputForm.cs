@@ -471,15 +471,10 @@ namespace OutputExcelForm
                 }
                 foreach (GridRow i in OutputForm.FixInsPanel.Rows)
                 {
-                    //if (!(gridRow1.GetCell(1).Value.ToString() == "PDF") || !(bool)gridRow1.GetCell(0).Value)
-                    //{
-                    //    continue;
-                    //}
-                    if (!i.GetCell(1).Value.ToString().Contains(".pdf"))
+                    if (i.GetCell(1).Value.ToString().Contains(".pdf") && (bool)i.GetCell(0).Value)
                     {
-                        continue;
+                        CopyNC.CopyFixOISPDFToDesktop(this.CusComboBox.Text, this.PartNoCombobox.Text, this.CusVerCombobox.Text, this.OpVerCombobox.Text, this.Op1Combobox.Text, i.GetCell(1).Value.ToString());
                     }
-                    CopyNC.CopyFixOISPDFToDesktop(this.CusComboBox.Text, this.PartNoCombobox.Text, this.CusVerCombobox.Text, this.OpVerCombobox.Text, this.Op1Combobox.Text, i.GetCell(1).Value.ToString());
                 }
                 foreach (GridRow i in FixInsPanel.Rows)
                 {
