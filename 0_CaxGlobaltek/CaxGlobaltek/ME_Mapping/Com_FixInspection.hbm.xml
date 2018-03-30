@@ -16,7 +16,7 @@ License Type: Evaluation
     <property name="fixinsDescription" column="fixinsDescription" type="String" length="255" not-null="true"/>
     <property name="fixinsERP" column="fixinsERP" type="String" length="255" not-null="true"/>
     <property name="fixinsNo" column="fixinsNo" type="String" length="255" not-null="true"/>
-    <property name="fixPicPath" column="fixPicPath" type="String" length="255" not-null="true"/>
+    <property name="fixPicPath" column="fixPicPath" type="String" length="255" not-null="false"/>
     <property name="fixPartName" column="fixPartName" type="String" length="255" not-null="true"/>
     <many-to-one name="comPartOperation" column="partOperationSrNo" class="Com_PartOperation" not-null="true" lazy="proxy">
     </many-to-one>
