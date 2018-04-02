@@ -1868,7 +1868,7 @@ namespace CaxGlobaltek
                 {
                     dimenUnicode = dimenUnicode + TransUni(singleDimen.materialModifier);
                 }
-                if (singleDimen.primaryDatum != "" & singleDimen.primaryDatum != null & singleDimen.primaryDatum != "None")
+                if (singleDimen.primaryDatum != "" & singleDimen.primaryDatum != null & singleDimen.primaryDatum != "None" & singleDimen.primaryDatum != "X")
                 {
                     dimenUnicode = dimenUnicode + "|";
                     dimenUnicode = dimenUnicode + singleDimen.primaryDatum;
@@ -1880,11 +1880,11 @@ namespace CaxGlobaltek
                         dimenUnicode = dimenUnicode + "|";
                     }
                 }
-                if (singleDimen.primaryMaterialModifier != "" & singleDimen.primaryMaterialModifier != null & singleDimen.primaryMaterialModifier != "None")
+                if (singleDimen.primaryMaterialModifier != "" & singleDimen.primaryMaterialModifier != null & singleDimen.primaryMaterialModifier != "None" & singleDimen.primaryMaterialModifier != "X")
                 {
                     dimenUnicode = dimenUnicode + TransUni(singleDimen.primaryMaterialModifier);
                 }
-                if (singleDimen.secondaryDatum != "" & singleDimen.secondaryDatum != null & singleDimen.secondaryDatum != "None")
+                if (singleDimen.secondaryDatum != "" & singleDimen.secondaryDatum != null & singleDimen.secondaryDatum != "None" & singleDimen.secondaryDatum != "X")
                 {
                     dimenUnicode = dimenUnicode + "|";
                     dimenUnicode = dimenUnicode + singleDimen.secondaryDatum;
@@ -1896,11 +1896,11 @@ namespace CaxGlobaltek
                         dimenUnicode = dimenUnicode + "|";
                     }
                 }
-                if (singleDimen.secondaryMaterialModifier != "" & singleDimen.secondaryMaterialModifier != null & singleDimen.secondaryMaterialModifier != "None")
+                if (singleDimen.secondaryMaterialModifier != "" & singleDimen.secondaryMaterialModifier != null & singleDimen.secondaryMaterialModifier != "None" & singleDimen.secondaryMaterialModifier != "X")
                 {
                     dimenUnicode = dimenUnicode + TransUni(singleDimen.secondaryMaterialModifier);
                 }
-                if (singleDimen.tertiaryDatum != "" & singleDimen.tertiaryDatum != null & singleDimen.tertiaryDatum != "None")
+                if (singleDimen.tertiaryDatum != "" & singleDimen.tertiaryDatum != null & singleDimen.tertiaryDatum != "None" & singleDimen.tertiaryDatum != "X")
                 {
                     dimenUnicode = dimenUnicode + "|";
                     dimenUnicode = dimenUnicode + singleDimen.tertiaryDatum;
@@ -1912,7 +1912,7 @@ namespace CaxGlobaltek
                         dimenUnicode = dimenUnicode + "|";
                     }
                 }
-                if (singleDimen.tertiaryMaterialModifier != "" & singleDimen.tertiaryMaterialModifier != null & singleDimen.tertiaryMaterialModifier != "None")
+                if (singleDimen.tertiaryMaterialModifier != "" & singleDimen.tertiaryMaterialModifier != null & singleDimen.tertiaryMaterialModifier != "None" & singleDimen.tertiaryMaterialModifier != "X")
                 {
                     dimenUnicode = dimenUnicode + TransUni(singleDimen.tertiaryMaterialModifier);
                 }

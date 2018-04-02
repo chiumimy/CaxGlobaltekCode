@@ -122,7 +122,9 @@
       <SubType>Designer</SubType>
     </Content>
     <EmbeddedResource Include="ME_Mapping\Com_FixDimension.hbm.xml" />
-    <EmbeddedResource Include="ME_Mapping\Com_FixInspection.hbm.xml" />
+    <EmbeddedResource Include="ME_Mapping\Com_FixInspection.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="LicenseRecord\Sys_NX9License.hbm.xml" />
     <EmbeddedResource Include="LicenseRecord\Sys_User.hbm.xml" />
     <EmbeddedResource Include="LicenseRecord\Sys_AVMLicense.hbm.xml">
