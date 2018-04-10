@@ -609,11 +609,14 @@ namespace OutputExcelForm.Excel
                                 start++;
                             }
                         }
-                        if (Convert.ToDouble(cCom_Dimension.lowTolerance) * 10000 > 0)
+                        if (Math.Abs(Convert.ToDouble(cCom_Dimension.upTolerance)) * 10000 > 0 && Convert.ToDouble(cCom_Dimension.lowTolerance) * 10000 > 0)
                         {
                             text = text + "/";
                             TranslateWords.Add(start, false);
                             start++;
+                        }
+                        if (Convert.ToDouble(cCom_Dimension.lowTolerance) * 10000 > 0)
+                        {
                             //表示有下公差，所以加入-到字串中，所以在TranslateWords中必須加一次資訊
                             //如果遇到下公差是+的，則不能加-
                             if (cCom_Dimension.lowTolerance.Contains('+'))

@@ -2690,9 +2690,27 @@ namespace CaxGlobaltek
                 if (splitTol.Length > 1)
                 {
                     upperTol = splitTol[0].Remove(0, 2);
-                    upperTol = upperTol.Replace("+", "");
+                    if (upperTol == "")
+                    {
+                        //當遇到使用單一下公差時，上公差填0
+                        upperTol = "0";
+                    }
+                    else
+                    {
+                        upperTol = upperTol.Replace("+", "");
+                    }
+                    
                     lowerTol = splitTol[1].Remove(splitTol[1].Length - 1);
-                    lowerTol = lowerTol.Replace("-", "");
+                    if (lowerTol == "")
+                    {
+                        //當遇到使用單一上公差時，下公差填0
+                        lowerTol = "0";
+                    }
+                    else
+                    {
+                        lowerTol = lowerTol.Replace("-", "");
+                    }
+                    
                 }
                 else if (splitTol[0].Contains("<$t>"))
                 {
