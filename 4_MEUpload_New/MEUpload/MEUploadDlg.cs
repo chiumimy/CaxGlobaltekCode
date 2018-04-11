@@ -398,7 +398,7 @@ namespace MEUpload
             }
             
             #region 取得所有量測尺寸資料
-            
+            /*
             //取得泡泡特徵，並記錄總共有幾個泡泡，後續比對數量用
             IdSymbolCollection BallonCollection = workPart.Annotations.IdSymbols;
             IdSymbol[] BallonAry = BallonCollection.ToArray();
@@ -429,11 +429,9 @@ namespace MEUpload
                     {
                         FirstSheet = CurrentSheet;
                     }
-                    //listDrawingSheet.Add(CurrentSheet);
                     CurrentSheet.Open();
                     CurrentSheet.View.UpdateDisplay();
                     DisplayableObject[] SheetObj = CurrentSheet.View.AskVisibleObjects();
-                    //status = Function.RecordDimension(SheetObj, sWorkPartAttribute, ref Database.listDimensionData);
                     status = CaxME.RecordDimension(SheetObj, sWorkPartAttribute, ref listDimensionData);
                     if (!status)
                     {
@@ -441,8 +439,6 @@ namespace MEUpload
                         return;
                     }
                 }
-                
-                
                 foreach (CaxME.DimensionData i in listDimensionData)
                 {
                     if (!listBalloonCount.Contains(i.ballonNum))
@@ -450,8 +446,29 @@ namespace MEUpload
                         listBalloonCount.Add(i.ballonNum);
                     }
                 }
+                
             }
-
+            */
+            List<CaxME.DimensionData> listDimensionData = new List<CaxME.DimensionData>();
+            NXOpen.Drawings.DrawingSheet FirstSheet = null;
+            for (int i = 0; i < SheetCount; i++)
+            {
+                //打開Sheet並記錄所有OBJ
+                NXOpen.Drawings.DrawingSheet CurrentSheet = (NXOpen.Drawings.DrawingSheet)NXObjectManager.Get(SheetTagAry[i]);
+                if (CurrentSheet.Name == "S1")
+                {
+                    FirstSheet = CurrentSheet;
+                }
+                CurrentSheet.Open();
+                CurrentSheet.View.UpdateDisplay();
+                DisplayableObject[] SheetObj = CurrentSheet.View.AskVisibleObjects();
+                status = CaxME.RecordDimension(SheetObj, sWorkPartAttribute, ref listDimensionData);
+                if (!status)
+                {
+                    this.Close();
+                    return;
+                }
+            }
             #endregion
 
           
