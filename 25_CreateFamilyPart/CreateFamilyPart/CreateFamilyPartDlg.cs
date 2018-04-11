@@ -539,16 +539,17 @@ namespace CreateFamilyPart
 
 
                 //新邏輯測試
-                //1.料號一樣，製程版次一樣，成品、胚料檔名一樣，客戶版次(品名、材質可能不同)不一樣->整套模型複製其餘不動
-                //2.料號一樣，製程版次一樣，成品、胚料檔名不一樣，客戶版次(品名、材質可能不同)不一樣->不換MOT名稱，成品變更，胚料變更，其餘不動
-                //3.料號一樣，製程版次不一樣，成品、胚料檔名一樣，客戶版次隨意->更換MOT名稱，成品不換，胚料不換
-                //4.料號一樣，製程版次不一樣，成品、胚料檔名不一樣，客戶版次隨意->更換MOT名稱，成品變更，胚料變更
-                //5.料號不一樣，製程版次一樣，成品、胚料檔名一樣，客戶版次隨意->整套檔案變更不換MOT名稱，成品不換，胚料不換
-                //6.料號不一樣，製程版次一樣，成品、胚料檔名不一樣，客戶版次隨意->整套檔案變更不換MOT名稱，成品變更，胚料變更
-                //7.料號不一樣，製程版次不一樣，成品、胚料檔名一樣，客戶版次隨意->整套檔案變更，成品不換，胚料不換
-                //8.料號不一樣，製程版次不一樣，成品、胚料檔名不一樣，客戶版次隨意->整套檔案變更，成品變更，胚料變更
+                //1.01料號一樣，製程版次一樣，成品、胚料檔名一樣，客戶版次(品名、材質可能不同)不一樣->整套模型複製其餘不動
+                //1.02料號一樣，製程版次一樣，成品、胚料檔名不一樣，客戶版次(品名、材質可能不同)不一樣->不換MOT名稱，成品變更，胚料變更，其餘不動
+                //1.03料號一樣，製程版次不一樣，成品、胚料檔名一樣，客戶版次隨意->更換MOT名稱，成品不換，胚料不換
+                //1.04料號一樣，製程版次不一樣，成品、胚料檔名不一樣，客戶版次隨意->更換MOT名稱，成品變更，胚料變更
+                //1.05料號一樣，製程版次一樣，成品不一樣，胚料一樣，客戶版次隨意->不換MOT名稱，成品變更，胚料不變
+                //2.01料號不一樣，製程版次一樣，成品、胚料檔名一樣，客戶版次隨意->整套檔案變更不換MOT名稱，成品不換，胚料不換
+                //2.02料號不一樣，製程版次一樣，成品、胚料檔名不一樣，客戶版次隨意->整套檔案變更不換MOT名稱，成品變更，胚料變更
+                //2.03料號不一樣，製程版次不一樣，成品、胚料檔名一樣，客戶版次隨意->整套檔案變更，成品不換，胚料不換
+                //2.04料號不一樣，製程版次不一樣，成品、胚料檔名不一樣，客戶版次隨意->整套檔案變更，成品變更，胚料變更
 
-                #region 1.料號一樣，製程版次一樣，成品、胚料檔名一樣，客戶版次(品名、材質可能不同)不一樣->整套模型複製其餘不動
+                #region 1.01料號一樣，製程版次一樣，成品、胚料檔名一樣，客戶版次(品名、材質可能不同)不一樣->整套模型複製其餘不動
                 if (New_PartNo.Text.ToUpper() == Old_PartNo.Text.ToUpper() && 
                     Old_OpRev.Text.ToUpper() == New_OpRev.Text.ToUpper() && 
                     Old_PartFile.Text.ToUpper() == Path.GetFileNameWithoutExtension(New_PartFile.Text).ToUpper() &&
@@ -557,7 +558,7 @@ namespace CreateFamilyPart
                     goto SaveMOT;
                 }
                 #endregion
-                #region 2.料號一樣，製程版次一樣，成品、胚料檔名不一樣，客戶版次(品名、材質可能不同)不一樣->不換MOT名稱，成品變更，胚料變更，其餘不動
+                #region 1.02料號一樣，製程版次一樣，成品、胚料檔名不一樣，客戶版次(品名、材質可能不同)不一樣->不換MOT名稱，成品變更，胚料變更，其餘不動
                 else if (New_PartNo.Text.ToUpper() == Old_PartNo.Text.ToUpper() &&
                          Old_OpRev.Text.ToUpper() == New_OpRev.Text.ToUpper() &&
                          Old_PartFile.Text.ToUpper() != Path.GetFileNameWithoutExtension(New_PartFile.Text).ToUpper() &&
@@ -707,7 +708,7 @@ namespace CreateFamilyPart
                     }
                 }
                 #endregion
-                #region 3.料號一樣，製程版次不一樣，成品、胚料檔名一樣，客戶版次隨意->更換MOT的版次名稱，成品不換，胚料不換
+                #region 1.03料號一樣，製程版次不一樣，成品、胚料檔名一樣，客戶版次隨意->更換MOT的版次名稱，成品不換，胚料不換
                 else if (New_PartNo.Text.ToUpper() == Old_PartNo.Text.ToUpper() &&
                          Old_OpRev.Text.ToUpper() != New_OpRev.Text.ToUpper() &&
                          Old_PartFile.Text.ToUpper() == Path.GetFileNameWithoutExtension(New_PartFile.Text).ToUpper() &&
@@ -816,7 +817,7 @@ namespace CreateFamilyPart
                     }
                 }
                 #endregion
-                #region 4.料號一樣，製程版次不一樣，成品、胚料檔名不一樣，客戶版次隨意->更換MOT的版次名稱，成品變更，胚料變更
+                #region 1.04料號一樣，製程版次不一樣，成品、胚料檔名不一樣，客戶版次隨意->更換MOT的版次名稱，成品變更，胚料變更
                 else if (New_PartNo.Text.ToUpper() == Old_PartNo.Text.ToUpper() &&
                          Old_OpRev.Text.ToUpper() != New_OpRev.Text.ToUpper() &&
                          Old_PartFile.Text.ToUpper() != Path.GetFileNameWithoutExtension(New_PartFile.Text).ToUpper() &&
@@ -971,7 +972,127 @@ namespace CreateFamilyPart
                     }
                 }
                 #endregion
-                #region 5.料號不一樣，製程版次一樣，成品、胚料檔名一樣，客戶版次隨意->整套檔名變更，成品不換，胚料不換
+                #region 1.05料號一樣，製程版次一樣，成品不一樣，胚料一樣，客戶版次隨意->不換MOT名稱，成品變更，胚料不變
+                else if (New_PartNo.Text.ToUpper() == Old_PartNo.Text.ToUpper() &&
+                        Old_OpRev.Text.ToUpper() == New_OpRev.Text.ToUpper() &&
+                        Old_PartFile.Text.ToUpper() != Path.GetFileNameWithoutExtension(New_PartFile.Text).ToUpper() &&
+                        Old_BilletFile.Text.ToUpper() == Path.GetFileNameWithoutExtension(New_BilletFile.Text).ToUpper())
+                {
+                    //紀錄OwningComponent
+                    Dictionary<NXOpen.Assemblies.Component, List<string>> DicOwningCompME = new Dictionary<NXOpen.Assemblies.Component, List<string>>();
+                    Dictionary<NXOpen.Assemblies.Component, List<string>> DicOwningCompTE = new Dictionary<NXOpen.Assemblies.Component, List<string>>();
+                    foreach (NXOpen.Assemblies.Component i in ListChildrenComp)
+                    {
+                        string PartName = "";
+                        PartName = i.DisplayName;
+                        if (keepMETE.Checked == true)
+                        {
+                            //料號相同且保留，不做事
+                        }
+                        else
+                        {
+                            //料號相同且不保留，須刪除檔案再save，再組空檔案
+                            if (PartName.Contains(Old_PartNo.Text + "_TE"))
+                            {
+                                #region 紀錄TE的OwningComponent，並刪除TE檔案
+                                PartName = PartName.Replace(Old_PartNo.Text, New_PartNo.Text);
+                                string NewPartFilePath = string.Format(@"{0}\{1}.prt", S_NewPart_Folder, PartName);
+
+                                List<string> listTEName = new List<string>();
+                                status = DicOwningCompTE.TryGetValue(i.OwningComponent, out listTEName);
+                                if (!status)
+                                {
+                                    listTEName = new List<string>();
+                                }
+                                listTEName.Add(NewPartFilePath);
+                                DicOwningCompTE[i.OwningComponent] = listTEName;
+
+                                try
+                                {
+                                    if (File.Exists(((Part)i.Prototype).FullPath))
+                                        File.Delete(((Part)i.Prototype).FullPath);
+                                }
+                                catch (System.Exception ex)
+                                {
+
+                                }
+                                CaxPublic.DelectObject(i);
+                                CaxPart.ClosePartMemory(PartName);
+
+                                //AddEmptyComponent(NewPartFilePath);
+                                continue;
+                                #endregion
+                            }
+                            if (PartName.Contains(Old_PartNo.Text + "_ME"))
+                            {
+                                #region 紀錄ME的OwningComponent，並刪除ME檔案
+                                PartName = PartName.Replace(Old_PartNo.Text, New_PartNo.Text);
+                                string NewPartFilePath = string.Format(@"{0}\{1}.prt", S_NewPart_Folder, PartName);
+
+                                List<string> listMEName = new List<string>();
+                                status = DicOwningCompME.TryGetValue(i.OwningComponent, out listMEName);
+                                if (!status)
+                                {
+                                    listMEName = new List<string>();
+                                }
+                                listMEName.Add(NewPartFilePath);
+                                DicOwningCompME[i.OwningComponent] = listMEName;
+
+                                try
+                                {
+                                    if (File.Exists(((Part)i.Prototype).FullPath))
+                                        File.Delete(((Part)i.Prototype).FullPath);
+                                }
+                                catch (System.Exception ex)
+                                {
+
+                                }
+
+                                CaxPublic.DelectObject(i);
+                                CaxPart.ClosePartMemory(PartName);
+
+                                //AddEmptyComponent(NewPartFilePath);
+                                continue;
+                                #endregion
+                            }
+                        }
+                        if (PartName.ToUpper() == Old_PartFile.Text.ToUpper() && Old_PartFile.Text != Path.GetFileNameWithoutExtension(New_PartFile.Text))
+                        {
+                            #region 建立新的成品檔案名稱
+                            PartName = PartName.Replace(Old_PartFile.Text, New_PartFile.Text);
+                            string NewPartFilePath = string.Format(@"{0}\{1}", S_NewPart_Folder, PartName);
+                            desPartFilePath = NewPartFilePath;
+                            CaxAsm.SetWorkComponent(i.OwningComponent);
+                            if (File.Exists(((Part)i.Prototype).FullPath))
+                            {
+                                File.Delete(((Part)i.Prototype).FullPath);
+                            }
+                            CaxPublic.DelectObject(i);
+                            AddExistComponent(souPartFilePath, NewPartFilePath);
+                            continue;
+                            #endregion
+                        }
+                    }
+                    //開始組裝TE、ME檔案
+                    foreach (KeyValuePair<NXOpen.Assemblies.Component, List<string>> kvp in DicOwningCompME)
+                    {
+                        CaxAsm.SetWorkComponent(kvp.Key);
+                        foreach (string i in kvp.Value)
+                        {
+                            AddEmptyComponent(i);
+                        }
+                    }
+                    foreach (KeyValuePair<NXOpen.Assemblies.Component, List<string>> kvp in DicOwningCompTE)
+                    {
+                        CaxAsm.SetWorkComponent(kvp.Key);
+                        foreach (string i in kvp.Value)
+                        {
+                            AddEmptyComponent(i);
+                        }
+                    }
+                }
+                #endregion
+                #region 2.01料號不一樣，製程版次一樣，成品、胚料檔名一樣，客戶版次隨意->整套檔名變更，成品不換，胚料不換
                 else if (New_PartNo.Text.ToUpper() != Old_PartNo.Text.ToUpper() &&
                          Old_OpRev.Text.ToUpper() == New_OpRev.Text.ToUpper() &&
                          Old_PartFile.Text.ToUpper() == Path.GetFileNameWithoutExtension(New_PartFile.Text).ToUpper() &&
@@ -1029,7 +1150,7 @@ namespace CreateFamilyPart
                     }
                 }
                 #endregion
-                #region 6.料號不一樣，製程版次一樣，成品、胚料檔名不一樣，客戶版次隨意->整套檔名變更，成品變更，胚料變更
+                #region 2.02料號不一樣，製程版次一樣，成品、胚料檔名不一樣，客戶版次隨意->整套檔名變更，成品變更，胚料變更
                 else if (New_PartNo.Text.ToUpper() != Old_PartNo.Text.ToUpper() &&
                          Old_OpRev.Text.ToUpper() == New_OpRev.Text.ToUpper() &&
                          Old_PartFile.Text.ToUpper() != Path.GetFileNameWithoutExtension(New_PartFile.Text).ToUpper() &&
@@ -1071,22 +1192,22 @@ namespace CreateFamilyPart
                                 #endregion
                             }
                         }
-                        if (PartName.Contains(Old_PartNo.Text + "_TE") || PartName.Contains(Old_PartNo.Text + "_ME"))
-                        {
-                            #region 建立新的TE、ME檔案名稱
-                            PartName = PartName.Replace(Old_PartNo.Text, New_PartNo.Text);
-                            string NewPartFilePath = string.Format(@"{0}\{1}.prt", S_NewPart_Folder, PartName);
-                            CaxAsm.SetWorkComponent(i.OwningComponent);
+                        //if (PartName.Contains(Old_PartNo.Text + "_TE") || PartName.Contains(Old_PartNo.Text + "_ME"))
+                        //{
+                        //    #region 建立新的TE、ME檔案名稱
+                        //    PartName = PartName.Replace(Old_PartNo.Text, New_PartNo.Text);
+                        //    string NewPartFilePath = string.Format(@"{0}\{1}.prt", S_NewPart_Folder, PartName);
+                        //    CaxAsm.SetWorkComponent(i.OwningComponent);
 
-                            if (File.Exists(((Part)i.Prototype).FullPath))
-                            {
-                                File.Delete(((Part)i.Prototype).FullPath);
-                            }
-                            CaxPublic.DelectObject(i);
-                            AddEmptyComponent(NewPartFilePath);
-                            continue;
-                            #endregion
-                        }
+                        //    if (File.Exists(((Part)i.Prototype).FullPath))
+                        //    {
+                        //        File.Delete(((Part)i.Prototype).FullPath);
+                        //    }
+                        //    CaxPublic.DelectObject(i);
+                        //    AddEmptyComponent(NewPartFilePath);
+                        //    continue;
+                        //    #endregion
+                        //}
                         if (PartName.ToUpper() == Old_PartFile.Text.ToUpper() && Old_PartFile.Text != Path.GetFileNameWithoutExtension(New_PartFile.Text))
                         {
                             #region 建立新的成品檔案名稱
@@ -1143,7 +1264,7 @@ namespace CreateFamilyPart
                     }
                 }
                 #endregion
-                #region 7.料號不一樣，製程版次不一樣，成品、胚料檔名一樣，客戶版次隨意->整套檔名變更，成品不換，胚料不換
+                #region 2.03料號不一樣，製程版次不一樣，成品、胚料檔名一樣，客戶版次隨意->整套檔名變更，成品不換，胚料不換
                 else if (New_PartNo.Text.ToUpper() != Old_PartNo.Text.ToUpper() &&
                          Old_OpRev.Text.ToUpper() != New_OpRev.Text.ToUpper() &&
                          Old_PartFile.Text.ToUpper() == Path.GetFileNameWithoutExtension(New_PartFile.Text).ToUpper() &&
@@ -1185,23 +1306,23 @@ namespace CreateFamilyPart
                                 #endregion
                             }
                         }
-                        if (PartName.Contains(Old_PartNo.Text + "_TE") || PartName.Contains(Old_PartNo.Text + "_ME"))
-                        {
-                            #region 建立新的TE、ME檔案名稱
-                            PartName = PartName.Replace(Old_PartNo.Text, New_PartNo.Text);
-                            string NewPartFilePath = string.Format(@"{0}\{1}.prt", S_NewPart_Folder, PartName);
-                            CaxAsm.SetWorkComponent(i.OwningComponent);
+                        //if (PartName.Contains(Old_PartNo.Text + "_TE") || PartName.Contains(Old_PartNo.Text + "_ME"))
+                        //{
+                        //    #region 建立新的TE、ME檔案名稱
+                        //    PartName = PartName.Replace(Old_PartNo.Text, New_PartNo.Text);
+                        //    string NewPartFilePath = string.Format(@"{0}\{1}.prt", S_NewPart_Folder, PartName);
+                        //    CaxAsm.SetWorkComponent(i.OwningComponent);
 
-                            if (File.Exists(((Part)i.Prototype).FullPath))
-                            {
-                                File.Delete(((Part)i.Prototype).FullPath);
-                            }
-                            CaxPublic.DelectObject(i);
-                            AddEmptyComponent(NewPartFilePath);
-                            continue;
-                            #endregion
-                        }
-                        if (PartName.Contains(Old_PartNo.Text) && PartName != Old_PartFile.Text & !PartName.Contains("_MOT_"))
+                        //    if (File.Exists(((Part)i.Prototype).FullPath))
+                        //    {
+                        //        File.Delete(((Part)i.Prototype).FullPath);
+                        //    }
+                        //    CaxPublic.DelectObject(i);
+                        //    AddEmptyComponent(NewPartFilePath);
+                        //    continue;
+                        //    #endregion
+                        //}
+                        if (PartName.Contains(Old_PartNo.Text) && PartName != Old_PartFile.Text && !PartName.Contains("_MOT_"))
                         {
                             #region 建立新的檔案名稱
                             PartName = PartName.Replace(Old_PartNo.Text, New_PartNo.Text);
@@ -1217,7 +1338,7 @@ namespace CreateFamilyPart
                     }
                 }
                 #endregion
-                #region 8.料號不一樣，製程版次不一樣，成品、胚料檔名不一樣，客戶版次隨意->整套檔名變更，成品變更，胚料變更
+                #region 2.04料號不一樣，製程版次不一樣，成品、胚料檔名不一樣，客戶版次隨意->整套檔名變更，成品變更，胚料變更
                 else if (New_PartNo.Text.ToUpper() != Old_PartNo.Text.ToUpper() &&
                          Old_OpRev.Text.ToUpper() != New_OpRev.Text.ToUpper() &&
                          Old_PartFile.Text.ToUpper() != Path.GetFileNameWithoutExtension(New_PartFile.Text).ToUpper() &&
@@ -1259,22 +1380,22 @@ namespace CreateFamilyPart
                                 #endregion
                             }
                         }
-                        if (PartName.Contains(Old_PartNo.Text + "_TE") || PartName.Contains(Old_PartNo.Text + "_ME"))
-                        {
-                            #region 建立新的TE、ME檔案名稱
-                            PartName = PartName.Replace(Old_PartNo.Text, New_PartNo.Text);
-                            string NewPartFilePath = string.Format(@"{0}\{1}.prt", S_NewPart_Folder, PartName);
-                            CaxAsm.SetWorkComponent(i.OwningComponent);
+                        //if (PartName.Contains(Old_PartNo.Text + "_TE") || PartName.Contains(Old_PartNo.Text + "_ME"))
+                        //{
+                        //    #region 建立新的TE、ME檔案名稱
+                        //    PartName = PartName.Replace(Old_PartNo.Text, New_PartNo.Text);
+                        //    string NewPartFilePath = string.Format(@"{0}\{1}.prt", S_NewPart_Folder, PartName);
+                        //    CaxAsm.SetWorkComponent(i.OwningComponent);
 
-                            if (File.Exists(((Part)i.Prototype).FullPath))
-                            {
-                                File.Delete(((Part)i.Prototype).FullPath);
-                            }
-                            CaxPublic.DelectObject(i);
-                            AddEmptyComponent(NewPartFilePath);
-                            continue;
-                            #endregion
-                        }
+                        //    if (File.Exists(((Part)i.Prototype).FullPath))
+                        //    {
+                        //        File.Delete(((Part)i.Prototype).FullPath);
+                        //    }
+                        //    CaxPublic.DelectObject(i);
+                        //    AddEmptyComponent(NewPartFilePath);
+                        //    continue;
+                        //    #endregion
+                        //}
                         if (PartName.ToUpper() == Old_PartFile.Text.ToUpper() && Old_PartFile.Text != Path.GetFileNameWithoutExtension(New_PartFile.Text))
                         {
                             #region 建立新的成品檔案名稱
@@ -1315,7 +1436,7 @@ namespace CreateFamilyPart
                             continue;
                             #endregion
                         }
-                        if (PartName.Contains(Old_PartNo.Text) && PartName != Old_PartFile.Text & !PartName.Contains("_MOT_"))
+                        if (PartName.Contains(Old_PartNo.Text) && PartName != Old_PartFile.Text && !PartName.Contains("_MOT_"))
                         {
                             #region 建立新的檔案名稱
                             PartName = PartName.Replace(Old_PartNo.Text, New_PartNo.Text);
