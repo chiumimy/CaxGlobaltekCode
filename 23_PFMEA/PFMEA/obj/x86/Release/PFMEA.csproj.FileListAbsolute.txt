@@ -77,3 +77,5 @@ D:\GlobalCode\23_PFMEA\PFMEA\obj\x86\Release\PFMEA.PotentialFailureMode.resource
 D:\GlobalCode\23_PFMEA\PFMEA\obj\x86\Release\PFMEA.Prevention.resources
 D:\GlobalCode\23_PFMEA\PFMEA\obj\x86\Release\PFMEA.Properties.Resources.resources
 D:\GlobalCode\23_PFMEA\PFMEA\obj\x86\Release\PFMEA.csproj.GenerateResource.Cache
+D:\NewSourceTree\23_PFMEA\PFMEA\obj\x86\Release\PFMEA.exe
+D:\NewSourceTree\23_PFMEA\PFMEA\obj\x86\Release\PFMEA.pdb
