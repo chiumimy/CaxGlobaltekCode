@@ -78,7 +78,7 @@ namespace OutputExcelForm.Excel
                 sRowColumn.DateRow = 4;
                 sRowColumn.DateColumn = 3;
 
-                int currentNo = (i % 12);
+                int currentNo = (i % 11);
 
                 int RowNo = 9;
 
@@ -248,7 +248,7 @@ namespace OutputExcelForm.Excel
                         Dicount++;
                     }
                 }
-                status = Excel_CommonFun.AddNewSheet(Dicount, 12, excelApp, workSheet);
+                status = Excel_CommonFun.AddNewSheet(Dicount, 11, excelApp, workSheet);
                 if (!status)
                 {
                     MessageBox.Show("建立Sheet頁失敗，請聯繫開發工程師");
@@ -272,7 +272,7 @@ namespace OutputExcelForm.Excel
                     {
                         count++;
                         GetExcelRowColumn(count, sDB_MEMain.factory, out sRowColumn);
-                        currentSheet_Value = (count / 12);
+                        currentSheet_Value = (count / 11);
                         if (currentSheet_Value == 0)
                         {
                             workSheet = (Worksheet)workBook.Sheets[1];
@@ -309,7 +309,7 @@ namespace OutputExcelForm.Excel
                         {
                             count++;
                             GetExcelRowColumn(count, sDB_MEMain.factory, out sRowColumn);
-                            currentSheet_Value = (count / 12);
+                            currentSheet_Value = (count / 11);
                             if (currentSheet_Value == 0)
                             {
                                 workSheet = (Worksheet)workBook.Sheets[1];
