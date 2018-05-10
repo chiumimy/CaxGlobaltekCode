@@ -511,9 +511,17 @@
             <param name="sPartInfo"></param>
             <returns></returns>
         </member>
-        <member name="M:CaxGlobaltek.CaxMEUpLoad.SplitFixPartFullPath(System.String)">
+        <member name="M:CaxGlobaltek.CaxMEUpLoad.SplitMEFixInsPartFullPath(System.String)">
             <summary>
-            拆解治具上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
+            拆解ME模檢治具上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
+            </summary>
+            <param name="partFullPath"></param>
+            <param name="sPartInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxMEUpLoad.SplitTEFixInsPartFullPath(System.String)">
+            <summary>
+            拆解TE模檢治具上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
             </summary>
             <param name="partFullPath"></param>
             <param name="sPartInfo"></param>

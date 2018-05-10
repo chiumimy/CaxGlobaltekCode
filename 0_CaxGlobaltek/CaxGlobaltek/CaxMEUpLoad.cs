@@ -48,17 +48,37 @@ namespace CaxGlobaltek
             return true;
         }
         /// <summary>
-        /// 拆解治具上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
+        /// 拆解ME模檢治具上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
         /// </summary>
         /// <param name="partFullPath"></param>
         /// <param name="sPartInfo"></param>
         /// <returns></returns>
-        public bool SplitFixPartFullPath(string partFullPath)
+        public bool SplitMEFixInsPartFullPath(string partFullPath)
         {
             try
             {
                 SplitRoot(partFullPath);
-                opNum = Path.GetFileNameWithoutExtension(partFullPath).Split(new string[] { "OIS" }, StringSplitOptions.RemoveEmptyEntries)[1];
+                opNum = Path.GetFileNameWithoutExtension(partFullPath).Split(new string[] { "_OIS" }, StringSplitOptions.RemoveEmptyEntries)[1];
+                opNum = opNum.Substring(0, 3);
+            }
+            catch (System.Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
+        /// 拆解TE模檢治具上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
+        /// </summary>
+        /// <param name="partFullPath"></param>
+        /// <param name="sPartInfo"></param>
+        /// <returns></returns>
+        public bool SplitTEFixInsPartFullPath(string partFullPath)
+        {
+            try
+            {
+                SplitRoot(partFullPath);
+                opNum = Path.GetFileNameWithoutExtension(partFullPath).Split(new string[] { "_OP" }, StringSplitOptions.RemoveEmptyEntries)[1];
                 opNum = opNum.Substring(0, 3);
             }
             catch (System.Exception ex)
