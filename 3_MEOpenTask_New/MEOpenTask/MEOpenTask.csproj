@@ -54,7 +54,7 @@
   <ItemGroup>
     <Reference Include="CaxGlobaltek, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\0_CaxGlobaltek_New\CaxGlobaltek\bin\Release\CaxGlobaltek.dll</HintPath>
+      <HintPath>..\..\0_CaxGlobaltek\CaxGlobaltek\bin\Release\CaxGlobaltek.dll</HintPath>
     </Reference>
     <Reference Include="DevComponents.DotNetBar.Keyboard, Version=12.2.0.7, Culture=neutral, PublicKeyToken=c39c3242a43eee2b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
