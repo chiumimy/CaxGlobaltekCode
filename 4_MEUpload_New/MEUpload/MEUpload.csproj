@@ -128,9 +128,6 @@
     <None Include="Resources\upload_24px.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseClass\Database.cs" />
-    <Compile Include="DB_Fun.cs" />
-    <Compile Include="Function.cs" />
     <Compile Include="MEUploadDlg.cs">
       <SubType>Form</SubType>
     </Compile>

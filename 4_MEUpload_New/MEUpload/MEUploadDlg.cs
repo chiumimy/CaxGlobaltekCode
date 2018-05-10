@@ -11,7 +11,6 @@ using NXOpen.UF;
 using CaxGlobaltek;
 using System.IO;
 using NHibernate;
-using MEUpload.DatabaseClass;
 using NXOpen.Utilities;
 using DevComponents.DotNetBar;
 using NXOpen.Annotations;
@@ -25,39 +24,16 @@ namespace MEUpload
         public static UFSession theUfSession = UFSession.GetUFSession();
         public static Part workPart = theSession.Parts.Work;
         public static Part displayPart = theSession.Parts.Display;
-        public static string Server_OP_Folder = "", tempLocal_Folder_OIS = "";
+        //public static string Server_OP_Folder = "", tempLocal_Folder_OIS = "";
         public static METE_Download_Upload_Path cMETE_Download_Upload_Path = new METE_Download_Upload_Path();
-        public static Dictionary<string, Function.PartDirData> DicPartDirData = new Dictionary<string, Function.PartDirData>();
-        public static ExcelDirData sExcelDirData = new ExcelDirData();
+        public static Dictionary<string, CaxMEUpLoad.PartDirData> DicPartDirData = new Dictionary<string, CaxMEUpLoad.PartDirData>();
+        //public static ExcelDirData sExcelDirData = new ExcelDirData();
         public static ISession session = MyHibernateHelper.SessionFactory.OpenSession();
-        public static PartInfo sPartInfo = new PartInfo();
+        //public static PartInfo sPartInfo = new PartInfo();
         public static List<string> TEDownloadText = new List<string>();
         public static bool status;
-
-        
-
-        public struct ExcelDirData
-        {
-            public string ExcelIPQCLocalDir { get; set; }
-            public string ExcelIPQCServerDir { get; set; }
-            public string ExcelSelfCheckLocalDir { get; set; }
-            public string ExcelSelfCheckServerDir { get; set; }
-            public string ExcelIQCLocalDir { get; set; }
-            public string ExcelIQCServerDir { get; set; }
-            public string ExcelFAILocalDir { get; set; }
-            public string ExcelFAIServerDir { get; set; }
-            public string ExcelFQCLocalDir { get; set; }
-            public string ExcelFQCServerDir { get; set; }
-        }
-
-        //public struct PartInfo 
-        //{
-        //    public static string CusName { get; set; }
-        //    public static string PartNo { get; set; }
-        //    public static string CusRev { get; set; }
-        //    public static string OpRev { get; set; }
-        //    public static string OpNum { get; set; }
-        //}
+        public static CaxDownUpLoad.DownUpLoadDat sDownUpLoadDat;
+        public static CaxMEUpLoad cCaxMEUpLoad;
 
         public MEUploadDlg()
         {
@@ -66,47 +42,71 @@ namespace MEUpload
 
         private void MEUploadDlg_Load(object sender, EventArgs e)
         {
-            //int module_id;
-            //theUfSession.UF.AskApplicationModule(out module_id);
-            //if (module_id != UFConstants.UF_APP_DRAFTING)
-            //{
-            //    MessageBox.Show("請先轉換為製圖模組後再執行！");
-            //    this.Close();
-            //}
 
             ExportPFD.Checked = true;
 
-            //取得METEDownload_Upload.dat
-            CaxGetDatData.GetMETEDownload_Upload(out cMETE_Download_Upload_Path);
-            
+            //取得DownUpLoadDat資料
+            sDownUpLoadDat = new CaxDownUpLoad.DownUpLoadDat();
+            status = CaxDownUpLoad.GetDownUpLoadDat(out sDownUpLoadDat);
+            if (!status)
+            {
+                return;
+            }
+            //CaxGetDatData.GetMETEDownload_Upload(out cMETE_Download_Upload_Path);
+
+            //拆解出客戶、料號、客戶版次、製程版次、製程序
+            cCaxMEUpLoad = new CaxMEUpLoad();
+            status = cCaxMEUpLoad.SplitPartFullPath(displayPart.FullPath);
+            if (!status)
+            {
+                return;
+            }
 
             //取得料號
-            PartNoLabel.Text = Path.GetFileNameWithoutExtension(displayPart.FullPath).Split('_')[0];
-            OISLabel.Text = Path.GetFileNameWithoutExtension(displayPart.FullPath).Split('_')[1];
+            PartNoLabel.Text = cCaxMEUpLoad.PartName;
+            OISLabel.Text = cCaxMEUpLoad.OpNum;
 
             //將Local_Folder_OIS先暫存起來，然後改變成Server路徑
             //tempLocal_Folder_OIS = cMETE_Download_Upload_Path.Local_Folder_OIS;
 
-
-            status = CaxPublic.GetAllPath("ME", displayPart.FullPath, out sPartInfo, ref cMETE_Download_Upload_Path);
+            //取代正確路徑
+            status = CaxDownUpLoad.ReplaceDatPath(sDownUpLoadDat.Server_IP, sDownUpLoadDat.Local_IP, cCaxMEUpLoad.CusName, cCaxMEUpLoad.PartName, cCaxMEUpLoad.CusRev, cCaxMEUpLoad.OpRev, ref sDownUpLoadDat);
             if (!status)
             {
-                MessageBox.Show("取得路徑或拆分路徑失敗");
-                this.Close();
                 return;
             }
+            sDownUpLoadDat.Server_Folder_CAM = sDownUpLoadDat.Server_Folder_CAM.Replace("[Oper1]", cCaxMEUpLoad.OpNum);
+            sDownUpLoadDat.Server_Folder_OIS = sDownUpLoadDat.Server_Folder_OIS.Replace("[Oper1]", cCaxMEUpLoad.OpNum);
+            sDownUpLoadDat.Local_Folder_CAM = sDownUpLoadDat.Local_Folder_CAM.Replace("[Oper1]", cCaxMEUpLoad.OpNum);
+            sDownUpLoadDat.Local_Folder_OIS = sDownUpLoadDat.Local_Folder_OIS.Replace("[Oper1]", cCaxMEUpLoad.OpNum);
+
+            //status = CaxPublic.GetAllPath("ME", displayPart.FullPath, out sPartInfo, ref cMETE_Download_Upload_Path);
+            //if (!status)
+            //{
+            //    MessageBox.Show("取得路徑或拆分路徑失敗");
+            //    this.Close();
+            //    return;
+            //}
 
             
 
 
             //處理Part的路徑
-            status = Function.GetComponentPath(displayPart, cMETE_Download_Upload_Path, listView1, out TEDownloadText, ref DicPartDirData);
+            status = CaxMEUpLoad.GetComponentPath(displayPart, sDownUpLoadDat, ref DicPartDirData);
             if (!status)
             {
-                MessageBox.Show("零件路徑取得失敗，無法上傳");
-                this.Close();
                 return;
             }
+            string[] keys = new string[DicPartDirData.Count];
+            DicPartDirData.Keys.CopyTo(keys, 0);
+            listBox1.Items.AddRange(keys);
+            //status = Function.GetComponentPath(displayPart, cMETE_Download_Upload_Path, listView1, out TEDownloadText, ref DicPartDirData);
+            //if (!status)
+            //{
+            //    MessageBox.Show("零件路徑取得失敗，無法上傳");
+            //    this.Close();
+            //    return;
+            //}
             
 
             #region (註解)處理Excel的路徑
@@ -258,17 +258,18 @@ namespace MEUpload
 
             //Part上傳
             List<string> ListPartName = new List<string>();
-            status = Function.UploadPart(DicPartDirData, out ListPartName);
+            status = CaxMEUpLoad.UploadPart(DicPartDirData, out ListPartName);
+            //status = Function.UploadPart(DicPartDirData, out ListPartName);
             if (!status)
             {
                 this.Close();
                 return;
             }
-            System.IO.File.WriteAllLines(string.Format(@"{0}\{1}\{2}", cMETE_Download_Upload_Path.Server_ShareStr, "OP" + sPartInfo.OpNum, "PartNameText_OIS.txt"), ListPartName.ToArray());
+            System.IO.File.WriteAllLines(string.Format(@"{0}\{1}\{2}", sDownUpLoadDat.Server_ShareStr, "OP" + cCaxMEUpLoad.OpNum, "PartNameText_OIS.txt"), ListPartName.ToArray());
             //新增TE的下載文件
             if (TEDownloadText.Count > 0)
             {
-                string PartNameText_CAM = string.Format(@"{0}\{1}\{2}", cMETE_Download_Upload_Path.Server_ShareStr, "OP" + sPartInfo.OpNum, "PartNameText_CAM.txt");
+                string PartNameText_CAM = string.Format(@"{0}\{1}\{2}", sDownUpLoadDat.Server_ShareStr, "OP" + cCaxMEUpLoad.OpNum, "PartNameText_CAM.txt");
                 foreach (string i in TEDownloadText)
                 {
                     using (StreamWriter sw = File.AppendText(PartNameText_CAM))
@@ -365,7 +366,7 @@ namespace MEUpload
             if (ExportPFD.Checked == true)
             {
                 //建立PFD資料夾
-                string PFDFullPath = string.Format(@"{0}\{1}", cMETE_Download_Upload_Path.Local_Folder_OIS, sPartInfo.PartNo + "_OIS" + sPartInfo.OpNum + ".pdf");
+                string PFDFullPath = string.Format(@"{0}\{1}", cMETE_Download_Upload_Path.Local_Folder_OIS, cCaxMEUpLoad.PartName + "_OIS" + cCaxMEUpLoad.OpNum + ".pdf");
                 CaxME.CreateOISPDF(listDrawingSheet, PFDFullPath);
                 //OIS資料夾上傳
                 status = CaxPublic.DirectoryCopy(cMETE_Download_Upload_Path.Local_Folder_OIS, cMETE_Download_Upload_Path.Server_Folder_OIS, true);
@@ -379,9 +380,9 @@ namespace MEUpload
 
             #region 資料上傳至Database
             //取得WorkPart資訊並檢查資料是否完整
-            CaxME.WorkPartAttribute sWorkPartAttribute = new CaxME.WorkPartAttribute();
+            DadDimension.WorkPartAttribute sWorkPartAttribute = new DadDimension.WorkPartAttribute();
             //status = Function.GetWorkPartAttribute(workPart, out sWorkPartAttribute);
-            status = CaxME.GetWorkPartAttribute(workPart, out sWorkPartAttribute);
+            status = DadDimension.GetWorkPartAttribute(workPart, out sWorkPartAttribute);
             if (!status)
             {
                 MessageBox.Show("workPart屬性取得失敗，無法上傳");
@@ -449,7 +450,8 @@ namespace MEUpload
                 
             }
             */
-            List<CaxME.DimensionData> listDimensionData = new List<CaxME.DimensionData>();
+            //List<CaxME.DimensionData> listDimensionData = new List<CaxME.DimensionData>();
+            List<DadDimension> listDimensionData = new List<DadDimension>();
             NXOpen.Drawings.DrawingSheet FirstSheet = null;
             for (int i = 0; i < SheetCount; i++)
             {
@@ -462,7 +464,7 @@ namespace MEUpload
                 CurrentSheet.Open();
                 CurrentSheet.View.UpdateDisplay();
                 DisplayableObject[] SheetObj = CurrentSheet.View.AskVisibleObjects();
-                status = CaxME.RecordDimension(SheetObj, sWorkPartAttribute, ref listDimensionData);
+                status = Com_Dimension.RecordDimension(SheetObj, sWorkPartAttribute, ref listDimensionData);
                 if (!status)
                 {
                     this.Close();
@@ -480,39 +482,22 @@ namespace MEUpload
             {
                 FirstSheet.Open();
             }
-            
 
-            Com_PEMain comPEMain = new Com_PEMain();
-            #region 由料號查peSrNo  
-            try
+
+            //由料號查Com_PEMain 
+            Com_PEMain cCom_PEMain = new Com_PEMain();
+            status = CaxSQL.GetCom_PEMain(cCaxMEUpLoad.PartName, cCaxMEUpLoad.CusRev, cCaxMEUpLoad.OpRev, out cCom_PEMain);
+            if (!status)
             {
-                comPEMain = session.QueryOver<Com_PEMain>().Where(x => x.partName == sPartInfo.PartNo)
-                                                            .Where(x => x.customerVer == sPartInfo.CusRev)
-                                                            .Where(x => x.opVer == sPartInfo.OpRev)
-                                                            .SingleOrDefault<Com_PEMain>();
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show("資料庫中沒有此料號的紀錄，故無法上傳量測尺寸，僅成功上傳實體檔案");
                 return;
             }
-            #endregion
-
-            Com_PartOperation comPartOperation = new Com_PartOperation();
-            #region 由peSrNo和Op查partOperationSrNo
-            try
+            //由Com_PEMain和Op查Com_PartOperation
+            Com_PartOperation cCom_PartOperation = new Com_PartOperation();
+            status = CaxSQL.GetCom_PartOperation(cCom_PEMain, cCaxMEUpLoad.OpNum, out cCom_PartOperation);
+            if (!status)
             {
-                comPartOperation = session.QueryOver<Com_PartOperation>()
-                                            .Where(x => x.comPEMain.peSrNo == comPEMain.peSrNo)
-                                            .Where(x => x.operation1 == sPartInfo.OpNum)
-                                            .SingleOrDefault<Com_PartOperation>();
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show("資料庫中沒有此料號的紀錄，故無法上傳量測尺寸，僅成功上傳實體檔案");
                 return;
             }
-            #endregion
 
             
             #region (註解)由excelType查meExcelSrNo
@@ -536,7 +521,7 @@ namespace MEUpload
             Com_MEMain currentComMEMain = new Com_MEMain();
             foreach (Com_MEMain i in DBData_ComMEMain)
             {
-                if (i.comPartOperation == comPartOperation)
+                if (i.comPartOperation == cCom_PartOperation)
                 {
                     Is_Exist = true;
                     currentComMEMain = i;
@@ -585,7 +570,7 @@ namespace MEUpload
                 try
                 {
                     Com_MEMain cCom_MEMain = new Com_MEMain();
-                    cCom_MEMain.comPartOperation = comPartOperation;
+                    cCom_MEMain.comPartOperation = cCom_PartOperation;
                     //cCom_MEMain.sysMEExcel = sysMEExcel;
                     cCom_MEMain.partDescription = sWorkPartAttribute.partDescription;
                     cCom_MEMain.createDate = sWorkPartAttribute.createDate;
@@ -593,13 +578,16 @@ namespace MEUpload
                     cCom_MEMain.draftingVer = sWorkPartAttribute.draftingVer;
 
                     IList<Com_Dimension> listCom_Dimension = new List<Com_Dimension>();
-                    foreach (CaxME.DimensionData i in listDimensionData)
+                    foreach (DadDimension i in listDimensionData)
                     {
                         Com_Dimension cCom_Dimension = new Com_Dimension();
+                        cCom_Dimension.MappingData(i);
                         cCom_Dimension.comMEMain = cCom_MEMain;
-                        //Database.MappingData(i, ref cCom_Dimension);
-                        CaxME.MappingData(i, ref cCom_Dimension);
                         listCom_Dimension.Add(cCom_Dimension);
+                        //Com_Dimension cCom_Dimension = new Com_Dimension();
+                        //cCom_Dimension.comMEMain = cCom_MEMain;
+                        //CaxME.MappingData(i, ref cCom_Dimension);
+                        //listCom_Dimension.Add(cCom_Dimension);
                     }
                     cCom_MEMain.comDimension = listCom_Dimension;
 

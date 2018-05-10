@@ -36,9 +36,9 @@
             this.OISLabel = new DevComponents.DotNetBar.LabelX();
             this.OK = new DevComponents.DotNetBar.ButtonX();
             this.labelX5 = new DevComponents.DotNetBar.LabelX();
-            this.listView1 = new System.Windows.Forms.ListView();
             this.Cancel = new DevComponents.DotNetBar.ButtonX();
             this.ExportPFD = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // styleManager1
@@ -125,15 +125,6 @@
             this.labelX5.TabIndex = 6;
             this.labelX5.Text = "本次上傳檔案";
             // 
-            // listView1
-            // 
-            this.listView1.Location = new System.Drawing.Point(12, 139);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(260, 212);
-            this.listView1.TabIndex = 7;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.List;
-            // 
             // Cancel
             // 
             this.Cancel.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
@@ -162,14 +153,23 @@
             this.ExportPFD.TabIndex = 9;
             this.ExportPFD.Text = "輸出OIS製程圖PDF";
             // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 12;
+            this.listBox1.Location = new System.Drawing.Point(12, 139);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(260, 208);
+            this.listBox1.TabIndex = 10;
+            // 
             // MEUploadDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 401);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.ExportPFD);
             this.Controls.Add(this.Cancel);
-            this.Controls.Add(this.listView1);
             this.Controls.Add(this.labelX5);
             this.Controls.Add(this.OK);
             this.Controls.Add(this.OISLabel);
@@ -193,8 +193,8 @@
         private DevComponents.DotNetBar.LabelX OISLabel;
         private DevComponents.DotNetBar.ButtonX OK;
         private DevComponents.DotNetBar.LabelX labelX5;
-        private System.Windows.Forms.ListView listView1;
         private DevComponents.DotNetBar.ButtonX Cancel;
         private DevComponents.DotNetBar.Controls.CheckBoxX ExportPFD;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
