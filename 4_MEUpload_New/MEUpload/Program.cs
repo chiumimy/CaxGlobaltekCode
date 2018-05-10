@@ -46,13 +46,13 @@ public class Program
 
             //TODO: Add your application code here 
 
-            int module_id;
-            theUfSession.UF.AskApplicationModule(out module_id);
-            if (module_id != UFConstants.UF_APP_DRAFTING)
-            {
-                MessageBox.Show("請先轉換為製圖模組後再執行！");
-                return retValue;
-            }
+            //int module_id;
+            //theUfSession.UF.AskApplicationModule(out module_id);
+            //if (module_id != UFConstants.UF_APP_DRAFTING)
+            //{
+            //    MessageBox.Show("請先轉換為製圖模組後再執行！");
+            //    return retValue;
+            //}
 
             Application.EnableVisualStyles();
             MEUploadDlg cMEUploadDlg = new MEUploadDlg();

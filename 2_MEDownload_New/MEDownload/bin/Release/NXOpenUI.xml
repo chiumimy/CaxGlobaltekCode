@@ -14,6 +14,11 @@
              <remarks>  <para>License requirements: None.</para> </remarks>  
              <param name="cb"> </param> 
         </member>
+        <member name="M:NXOpen.BlockStyler.BlockDialog.AddEnableOKButtonHandler(NXOpen.BlockStyler.BlockDialog.EnableOKButton)">
+            <summary>  Adds enable-ok-button callback handler to the dialog. </summary>  
+             <remarks>  <para>License requirements: None.</para> </remarks>  
+             <param name="cb"> </param> 
+        </member>
         <member name="M:NXOpen.BlockStyler.BlockDialog.AddFilterHandler(NXOpen.BlockStyler.BlockDialog.Filter)">
             <summary>  Adds Filter callback handler to the dialog. </summary>  
              <remarks>  <para>License requirements: None.</para> </remarks>  
@@ -57,10 +62,7 @@
         </member>
         <member name="M:NXOpen.BlockStyler.BlockDialog.PerformApply">
             <summary>  Performs an Apply and restarts the dialog. </summary>  
-             <remarks>   Invokes the apply handler. 
-                Equivalent to pressing the Apply button on a non-lightweight dialog. 
-                In a lightweight dialog, PerformApply should be called after a selection is made  
-                in a block that has the AutoCommit property set to true. <para>License requirements: None.</para> </remarks>  
+             <remarks>  This invokes apply callback on the dialog.<para>License requirements: None.</para> </remarks>  
               
         </member>
         <member name="M:NXOpen.BlockStyler.BlockDialog.FreeResource">
@@ -108,6 +110,12 @@
             <summary>  Update callback </summary>  
              <remarks> <para>License requirements: None.</para> </remarks>  
              <param name="stylerItem"> </param> 
+        </member>
+        <member name="T:NXOpen.BlockStyler.BlockDialog.EnableOKButton">
+            <summary>  Callback to enable OK and Apply buttons of the dialog. </summary>  
+             <remarks>   
+                    Return True or False to enable or disable the buttons respectively.<para>License requirements: None.</para> </remarks>  
+              
         </member>
         <member name="T:NXOpen.BlockStyler.BlockDialog.Filter">
             <summary> Filter callback  </summary>  
@@ -329,8 +337,18 @@
              <remarks>  The color is applicable for whole row.<para>License requirements to get this property: None.</para><para>License requirements to set this property: None.</para> </remarks>  
               
         </member>
+        <member name="P:NXOpen.BlockStyler.Node.IsExpanded">
+            <summary>  Returns  the flag indicating whether the node is in expanded state </summary>  
+             <remarks> <para>License requirements: None.</para> </remarks>  
+              
+        </member>
         <member name="P:NXOpen.BlockStyler.Node.IsInserted">
             <summary>  Returns  the flag indicating whether the node is inserted in <see cref="T:NXOpen.BlockStyler.Tree"> BlockStyler.Tree </see> </summary>  
+             <remarks> <para>License requirements: None.</para> </remarks>  
+              
+        </member>
+        <member name="P:NXOpen.BlockStyler.Node.IsSelected">
+            <summary>  Returns  the flag indicating whether the node is in selected state </summary>  
              <remarks> <para>License requirements: None.</para> </remarks>  
               
         </member>
@@ -737,6 +755,13 @@
             <returns>Value to get for given property name. </returns> 
         </member>
         <member name="M:NXOpen.BlockStyler.PropertyList.SetDoubleVector(System.String,System.Int32[])">
+            <summary> Sets the double vector for the given property name. </summary>  
+             <remarks>  Exception will be raised if invalid property name is used.  
+                    Please use the overloaded version of this method. <para>License requirements: None.</para> </remarks>  
+             <param name="propertyName">Name of the property  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
+            <param name="doubleVector">Value to set for given property name. </param> 
+        </member>
+        <member name="M:NXOpen.BlockStyler.PropertyList.SetDoubleVector(System.String,System.Double[])">
             <summary> Sets the double vector for the given property name. </summary>  
              <remarks>  Exception will be raised if invalid property name is used. <para>License requirements: None.</para> </remarks>  
              <param name="propertyName">Name of the property  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
@@ -1427,6 +1452,11 @@
              <remarks> <para>License requirements: None.</para> </remarks>  
              <param name="cb">Callback</param> 
         </member>
+        <member name="M:NXOpen.BlockStyler.Tree.SetOnDefaultActionHandler(NXOpen.BlockStyler.Tree.OnDefaultActionCallback)">
+            <summary>  Sets the on select node callback  </summary>  
+             <remarks> <para>License requirements: None.</para> </remarks>  
+             <param name="cb">Callback.</param> 
+        </member>
         <member name="M:NXOpen.BlockStyler.Tree.CreateMenu">
             <summary>  Creates the menu. </summary>  
              <remarks>  Use <see cref="M:NXOpen.BlockStyler.Tree.SetMenu(NXOpen.BlockStyler.TreeListMenu)"> BlockStyler.Tree.SetMenu </see> to set the created menu. <para>License requirements: None.</para> </remarks>  
@@ -1806,6 +1836,13 @@
             <param name="columnID">Column Id of the column from where drag initiated</param>  
             <param name="targetNode">Target node on which dragged node is dropped.</param>  
             <param name="targetColumnID">Column Id of the column where nodes are dropped.</param> 
+        </member>
+        <member name="T:NXOpen.BlockStyler.Tree.OnDefaultActionCallback">
+            <summary> Represents the callback which gets called when double clicked is performed on the node. </summary>  
+             <remarks> <para>License requirements: None.</para> </remarks>  
+             <param name="tree">Tree.</param>  
+            <param name="node">Node on which Double Click is performed.</param>  
+            <param name="columnID">Column Id of the column on which double click is performed.</param> 
         </member>
         <member name="T:NXOpen.BlockStyler.TreeListMenu">
             <summary>  Represents a menu class utilized by <see cref="T:NXOpen.BlockStyler.Tree"> BlockStyler.Tree </see>. </summary>  
@@ -3092,8 +3129,29 @@
               
         </member>
         <member name="M:NXOpen.Selection.SelectObjects(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,System.Boolean,NXOpen.NXObject[]@)">
-            <summary>  Select objects   </summary>  
-             <remarks> <para>License requirements: None.</para> </remarks>  
+            <summary>  Select objects. </summary>  
+             <remarks>  
+             
+                To enable selection of objects within drawing member views, use SetCursorView API available on 
+                <see href="../ugopen_doc/uf_ui/index.html"> UFUi</see>. 
+                    
+                  <para>License requirements: None.</para> </remarks>  
+             <param name="message"> Cue line message to display  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
+            <param name="title"> Dialog title  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
+            <param name="scope"> Selection scope </param>  
+            <param name="includeFeatures"> Whether to allow the selection of features </param>  
+            <param name="keepHighlighted"> Whether to keep the selection highlighted after it has been selected </param>  
+            <returns> Ok, Back, or Cancel </returns>  
+            <param name="objectArray"> The selected objects </param> 
+        </member>
+        <member name="M:NXOpen.Selection.SelectTaggedObjects(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,System.Boolean,NXOpen.TaggedObject[]@)">
+            <summary>  Select tagged objects. </summary>  
+             <remarks>  
+             
+                To enable selection of objects within drawing member views, use SetCursorView API available on 
+                <see href="../ugopen_doc/uf_ui/index.html"> UFUi</see>. 
+                    
+                  <para>License requirements: None.</para> </remarks>  
              <param name="message"> Cue line message to display  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
             <param name="title"> Dialog title  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
             <param name="scope"> Selection scope </param>  
@@ -3103,8 +3161,32 @@
             <param name="objectArray"> The selected objects </param> 
         </member>
         <member name="M:NXOpen.Selection.SelectObjects(System.String,System.String,NXOpen.Selection.SelectionScope,NXOpen.Selection.SelectionAction,System.Boolean,System.Boolean,NXOpen.Selection.MaskTriple[],NXOpen.NXObject[]@)">
-            <summary>  Select objects using filter defined by mask triples   </summary>  
-             <remarks> <para>License requirements: None.</para> </remarks>  
+            <summary>  Select objects using filter defined by mask triples. </summary>  
+             <remarks>  
+                 
+                To enable selection of objects within drawing member views, use SetCursorView API available on 
+                <see href="../ugopen_doc/uf_ui/index.html"> UFUi</see>. 
+                 
+                  <para>License requirements: None.</para> </remarks>  
+             <param name="message"> Cue line message to display  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
+            <param name="title"> Dialog title  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
+            <param name="scope"> Selection scope </param>  
+            <param name="action"> Indicates how the mask array will modify the selection filter </param>  
+            <param name="includeFeatures"> Whether to allow the selection of features </param>  
+            <param name="keepHighlighted"> Whether to keep the selection highlighted after it has been selected </param>  
+            <param name="maskArray"> Modifies the list of object types that can be selected. 
+                                                                                                How it modifies the list of object types is determined by the SelectionAction parameter. </param>  
+            <returns> Ok, Back, or Cancel </returns>  
+            <param name="objectArray"> The selected objects </param> 
+        </member>
+        <member name="M:NXOpen.Selection.SelectTaggedObjects(System.String,System.String,NXOpen.Selection.SelectionScope,NXOpen.Selection.SelectionAction,System.Boolean,System.Boolean,NXOpen.Selection.MaskTriple[],NXOpen.TaggedObject[]@)">
+            <summary>  Select tagged objects using filter defined by mask triples. </summary>  
+             <remarks>  
+                 
+                To enable selection of objects within drawing member views, use SetCursorView API available on 
+                <see href="../ugopen_doc/uf_ui/index.html"> UFUi</see>. 
+                 
+                  <para>License requirements: None.</para> </remarks>  
              <param name="message"> Cue line message to display  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
             <param name="title"> Dialog title  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
             <param name="scope"> Selection scope </param>  
@@ -3117,19 +3199,63 @@
             <param name="objectArray"> The selected objects </param> 
         </member>
         <member name="M:NXOpen.Selection.SelectObjects(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,NXOpen.Selection.SelectionType[],NXOpen.NXObject[]@)">
-            <summary>  Select objects using filter defined by selection type   </summary>  
-             <remarks> <para>License requirements: None.</para> </remarks>  
+            <summary>  Select objects using filter defined by selection type. </summary>  
+             <remarks>  
+                 
+                To enable selection of objects within drawing member views, use SetCursorView API available on 
+                <see href="../ugopen_doc/uf_ui/index.html"> UFUi</see>.  
+                 
+                  <para>License requirements: None.</para> </remarks>  
              <param name="message"> Cue line message to display  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
             <param name="title"> Dialog title  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
             <param name="scope"> Selection scope </param>  
-            <param name="keepHighlighted"> Whether to allow the selection of features </param>  
+            <param name="keepHighlighted"> Whether to keep the selection highlighted after it has been selected </param>  
+            <param name="typeArray"> The types that can be selected </param>  
+            <returns> Ok, Back, or Cancel </returns>  
+            <param name="objectArray"> The selected objects </param> 
+        </member>
+        <member name="M:NXOpen.Selection.SelectTaggedObjects(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,NXOpen.Selection.SelectionType[],NXOpen.TaggedObject[]@)">
+            <summary>  Select tagged objects using filter defined by selection type. </summary>  
+             <remarks>  
+                 
+                To enable selection of objects within drawing member views, use SetCursorView API available on 
+                <see href="../ugopen_doc/uf_ui/index.html"> UFUi</see>.  
+                 
+                  <para>License requirements: None.</para> </remarks>  
+             <param name="message"> Cue line message to display  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
+            <param name="title"> Dialog title  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
+            <param name="scope"> Selection scope </param>  
+            <param name="keepHighlighted"> Whether to keep the selection highlighted after it has been selected </param>  
             <param name="typeArray"> The types that can be selected </param>  
             <returns> Ok, Back, or Cancel </returns>  
             <param name="objectArray"> The selected objects </param> 
         </member>
         <member name="M:NXOpen.Selection.SelectObject(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,System.Boolean,NXOpen.NXObject@,NXOpen.Point3d@)">
-            <summary>  Select object   </summary>  
-             <remarks> <para>License requirements: None.</para> </remarks>  
+            <summary>  Select single object. </summary>  
+             <remarks>  
+                 
+                To enable selection of objects within drawing member views, use SetCursorView API available on 
+                <see href="../ugopen_doc/uf_ui/index.html"> UFUi</see>.  
+                 
+                  <para>License requirements: None.</para> </remarks>  
+             <param name="message"> Cue line message to display  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
+            <param name="title"> Dialog title  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
+            <param name="scope"> Selection scope </param>  
+            <param name="includeFeatures"> Whether to allow the selection of features </param>  
+            <param name="keepHighlighted"> Whether to keep the selection highlighted after it has been selected </param>  
+            <returns> Ok, Back, Cancel, ObjectSelected, or ObjectSelectedByName </returns>  
+            <param name="object"> The selected object </param>  
+            <param name="cursor"> Absolute coordinates of cursor position. This is 
+                                                undefined if object is selected by name </param> 
+        </member>
+        <member name="M:NXOpen.Selection.SelectTaggedObject(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,System.Boolean,NXOpen.TaggedObject@,NXOpen.Point3d@)">
+            <summary>  Select single tagged object. </summary>  
+             <remarks>  
+                 
+                To enable selection of objects within drawing member views, use SetCursorView API available on 
+                <see href="../ugopen_doc/uf_ui/index.html"> UFUi</see>.  
+                 
+                  <para>License requirements: None.</para> </remarks>  
              <param name="message"> Cue line message to display  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
             <param name="title"> Dialog title  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
             <param name="scope"> Selection scope </param>  
@@ -3141,8 +3267,32 @@
                                                 undefined if object is selected by name </param> 
         </member>
         <member name="M:NXOpen.Selection.SelectObject(System.String,System.String,NXOpen.Selection.SelectionScope,NXOpen.Selection.SelectionAction,System.Boolean,System.Boolean,NXOpen.Selection.MaskTriple[],NXOpen.NXObject@,NXOpen.Point3d@)">
-            <summary>  Select object using filter defined by mask triples   </summary>  
-             <remarks> <para>License requirements: None.</para> </remarks>  
+            <summary>  Select single object using filter defined by mask triples. </summary>  
+             <remarks>  
+                To enable selection of objects within drawing member views, use SetCursorView API available on 
+                <see href="../ugopen_doc/uf_ui/index.html"> UFUi</see>.  
+                 
+                  <para>License requirements: None.</para> </remarks>  
+             <param name="message"> Cue line message to display  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
+            <param name="title"> Dialog title  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
+            <param name="scope"> Selection scope </param>  
+            <param name="action"> Indicates how the mask array will modify the selection filter </param>  
+            <param name="includeFeatures"> Whether to allow the selection of features </param>  
+            <param name="keepHighlighted"> Whether to keep the selection highlighted after it has been selected </param>  
+            <param name="maskArray"> Modifies the list of object types that can be selected. 
+                                                                                                How it modifies the list of object types is determined by the SelectionAction parameter. </param>  
+            <returns> Ok, Back, Cancel, ObjectSelected, or ObjectSelectedByName </returns>  
+            <param name="object"> The selected object </param>  
+            <param name="cursor"> Absolute coordinates of cursor position. This is 
+                                                undefined if object is selected by name </param> 
+        </member>
+        <member name="M:NXOpen.Selection.SelectTaggedObject(System.String,System.String,NXOpen.Selection.SelectionScope,NXOpen.Selection.SelectionAction,System.Boolean,System.Boolean,NXOpen.Selection.MaskTriple[],NXOpen.TaggedObject@,NXOpen.Point3d@)">
+            <summary>  Select single tagged object using filter defined by mask triples. </summary>  
+             <remarks>  
+                To enable selection of objects within drawing member views, use SetCursorView API available on 
+                <see href="../ugopen_doc/uf_ui/index.html"> UFUi</see>.  
+                 
+                  <para>License requirements: None.</para> </remarks>  
              <param name="message"> Cue line message to display  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
             <param name="title"> Dialog title  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
             <param name="scope"> Selection scope </param>  
@@ -3157,12 +3307,33 @@
                                                 undefined if object is selected by name </param> 
         </member>
         <member name="M:NXOpen.Selection.SelectObject(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,NXOpen.Selection.SelectionType[],NXOpen.NXObject@,NXOpen.Point3d@)">
-            <summary>  Select object using filter defined by selection type   </summary>  
-             <remarks> <para>License requirements: None.</para> </remarks>  
+            <summary>  Select single object using filter defined by selection type. </summary>  
+             <remarks>  
+                 
+                To enable selection of objects within drawing member views, use SetCursorView API available on 
+                <see href="../ugopen_doc/uf_ui/index.html"> UFUi</see>.  
+                  <para>License requirements: None.</para> </remarks>  
              <param name="message"> Cue line message to display  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
             <param name="title"> Dialog title  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
             <param name="scope"> Selection scope </param>  
-            <param name="keepHighlighted"> Whether to allow the selection of features </param>  
+            <param name="keepHighlighted"> Whether to keep the selection highlighted after it has been selected </param>  
+            <param name="typeArray"> The types of objects that can be selected </param>  
+            <returns> Ok, Back, Cancel, ObjectSelected, or ObjectSelectedByName </returns>  
+            <param name="object"> The selected object </param>  
+            <param name="cursor"> Absolute coordinates of cursor position. This is 
+                                                undefined if object is selected by name </param> 
+        </member>
+        <member name="M:NXOpen.Selection.SelectTaggedObject(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,NXOpen.Selection.SelectionType[],NXOpen.TaggedObject@,NXOpen.Point3d@)">
+            <summary>  Select single tagged object using filter defined by selection type. </summary>  
+             <remarks>  
+                 
+                To enable selection of objects within drawing member views, use SetCursorView API available on 
+                <see href="../ugopen_doc/uf_ui/index.html"> UFUi</see>.  
+                  <para>License requirements: None.</para> </remarks>  
+             <param name="message"> Cue line message to display  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
+            <param name="title"> Dialog title  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param>  
+            <param name="scope"> Selection scope </param>  
+            <param name="keepHighlighted"> Whether to keep the selection highlighted after it has been selected </param>  
             <param name="typeArray"> The types of objects that can be selected </param>  
             <returns> Ok, Back, Cancel, ObjectSelected, or ObjectSelectedByName </returns>  
             <param name="object"> The selected object </param>  
@@ -3192,6 +3363,13 @@
         </member>
         <member name="M:NXOpen.Selection.GetSelectedObject(System.Int32)">
             <summary>  Returns the n'th object on the selection list      </summary>  
+             <remarks> <para>License requirements: None.</para> </remarks>  
+             <param name="index"> The index. Should be between 0 and <see cref="M:NXOpen.Selection.GetNumSelectedObjects"> GetNumSelectedObjects </see> </param>  
+            <returns> The object at the given position on the selection list. Returns a null reference (Nothing in Visual Basic) if the index parameter 
+                                                    is greater than the length of the list </returns> 
+        </member>
+        <member name="M:NXOpen.Selection.GetSelectedTaggedObject(System.Int32)">
+            <summary>  Returns the n'th tagged object on the selection list      </summary>  
              <remarks> <para>License requirements: None.</para> </remarks>  
              <param name="index"> The index. Should be between 0 and <see cref="M:NXOpen.Selection.GetNumSelectedObjects"> GetNumSelectedObjects </see> </param>  
             <returns> The object at the given position on the selection list. Returns a null reference (Nothing in Visual Basic) if the index parameter 
@@ -3229,6 +3407,22 @@
             <param name="selcb"> Selection callback for application specific 
             processing. </param> 
         </member>
+        <member name="M:NXOpen.Selection.SetTaggedObjectSelectionCallbacks(NXOpen.SelectionHandle,NXOpen.Selection.FilterTaggedObjectCallback,NXOpen.Selection.TaggedObjectSelectionCallback)">
+            <summary>  Specify selection filter callback for additional filtering of tagged objects based on 
+                    application specific criteria, and/or selection callback to perform 
+                    application specific processing for each selection gesture processed. </summary>  
+             <remarks>   
+                    Both the filter callback and the selection callback are passed object  
+                    to <see cref="T:NXOpen.SelectionHandle">  SelectionHandle  </see> which can be used to inquire  
+                    other selection data or modify selection. This selection handle tagged object  
+                    is no longer valid after the filter callback or selection callback is exited. 
+                <para>License requirements: None.</para> </remarks>  
+             <param name="select"> Selection handle </param>  
+            <param name="filterproc"> Filter callback for additional user specific 
+            filtering. </param>  
+            <param name="selcb"> Selection callback for application specific 
+            processing. </param> 
+        </member>
         <member name="M:NXOpen.Selection.GetSelectionStatusOfUserDefinedClass(NXOpen.UserDefinedObjects.UserDefinedClass)">
             <summary>  Gets whether or not the user defined class is available for selection. </summary>  
              <remarks>   <para>License requirements: None.</para> </remarks>  
@@ -3244,9 +3438,26 @@
         <member name="M:NXOpen.Selection.RemoveFromSelectionList(NXOpen.SelectionHandle,NXOpen.NXObject[],System.Boolean)">
             <summary>  Removes objects from the selection list. </summary>  
              <remarks>  
-                This function is to be used with dialogs created with the UIStyler and 
-                with the <see cref="M:NXOpen.Selection.SelectObjects(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,System.Boolean,NXOpen.NXObject[]@)">  SelectObjects  </see> function. It can be called 
-                from the selection callback. It cannot be called from the selection filter procedure. 
+                Use this function with UIStyler dialogs. It can be called from the selection callback.  
+                It cannot be called from the selection filter procedure. 
+                 
+                If any of the objects are not in the list, an error is returned and NO 
+                objects are removed from the list. 
+                 
+                It could be called by the selection callback to remove 
+                objects from the selection list. For example, based on objects just 
+                deselected, the application may need to remove other associated 
+                objects from the selection list. 
+                <para>License requirements: None.</para> </remarks>  
+             <param name="select"> Selection handle </param>  
+            <param name="objs"> Array of object </param>  
+            <param name="unhighlight"> If true, unhighlight objects </param> 
+        </member>
+        <member name="M:NXOpen.Selection.RemoveTaggedObjectsFromSelectionList(NXOpen.SelectionHandle,NXOpen.TaggedObject[],System.Boolean)">
+            <summary>  Removes tagged objects from the selection list. </summary>  
+             <remarks>  
+                Use this function with UIStyler dialogs. It can be called from the selection callback.  
+                It cannot be called from the selection filter procedure. 
                  
                 If any of the objects are not in the list, an error is returned and NO 
                 objects are removed from the list. 
@@ -3263,17 +3474,15 @@
         <member name="M:NXOpen.Selection.RemoveAllFromSelectionList(NXOpen.SelectionHandle,System.Boolean)">
             <summary>  Removes all the objects from the selection list and optionally unhighlights them. </summary>  
              <remarks>  
-                You use this function with dialogs created with the UIStyler and with the  
-                <see cref="M:NXOpen.Selection.SelectObjects(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,System.Boolean,NXOpen.NXObject[]@)">  SelectObjects  </see> function. 
+                Use this function with UIStyler dialogs. 
                 <para>License requirements: None.</para> </remarks>  
              <param name="select"> Selection handle </param>  
             <param name="unhighlight"> If true, unhighlight objects </param> 
         </member>
-        <member name="M:NXOpen.Selection.IsObjectInSelectionList(NXOpen.SelectionHandle,NXOpen.NXObject)">
+        <member name="M:NXOpen.Selection.IsObjectInSelectionList(NXOpen.SelectionHandle,NXOpen.TaggedObject)">
             <summary>  Inquires if object is selected. </summary>  
              <remarks>  
-                You use this function with dialogs created with the UIStyler and with 
-                the <see cref="M:NXOpen.Selection.SelectObjects(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,System.Boolean,NXOpen.NXObject[]@)">  SelectObjects  </see> function. 
+                Use this function with UIStyler dialogs. 
                  <para>License requirements: None.</para> </remarks>  
              <param name="select"> Selection handle </param>  
             <param name="object"> Object </param>  
@@ -3282,8 +3491,7 @@
         <member name="M:NXOpen.Selection.AskSelectionListCount(NXOpen.SelectionHandle)">
             <summary>  Returns the number of objects currently selected. </summary>  
              <remarks>  
-                You can use this function with UIStyler dialogs and with 
-                <see cref="M:NXOpen.Selection.SelectObjects(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,System.Boolean,NXOpen.NXObject[]@)">  SelectObjects  </see>. 
+                Use this function with UIStyler dialogs. 
                  <para>License requirements: None.</para> </remarks>  
              <param name="select"> Selection handle </param>  
             <returns> Count of objects selected </returns> 
@@ -3291,24 +3499,46 @@
         <member name="M:NXOpen.Selection.AskSelectionObjectList(NXOpen.SelectionHandle,NXOpen.NXObject[]@)">
             <summary>  Returns the number of objects selected and a pointer to an array of 
                 tags of the objects selected. </summary>  
-             <remarks>  You can use this function with the UIStyler dialogs and with 
-                <see cref="M:NXOpen.Selection.SelectObjects(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,System.Boolean,NXOpen.NXObject[]@)">  SelectObjects  </see>. <para>License requirements: None.</para> </remarks>  
+             <remarks>  Use this function with UIStyler dialogs.<para>License requirements: None.</para> </remarks>  
+             <param name="select"> Selection handle </param>  
+            <param name="objects"> Selected objects. </param> 
+        </member>
+        <member name="M:NXOpen.Selection.AskSelectionTaggedObjectList(NXOpen.SelectionHandle,NXOpen.TaggedObject[]@)">
+            <summary>  Returns the number of tagged objects selected and a pointer to an array of 
+                tags of the objects selected. </summary>  
+             <remarks>  Use this function with UIStyler dialogs.<para>License requirements: None.</para> </remarks>  
              <param name="select"> Selection handle </param>  
             <param name="objects"> Selected objects. </param> 
         </member>
         <member name="M:NXOpen.Selection.AddToSelectionList(NXOpen.SelectionHandle,NXOpen.NXObject[],System.Boolean)">
             <summary>  Add objects to the selection list. </summary>  
              <remarks>  
-                Any objects already in the selection list are ignored. You can use this function  
-                with UIStyler dialogs and with the <see cref="M:NXOpen.Selection.SelectObjects(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,System.Boolean,NXOpen.NXObject[]@)">  SelectObjects  
-                 </see> function. You can call this from the constructor callback/selection 
-                 initialization procedure to begin the dialog with objects already selected.  
+                Any objects already in the selection list are ignored. Use this function with UIStyler dialogs.  
+                You can call this from the constructor callback/selection initialization procedure to begin  
+                the dialog with objects already selected.  
                  The user can then review these objects, and if desired, deselect them. 
                  
                 The application selection callback can also call this function to add other objects  
                 to the selection list based on the objects(s) just selected. The selection filter  
-                procedure cannot call this function. You cannot use this function with  
-                <see cref="M:NXOpen.Selection.SelectObjects(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,System.Boolean,NXOpen.NXObject[]@)">  SelectObjects  </see>. Based on the object(s) just selected, other  
+                procedure cannot call this function. Based on the object(s) just selected, other  
+                objects may need to be selected. For example, all edges of the selected face  
+                or all faces tangent to the selected face. 
+                <para>License requirements: None.</para> </remarks>  
+             <param name="select"> Selection handle </param>  
+            <param name="objs"> Objects to be added in the selection list </param>  
+            <param name="highlightFlag"> If true, highlight objects </param> 
+        </member>
+        <member name="M:NXOpen.Selection.AddToTaggedObjectsSelectionList(NXOpen.SelectionHandle,NXOpen.TaggedObject[],System.Boolean)">
+            <summary>  Add objects to the selection list. </summary>  
+             <remarks>  
+                Any objects already in the selection list are ignored. Use this function with UIStyler dialogs.  
+                You can call this from the constructor callback/selection initialization procedure to begin  
+                the dialog with objects already selected.  
+                 The user can then review these objects, and if desired, deselect them. 
+                 
+                The application selection callback can also call this function to add other objects  
+                to the selection list based on the objects(s) just selected. The selection filter  
+                procedure cannot call this function. Based on the object(s) just selected, other  
                 objects may need to be selected. For example, all edges of the selected face  
                 or all faces tangent to the selected face. 
                 <para>License requirements: None.</para> </remarks>  
@@ -3640,7 +3870,7 @@
                 bits are not set for position. 
                 The field <b> Rectangle </b> bit is set for rectangle selection,  
                 rectangle deselection, and rectangle position. 
-                You use this function with UIStyler dialogs and <see cref="M:NXOpen.Selection.SelectObjects(System.String,System.String,NXOpen.Selection.SelectionScope,System.Boolean,System.Boolean,NXOpen.NXObject[]@)">  SelectObjects  </see> and can be called from either the selection 
+                This function can be used with UIStyler dialogs and can be called from either the selection 
                 filter procedure or the selection callback. 
                  </remarks>  
               
@@ -3690,12 +3920,27 @@
              <remarks>  </remarks>  
               
         </member>
+        <member name="T:NXOpen.Selection.FilterTaggedObjectCallback">
+            <summary>  It is an optional callback which the user can provide to perform 
+                application specific filtering when selecting tagged objects. </summary>  
+             <remarks>  <para>License requirements: None.</para> </remarks>  
+             <param name="entity"> Candidate object </param>  
+            <param name="entityMask"> Object type, object subtype, solid type </param>  
+            <param name="selectHandle"> Selection handle </param> 
+        </member>
         <member name="T:NXOpen.Selection.FilterCallback">
             <summary>  It is an optional callback which the user can provide to perform 
                 application specific filtering when selecting objects. </summary>  
              <remarks>  <para>License requirements: None.</para> </remarks>  
              <param name="entity"> Candidate object </param>  
             <param name="entityMask"> Object type, object subtype, solid type </param>  
+            <param name="selectHandle"> Selection handle </param> 
+        </member>
+        <member name="T:NXOpen.Selection.TaggedObjectSelectionCallback">
+            <summary>  It is an optional callback which the user can provide to customize his selection of tagged objects  </summary>  
+             <remarks> <para>License requirements: None.</para> </remarks>  
+             <param name="selectedObjects"> Selected objects </param>  
+            <param name="deselectedObjects"> Deselected objects </param>  
             <param name="selectHandle"> Selection handle </param> 
         </member>
         <member name="T:NXOpen.Selection.SelectionCallback">
@@ -4186,6 +4431,21 @@
         <member name="T:NXOpen.UIStyler.CollapsibleGroup">
             <summary>  Represents a Collapsible Group for UI Styler  </summary>  
              <remarks>  </remarks>  
+              
+        </member>
+        <member name="M:NXOpen.UIStyler.CollapsibleGroup.SetLabel(System.String)">
+            <summary> Sets label of collapsible group </summary>  
+             <remarks> <para>License requirements: None.</para> </remarks>  
+             <param name="strLabel"> Text to be set as label  <para> NOTE: The full Unicode character set is not supported for this parameter. </para></param> 
+        </member>
+        <member name="P:NXOpen.UIStyler.CollapsibleGroup.CollapseState">
+            <summary>  Returns or sets the collapse-state </summary>  
+             <remarks> <para>License requirements to get this property: None.</para><para>License requirements to set this property: None.</para> </remarks>  
+              
+        </member>
+        <member name="P:NXOpen.UIStyler.CollapsibleGroup.Visibility">
+            <summary>  Returns or sets the visibility </summary>  
+             <remarks> <para>License requirements to get this property: None.</para><para>License requirements to set this property: None.</para> </remarks>  
               
         </member>
         <member name="T:NXOpen.UIStyler.ColorTool">
@@ -5054,12 +5314,12 @@
               
         </member>
         <member name="M:NXOpen.UIStyler.MultiSelectList.GetAllIndicesSelected">
-            <summary> Gets the indices of all selected list entries are desired;  </summary>  
-             <remarks> <para>License requirements: None.</para> </remarks>  
+            <summary> Gets the indices of all selected list entries. </summary>  
+             <remarks>   <para>License requirements: None.</para> </remarks>  
              <returns> An array of integers for item indices of selected items </returns> 
         </member>
         <member name="M:NXOpen.UIStyler.MultiSelectList.GetAllNameSelected">
-            <summary> Gets the names of all selected list entries are desired. </summary>  
+            <summary> Gets the names of all selected list entries. </summary>  
              <remarks>   <para>License requirements: None.</para> </remarks>  
              <returns> An array of character strings of selected items</returns> 
         </member>
@@ -5781,6 +6041,11 @@
         </member>
         <member name="M:NXOpen.UIStyler.SingleSelectList.GetSelectedString">
             <summary>  Gets selected string   </summary>  
+             <remarks> <para>License requirements: None.</para> </remarks>  
+             <returns> </returns> 
+        </member>
+        <member name="M:NXOpen.UIStyler.SingleSelectList.HasSelected">
+            <summary>  Returns whether or not an item has been selected   </summary>  
              <remarks> <para>License requirements: None.</para> </remarks>  
              <returns> </returns> 
         </member>
