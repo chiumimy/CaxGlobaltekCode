@@ -26,9 +26,10 @@ namespace FixInsUpload
         public static Part displayPart = theSession.Parts.Display;
         public static ISession session = MyHibernateHelper.SessionFactory.OpenSession();
         public bool status;
-        public string[] PicPathStr, PicNameStr, splitFullPath;
-        public string op1, S_PicPath, S_Folder, Is_Local, Op1String, L_Folder;
+        public string[] PicPathStr, PicNameStr;
+        public string S_PicPath, S_Folder, Is_Local, L_Folder;
         public static Part rootPart;
+        public CaxMEUpLoad cCaxMEUpLoad;
 
         public FixInsUploadDlg()
         {
@@ -53,28 +54,25 @@ namespace FixInsUpload
                 this.Is_Local = Environment.GetEnvironmentVariable("UGII_ENV_FILE");
                 if (this.Is_Local != null)
                 {
+                    cCaxMEUpLoad = new CaxMEUpLoad();
                     CaxAsm.GetRootAssemblyPart(FixInsUploadDlg.workPart.Tag, out FixInsUploadDlg.rootPart);
-                    string directoryName = Path.GetDirectoryName(FixInsUploadDlg.rootPart.FullPath);
+                    //string directoryName = Path.GetDirectoryName(FixInsUploadDlg.rootPart.FullPath);
                     char[] chrArray = new char[] { '\\' };
-                    this.splitFullPath = directoryName.Split(chrArray);
+                    //this.splitFullPath = directoryName.Split(chrArray);
                     if (this.Is_Local.Contains("ME"))
                     {
-                        string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(FixInsUploadDlg.rootPart.FullPath);
-                        string[] strArrays = new string[] { "_OIS" };
-                        this.Op1String = fileNameWithoutExtension.Split(strArrays, StringSplitOptions.RemoveEmptyEntries)[1];
+                        cCaxMEUpLoad.SplitMEFixInsPartFullPath(FixInsUploadDlg.rootPart.FullPath);   
                     }
                     else if (this.Is_Local.Contains("TE"))
                     {
-                        string str = Path.GetFileNameWithoutExtension(FixInsUploadDlg.rootPart.FullPath);
-                        string[] strArrays1 = new string[] { "_OP" };
-                        this.Op1String = str.Split(strArrays1, StringSplitOptions.RemoveEmptyEntries)[1].Substring(0, 3);
+                        cCaxMEUpLoad.SplitTEFixInsPartFullPath(FixInsUploadDlg.rootPart.FullPath);
                     }
-                    this.L_Folder = string.Format(@"{0}\OP{1}\OIS\{2}", Path.GetDirectoryName(FixInsUploadDlg.workPart.FullPath), this.Op1String, Path.GetFileNameWithoutExtension(FixInsUploadDlg.workPart.FullPath));
+                    this.L_Folder = string.Format(@"{0}\OP{1}\OIS\{2}", Path.GetDirectoryName(FixInsUploadDlg.workPart.FullPath), cCaxMEUpLoad.OpNum, Path.GetFileNameWithoutExtension(FixInsUploadDlg.workPart.FullPath));
                     if (!Directory.Exists(this.L_Folder))
                     {
                         Directory.CreateDirectory(this.L_Folder);
                     }
-                    object[] globaltekTaskDir = new object[] { CaxEnv.GetGlobaltekTaskDir(), this.splitFullPath[3], this.splitFullPath[4], this.splitFullPath[5], this.splitFullPath[6], this.Op1String, Path.GetFileNameWithoutExtension(FixInsUploadDlg.workPart.FullPath) };
+                    object[] globaltekTaskDir = new object[] { CaxEnv.GetGlobaltekTaskDir(), cCaxMEUpLoad.CusName, cCaxMEUpLoad.PartName, cCaxMEUpLoad.CusRev, cCaxMEUpLoad.OpRev, cCaxMEUpLoad.OpNum, Path.GetFileNameWithoutExtension(FixInsUploadDlg.workPart.FullPath) };
                     this.S_Folder = string.Format(@"{0}\{1}\{2}\{3}\{4}\OP{5}\OIS\{6}", globaltekTaskDir);
                 }
                 else
@@ -146,8 +144,8 @@ namespace FixInsUpload
             try
             {
                 //取得WorkPart資訊並檢查資料是否完整
-                CaxME.WorkPartAttribute sWorkPartAttribute = new CaxME.WorkPartAttribute();
-                status = Function.GetWorkPartAttribute(workPart, out sWorkPartAttribute);
+                DadDimension.WorkPartAttribute sWorkPartAttribute = new DadDimension.WorkPartAttribute();
+                status = DadDimension.GetWorkPartAttribute(workPart, out sWorkPartAttribute);
                 if (!status)
                 {
                     MessageBox.Show("workPart屬性取得失敗，無法上傳");
@@ -166,7 +164,7 @@ namespace FixInsUpload
                 int SheetCount = 0;
                 NXOpen.Tag[] SheetTagAry = null;
                 theUfSession.Draw.AskDrawings(out SheetCount, out SheetTagAry);
-                List<CaxME.DimensionData> listDimensionData = new List<CaxME.DimensionData>();
+                List<DadDimension> listDimensionData = new List<DadDimension>();
                 for (int i = 0; i < SheetCount; i++)
                 {
                     //打開Sheet並記錄所有OBJ
@@ -174,7 +172,7 @@ namespace FixInsUpload
                     CurrentSheet.Open();
                     CurrentSheet.View.UpdateDisplay();
                     DisplayableObject[] SheetObj = CurrentSheet.View.AskVisibleObjects();
-                    status = CaxME.RecordFixDimension(SheetObj, sWorkPartAttribute, ref listDimensionData);
+                    status = Com_FixDimension.RecordFixDimension(SheetObj, sWorkPartAttribute, ref listDimensionData);
                     if (!status)
                     {
                         this.Close();
@@ -204,21 +202,18 @@ namespace FixInsUpload
                     CaxME.CreateOISPDF(drawingSheets, str1);
                 }
 
-                //由料號查peSrNo
-                Com_PEMain comPEMain = new Com_PEMain();
-                status = Function.GetCom_PEMain(splitFullPath, out comPEMain);
+                //由料號查Com_PEMain 
+                Com_PEMain cCom_PEMain = new Com_PEMain();
+                status = CaxSQL.GetCom_PEMain(cCaxMEUpLoad.PartName, cCaxMEUpLoad.CusRev, cCaxMEUpLoad.OpRev, out cCom_PEMain);
                 if (!status)
                 {
-                    this.Close();
                     return;
                 }
-
-                //由peSrNo和Op查partOperationSrNo
-                Com_PartOperation comPartOperation = new Com_PartOperation();
-                status = Function.GetCom_PartOperation(op1, comPEMain, out comPartOperation);
+                //由Com_PEMain和Op查Com_PartOperation
+                Com_PartOperation cCom_PartOperation = new Com_PartOperation();
+                status = CaxSQL.GetCom_PartOperation(cCom_PEMain, cCaxMEUpLoad.OpNum, out cCom_PartOperation);
                 if (!status)
                 {
-                    this.Close();
                     return;
                 }
 
@@ -226,7 +221,7 @@ namespace FixInsUpload
                 bool Is_Exit = true;
                 Com_FixInspection comFixInspection = new Com_FixInspection();
                 comFixInspection = session.QueryOver<Com_FixInspection>()
-                    .Where(x => x.comPartOperation == comPartOperation)
+                    .Where(x => x.comPartOperation == cCom_PartOperation)
                     //.And(x => x.fixinsDescription == Desc.Text)
                     //.And(x => x.fixinsERP == ERPNo.Text)
                     //.And(x => x.fixinsNo == FixInsNo.Text)
@@ -261,16 +256,9 @@ namespace FixInsUpload
 
                 if (!Is_Exit)
                 {
-                    //comFixInspection = new Com_FixInspection();
-                    //comFixInspection.comPartOperation = comPartOperation;
-                    //comFixInspection.fixinsDescription = Desc.Text;
-                    //comFixInspection.fixinsERP = ERPNo.Text;
-                    //comFixInspection.fixinsNo = FixInsNo.Text;
-                    //comFixInspection.fixPicPath = S_PicPath;
-                    //comFixInspection.fixPartName = Path.GetFileNameWithoutExtension(workPart.FullPath);
                     comFixInspection = new Com_FixInspection()
                     {
-                        comPartOperation = comPartOperation,
+                        comPartOperation = cCom_PartOperation,
                         fixinsDescription = this.Desc.Text,
                         fixinsERP = this.ERPNo.Text,
                         fixinsNo = this.FixInsNo.Text,
@@ -279,15 +267,19 @@ namespace FixInsUpload
                     };
 
                     IList<Com_FixDimension> listCom_FixDimension = new List<Com_FixDimension>();
-                    foreach (CaxME.DimensionData i in listDimensionData)
+                    foreach (DadDimension i in listDimensionData)
                     {
-                        Com_FixDimension cCom_FixDimension = new Com_FixDimension()
-                        {
-                            comFixInspection = comFixInspection
-                        };
-                        //cCom_FixDimension.comFixInspection = comFixInspection;
+                        //Com_FixDimension cCom_FixDimension = new Com_FixDimension()
+                        //{
+                        //    comFixInspection = comFixInspection
+                        //};
+                        ////cCom_FixDimension.comFixInspection = comFixInspection;
 
-                        CaxME.MappingData(i, ref cCom_FixDimension);
+                        //CaxME.MappingData(i, ref cCom_FixDimension);
+                        //listCom_FixDimension.Add(cCom_FixDimension);
+                        Com_FixDimension cCom_FixDimension = new Com_FixDimension();
+                        cCom_FixDimension.MappingData(i);
+                        cCom_FixDimension.comFixInspection = comFixInspection;
                         listCom_FixDimension.Add(cCom_FixDimension);
                     }
                     comFixInspection.comFixDimension = listCom_FixDimension;

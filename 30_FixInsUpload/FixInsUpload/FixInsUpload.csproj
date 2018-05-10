@@ -99,7 +99,6 @@
     <Compile Include="FixInsUploadDlg.Designer.cs">
       <DependentUpon>FixInsUploadDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="Function.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
