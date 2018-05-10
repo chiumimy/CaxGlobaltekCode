@@ -91,6 +91,7 @@
     <Compile Include="CaxAsm.cs" />
     <Compile Include="CaxCAM.cs" />
     <Compile Include="CaxCheckDat.cs" />
+    <Compile Include="CaxDownUpLoad.cs" />
     <Compile Include="CaxEnv.cs" />
     <Compile Include="CaxExcel.cs" />
     <Compile Include="CaxFile.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="CaxLoading.cs" />
     <Compile Include="CaxLog.cs" />
     <Compile Include="CaxME.cs" />
+    <Compile Include="CaxMEUpLoad.cs" />
     <Compile Include="LicenseRecord\CaxLicenseMapping.cs" />
     <Compile Include="LoadingDlg.cs">
       <SubType>Form</SubType>
