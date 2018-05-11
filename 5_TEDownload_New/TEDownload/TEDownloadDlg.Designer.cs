@@ -40,10 +40,10 @@
             this.CusRevcomboBox = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.Oper1comboBox = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.labelX6 = new DevComponents.DotNetBar.LabelX();
-            this.listView = new System.Windows.Forms.ListView();
             this.buttonDownload = new DevComponents.DotNetBar.ButtonX();
             this.labelX7 = new DevComponents.DotNetBar.LabelX();
             this.OpRevcomboBox = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // styleManager1
@@ -185,15 +185,6 @@
             this.labelX6.TabIndex = 9;
             this.labelX6.Text = "本次下載檔案";
             // 
-            // listView
-            // 
-            this.listView.Location = new System.Drawing.Point(24, 272);
-            this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(332, 165);
-            this.listView.TabIndex = 10;
-            this.listView.UseCompatibleStateImageBehavior = false;
-            this.listView.View = System.Windows.Forms.View.List;
-            // 
             // buttonDownload
             // 
             this.buttonDownload.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
@@ -234,15 +225,24 @@
             this.OpRevcomboBox.TabIndex = 13;
             this.OpRevcomboBox.SelectedIndexChanged += new System.EventHandler(this.OpRevcomboBox_SelectedIndexChanged);
             // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 12;
+            this.listBox1.Location = new System.Drawing.Point(24, 272);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(332, 160);
+            this.listBox1.TabIndex = 14;
+            // 
             // TEDownloadDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(381, 479);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.OpRevcomboBox);
             this.Controls.Add(this.labelX7);
             this.Controls.Add(this.buttonDownload);
-            this.Controls.Add(this.listView);
             this.Controls.Add(this.labelX6);
             this.Controls.Add(this.Oper1comboBox);
             this.Controls.Add(this.CusRevcomboBox);
@@ -273,9 +273,9 @@
         private DevComponents.DotNetBar.Controls.ComboBoxEx CusRevcomboBox;
         private DevComponents.DotNetBar.Controls.ComboBoxEx Oper1comboBox;
         private DevComponents.DotNetBar.LabelX labelX6;
-        private System.Windows.Forms.ListView listView;
         private DevComponents.DotNetBar.ButtonX buttonDownload;
         private DevComponents.DotNetBar.LabelX labelX7;
         private DevComponents.DotNetBar.Controls.ComboBoxEx OpRevcomboBox;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
