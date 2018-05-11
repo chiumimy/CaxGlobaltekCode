@@ -101,6 +101,8 @@
     <Compile Include="CaxME.cs" />
     <Compile Include="CaxMEUpLoad.cs" />
     <Compile Include="CaxSQL.cs" />
+    <Compile Include="CaxTEUpLoad.cs" />
+    <Compile Include="CaxUpLoad.cs" />
     <Compile Include="LicenseRecord\CaxLicenseMapping.cs" />
     <Compile Include="LoadingDlg.cs">
       <SubType>Form</SubType>
