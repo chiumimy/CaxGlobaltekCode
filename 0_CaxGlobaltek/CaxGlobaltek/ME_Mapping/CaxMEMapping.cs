@@ -787,7 +787,7 @@ namespace CaxGlobaltek
         public static Part workPart = theSession.Parts.Work;
         public static Part displayPart = theSession.Parts.Display;
         public static ObjectAttribute sObjectAttribute;
-        public static WorkPartAttribute sWorkPartAttribute;
+        //public static WorkPartAttribute sWorkPartAttribute;
         public static DadDimension cDadDimension;
         public virtual Int32 dimensionSrNo { get; set; }
         public virtual Com_MEMain comMEMain { get; set; }
@@ -831,7 +831,7 @@ namespace CaxGlobaltek
                         foreach (string dimenExcelType in splitExcel)
                         {
                             cDadDimension = new DadDimension();
-                            GetSingleDimenData(dimenExcelType, singleObj, out cDadDimension);
+                            GetSingleDimenData(dimenExcelType, singleObj, sWorkPartAttribute, out cDadDimension);
                             listDadDimension.Add(cDadDimension);
                         }
                     }
@@ -839,7 +839,7 @@ namespace CaxGlobaltek
                     if (sObjectAttribute.singleSelfCheckExcel != "")
                     {
                         cDadDimension = new DadDimension();
-                        GetSingleDimenData(sObjectAttribute.singleSelfCheckExcel, singleObj, out cDadDimension);
+                        GetSingleDimenData(sObjectAttribute.singleSelfCheckExcel, singleObj, sWorkPartAttribute, out cDadDimension);
                         listDadDimension.Add(cDadDimension);
                     }
                 }
@@ -851,7 +851,7 @@ namespace CaxGlobaltek
             }
             return true;
         }
-        private static bool GetSingleDimenData(string excelType, DisplayableObject singleObj, out DadDimension cDadDimension)
+        private static bool GetSingleDimenData(string excelType, DisplayableObject singleObj, WorkPartAttribute sWorkPartAttribute, out DadDimension cDadDimension)
         {
             cDadDimension = new DadDimension();
             try
