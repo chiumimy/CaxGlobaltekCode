@@ -35,9 +35,9 @@
             this.labelX3 = new DevComponents.DotNetBar.LabelX();
             this.OISLabel = new DevComponents.DotNetBar.LabelX();
             this.labelX5 = new DevComponents.DotNetBar.LabelX();
-            this.listView1 = new System.Windows.Forms.ListView();
             this.OK = new DevComponents.DotNetBar.ButtonX();
             this.Cancel = new DevComponents.DotNetBar.ButtonX();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // styleManager1
@@ -110,21 +110,12 @@
             this.labelX5.TabIndex = 4;
             this.labelX5.Text = "本次上傳檔案";
             // 
-            // listView1
-            // 
-            this.listView1.Location = new System.Drawing.Point(12, 126);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(357, 227);
-            this.listView1.TabIndex = 5;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.List;
-            // 
             // OK
             // 
             this.OK.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.OK.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.OK.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.OK.Location = new System.Drawing.Point(107, 359);
+            this.OK.Location = new System.Drawing.Point(92, 359);
             this.OK.Name = "OK";
             this.OK.Size = new System.Drawing.Size(75, 23);
             this.OK.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -137,7 +128,7 @@
             this.Cancel.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.Cancel.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.Cancel.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Cancel.Location = new System.Drawing.Point(193, 359);
+            this.Cancel.Location = new System.Drawing.Point(178, 359);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(75, 23);
             this.Cancel.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -145,14 +136,23 @@
             this.Cancel.Text = "關閉";
             this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 12;
+            this.listBox1.Location = new System.Drawing.Point(12, 126);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(328, 220);
+            this.listBox1.TabIndex = 8;
+            // 
             // TEUploadDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(381, 394);
+            this.ClientSize = new System.Drawing.Size(354, 394);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.OK);
-            this.Controls.Add(this.listView1);
             this.Controls.Add(this.labelX5);
             this.Controls.Add(this.OISLabel);
             this.Controls.Add(this.labelX3);
@@ -176,6 +176,6 @@
         private DevComponents.DotNetBar.LabelX labelX5;
         private DevComponents.DotNetBar.ButtonX OK;
         private DevComponents.DotNetBar.ButtonX Cancel;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }

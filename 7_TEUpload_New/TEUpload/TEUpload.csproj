@@ -125,8 +125,6 @@
     <Content Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Function.cs" />
-    <Compile Include="PartExcelNC.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="TEUploadDlg.cs">
       <SubType>Form</SubType>

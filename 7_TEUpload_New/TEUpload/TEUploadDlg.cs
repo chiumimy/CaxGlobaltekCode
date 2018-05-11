@@ -24,31 +24,20 @@ namespace TEUpload
         public static UFSession theUfSession = UFSession.GetUFSession();
         public static Part workPart = theSession.Parts.Work;
         public static Part displayPart = theSession.Parts.Display;
-        public static METE_Download_Upload_Path cMETE_Download_Upload_Path = new METE_Download_Upload_Path();
-        public static string Server_OP_Folder = "", tempLocal_Folder_CAM = "";
-        public static Dictionary<string, PartDirData> DicPartDirData = new Dictionary<string, PartDirData>();
-        public static ExcelDirData sExcelDirData = new ExcelDirData();
+        //public static METE_Download_Upload_Path cMETE_Download_Upload_Path = new METE_Download_Upload_Path();
+        //public static string Server_OP_Folder = "", tempLocal_Folder_CAM = "";
+        public static Dictionary<string, CaxUpLoad.PartDirData> DicPartDirData = new Dictionary<string, CaxUpLoad.PartDirData>();
+        //public static ExcelDirData sExcelDirData = new ExcelDirData();
         public static NCProgramDirData sNCProgramDirData = new NCProgramDirData();
-        public PartInfo sPartInfo = new PartInfo();
+        //public PartInfo sPartInfo = new PartInfo();
         public static bool status;
+        public static CaxDownUpLoad.DownUpLoadDat sDownUpLoadDat;
+        public static CaxTEUpLoad cCaxTEUpLoad;
 
         public struct NCProgramDirData
         {
             public string NCProgramLocalDir { get; set; }
             public string NCProgramServerDir { get; set; }
-        }
-
-        public struct ExcelDirData
-        {
-            public string ExcelShopDocLocalDir { get; set; }
-            public string ExcelShopDocServerDir { get; set; }
-        }
-
-        public struct PartDirData
-        {
-            public string PartLocalDir { get; set; }
-            public string PartServer1Dir { get; set; }
-            //public string PartServer2Dir { get; set; }
         }
 
         
@@ -69,21 +58,36 @@ namespace TEUpload
         private void TEUploadDlg_Load(object sender, EventArgs e)
         {
             //取得METEDownload_Upload.dat
-            CaxGetDatData.GetMETEDownload_Upload(out cMETE_Download_Upload_Path);
-
+            sDownUpLoadDat = new CaxDownUpLoad.DownUpLoadDat();
+            status = CaxDownUpLoad.GetDownUpLoadDat(out sDownUpLoadDat);
+            if (!status)
+            {
+                return;
+            }
+            //拆解出客戶、料號、客戶版次、製程版次、製程序
+            cCaxTEUpLoad = new CaxTEUpLoad();
+            status = cCaxTEUpLoad.SplitPartFullPath(displayPart.FullPath);
+            if (!status)
+            {
+                return;
+            }
             //取得料號
-            PartNoLabel.Text = Path.GetFileNameWithoutExtension(displayPart.FullPath).Split('_')[0];
-            OISLabel.Text = Path.GetFileNameWithoutExtension(displayPart.FullPath).Split('_')[1];
+            PartNoLabel.Text = cCaxTEUpLoad.PartName;
+            OISLabel.Text = cCaxTEUpLoad.OpNum;
 
             //將Local_Folder_CAM先暫存起來，然後改變成Server路徑
             //tempLocal_Folder_CAM = cMETE_Download_Upload_Path.Local_Folder_CAM;
 
-            status = CaxPublic.GetAllPath("TE", displayPart.FullPath, out sPartInfo, ref cMETE_Download_Upload_Path);
+            //取代正確路徑
+            status = CaxDownUpLoad.ReplaceDatPath(sDownUpLoadDat.Server_IP, sDownUpLoadDat.Local_IP, cCaxTEUpLoad.CusName, cCaxTEUpLoad.PartName, cCaxTEUpLoad.CusRev, cCaxTEUpLoad.OpRev, ref sDownUpLoadDat);
             if (!status)
             {
-                MessageBox.Show("路徑取代錯誤，無法上傳，請聯繫開發工程師");
-                this.Close();
+                return;
             }
+            sDownUpLoadDat.Server_Folder_CAM = sDownUpLoadDat.Server_Folder_CAM.Replace("[Oper1]", cCaxTEUpLoad.OpNum);
+            sDownUpLoadDat.Server_Folder_OIS = sDownUpLoadDat.Server_Folder_OIS.Replace("[Oper1]", cCaxTEUpLoad.OpNum);
+            sDownUpLoadDat.Local_Folder_CAM = sDownUpLoadDat.Local_Folder_CAM.Replace("[Oper1]", cCaxTEUpLoad.OpNum);
+            sDownUpLoadDat.Local_Folder_OIS = sDownUpLoadDat.Local_Folder_OIS.Replace("[Oper1]", cCaxTEUpLoad.OpNum);
             
             //拆零件路徑字串取得客戶名稱、料號、版本
             //status = PartExcelNC.GetPartData(displayPart,out sPartInfo);
@@ -112,22 +116,24 @@ namespace TEUpload
             cMETE_Download_Upload_Path.Local_Folder_CAM = cMETE_Download_Upload_Path.Local_Folder_CAM.Replace("[Oper1]", sPartInfo.OpNum);
             */
             #endregion
-            
+
             //處理Part的路徑
-            status = PartExcelNC.PartFilePath(displayPart, sPartInfo, listView1, out DicPartDirData);
+            status = CaxUpLoad.GetComponentPath(displayPart, sDownUpLoadDat, ref DicPartDirData);
             if (!status)
             {
-                MessageBox.Show("Part路徑處理失敗，請聯繫開發工程師");
-                this.Close();
+                return;
             }
+            string[] keys = new string[DicPartDirData.Count];
+            DicPartDirData.Keys.CopyTo(keys, 0);
+            listBox1.Items.AddRange(keys);
 
             //string Server_Folder_CAM = "";
             //Server_Folder_CAM = tempLocal_Folder_CAM.Replace("[Local_ShareStr]", cMETE_Download_Upload_Path.Server_ShareStr);
             //Server_Folder_CAM = Server_Folder_CAM.Replace("[Oper1]", sPartInfo.OpNum);
 
             //整個CAM資料夾上傳
-            listView1.Items.Add("資料夾：");
-            listView1.Items.Add(cMETE_Download_Upload_Path.Local_Folder_CAM);
+            listBox1.Items.Add("資料夾：");
+            listBox1.Items.Add(sDownUpLoadDat.Local_Folder_CAM);
 
             #region (註解)處理Excel的路徑
             /*
@@ -165,38 +171,21 @@ namespace TEUpload
 
         private void OK_Click(object sender, EventArgs e)
         {
+            CaxPart.SaveAll();
             #region Part上傳
-            
             List<string> ListPartName = new List<string>();
-            string[] PartText;
-            foreach (KeyValuePair<string, PartDirData> kvp in DicPartDirData)
+            status = CaxUpLoad.UploadPart(DicPartDirData, out ListPartName);
+            if (!status)
             {
-                //判斷Part是否存在
-                if (!File.Exists(kvp.Value.PartLocalDir))
-                {
-                    MessageBox.Show("Part不存在，無法上傳");
-                    return;
-                }
-                try
-                {
-                    File.Copy(kvp.Value.PartLocalDir, kvp.Value.PartServer1Dir, true);
-                }
-                catch (System.Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                    MessageBox.Show(Path.GetFileName(kvp.Value.PartLocalDir) + "上傳失敗");
-                    return;
-                }
-
-                ListPartName.Add(kvp.Key + ".prt");
+                this.Close();
+                return;
             }
-            PartText = ListPartName.ToArray();
-            System.IO.File.WriteAllLines(string.Format(@"{0}\{1}\{2}", cMETE_Download_Upload_Path.Server_ShareStr, "OP" + sPartInfo.OpNum, "PartNameText_CAM.txt"), PartText);
+            System.IO.File.WriteAllLines(string.Format(@"{0}\{1}\{2}", sDownUpLoadDat.Server_ShareStr, "OP" + cCaxTEUpLoad.OpNum, "PartNameText_CAM.txt"), ListPartName.ToArray());
             
             #endregion
 
             //CAM資料夾上傳
-            status = CaxPublic.DirectoryCopy(cMETE_Download_Upload_Path.Local_Folder_CAM, cMETE_Download_Upload_Path.Server_Folder_CAM, true);
+            status = CaxPublic.DirectoryCopy(sDownUpLoadDat.Local_Folder_CAM, sDownUpLoadDat.Server_Folder_CAM, true);
             if (!status)
             {
                 MessageBox.Show("CAM資料夾複製失敗，請聯繫開發工程師");
@@ -236,7 +225,7 @@ namespace TEUpload
             */
             #endregion
             
-            #region 上傳至資料庫
+            #region (註解)上傳至資料庫
             /*
             NCGroup[] NCGroupAry = displayPart.CAMSetup.CAMGroupCollection.ToArray();
             Dictionary<string, Function.OperData> DicNCData = new Dictionary<string, Function.OperData>();

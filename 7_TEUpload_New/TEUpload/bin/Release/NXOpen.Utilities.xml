@@ -252,6 +252,20 @@
             <remarks>This class can be used to help use methods in the NXOpen.UF namespace
             together with objects in the NXOpen namespace.</remarks>
         </member>
+        <member name="M:NXOpen.Utilities.NXObjectManager.GetTaggedObject(NXOpen.Tag)">
+            <summary>
+            Returns the object corresponding to a tag. Use this method in
+            a remoting application.
+            </summary>
+            <remarks>The object that is returned by this method is unique for given tag
+            while that tag is alive. The Tag property of the object will return the
+            tag with which it was obtained by this method.
+            Methods in classes in the NXOpen.UF namespace may return tags and 
+            GetTaggedObject can be used to obtain the corresponding object.
+            </remarks>
+            <param name="objectTag">Tag for which an object is wanted.</param>
+            <returns>The object for this tag</returns>
+        </member>
         <member name="M:NXOpen.Utilities.NXObjectManager.Get(NXOpen.Tag)">
             <summary>
             Returns the object corresponding to a tag. 
