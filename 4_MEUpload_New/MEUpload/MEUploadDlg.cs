@@ -514,12 +514,12 @@ namespace MEUpload
             #endregion
 
             #region 比對資料庫MEMain是否有同筆數據
-            IList<Com_MEMain> DBData_ComMEMain = new List<Com_MEMain>();
-            DBData_ComMEMain = session.QueryOver<Com_MEMain>().List<Com_MEMain>();
+            IList<Com_MEMain> ListCom_MEMain = new List<Com_MEMain>();
+            CaxSQL.GetListCom_MEMain(out ListCom_MEMain);
 
             bool Is_Exist = false;
             Com_MEMain currentComMEMain = new Com_MEMain();
-            foreach (Com_MEMain i in DBData_ComMEMain)
+            foreach (Com_MEMain i in ListCom_MEMain)
             {
                 if (i.comPartOperation == cCom_PartOperation)
                 {
@@ -537,26 +537,18 @@ namespace MEUpload
                 if (eTaskDialogResult.Yes == CaxPublic.ShowMsgYesNo("此料號已存在上一次的標註尺寸資料，是否更新?"))
                 {
                     #region 刪除Com_Dimension資料表
-                    IList<Com_Dimension> DB_ComDimension = session.QueryOver<Com_Dimension>()
-                                                                  .Where(x => x.comMEMain == currentComMEMain).List<Com_Dimension>();
-                    using (ITransaction trans = session.BeginTransaction())
+                    IList<Com_Dimension> ListCom_Dimension = new List<Com_Dimension>();
+                    CaxSQL.GetListCom_Dimension(currentComMEMain, out ListCom_Dimension);
+                    foreach (Com_Dimension i in ListCom_Dimension)
                     {
-                        foreach (Com_Dimension i in DB_ComDimension)
-                        {
-                            session.Delete(i);
-                        }
-                        trans.Commit();
+                        CaxSQL.Delete<Com_Dimension>(i);
                     }
                     #endregion
 
                     #region 刪除Com_MEMain資料表
-                    Com_MEMain DB_ComMEMain = session.QueryOver<Com_MEMain>()
-                                                     .Where(x => x.comPartOperation == currentComMEMain.comPartOperation).SingleOrDefault<Com_MEMain>();
-                    using (ITransaction trans = session.BeginTransaction())
-                    {
-                        session.Delete(DB_ComMEMain);
-                        trans.Commit();
-                    }
+                    Com_MEMain cCom_MEMain = new Com_MEMain();
+                    CaxSQL.GetCom_MEMain(cCom_PartOperation, out cCom_MEMain);
+                    CaxSQL.Delete<Com_MEMain>(cCom_MEMain);
                     #endregion
                 }
                 else
@@ -590,12 +582,7 @@ namespace MEUpload
                         //listCom_Dimension.Add(cCom_Dimension);
                     }
                     cCom_MEMain.comDimension = listCom_Dimension;
-
-                    using (ITransaction trans = session.BeginTransaction())
-                    {
-                        session.Save(cCom_MEMain);
-                        trans.Commit();
-                    }
+                    CaxSQL.Save<Com_MEMain>(cCom_MEMain);
                 }
                 catch (System.Exception ex)
                 {
@@ -606,7 +593,6 @@ namespace MEUpload
 
             #endregion
 
-            
 
             #endregion
 
