@@ -219,14 +219,9 @@ namespace FixInsUpload
 
                 #region 比對資料庫FixInspection是否有同筆數據
                 bool Is_Exit = true;
-                Com_FixInspection comFixInspection = new Com_FixInspection();
-                comFixInspection = session.QueryOver<Com_FixInspection>()
-                    .Where(x => x.comPartOperation == cCom_PartOperation)
-                    //.And(x => x.fixinsDescription == Desc.Text)
-                    //.And(x => x.fixinsERP == ERPNo.Text)
-                    //.And(x => x.fixinsNo == FixInsNo.Text)
-                    .And(x => x.fixPartName == Path.GetFileNameWithoutExtension(workPart.FullPath)).SingleOrDefault();
-                if (comFixInspection == null)
+                Com_FixInspection cCom_FixInspection = new Com_FixInspection();
+                CaxSQL.GetCom_FixInspection(cCom_PartOperation, Path.GetFileNameWithoutExtension(workPart.FullPath), out cCom_FixInspection);
+                if (cCom_FixInspection == null)
                 {
                     Is_Exit = false;
                 }
@@ -234,29 +229,22 @@ namespace FixInsUpload
                 if (Is_Exit && eTaskDialogResult.Yes == CaxPublic.ShowMsgYesNo("此檢、治具已存在上一筆資料，是否更新?"))
                 {
                     #region 刪除Com_FixDimension
-                    IList<Com_FixDimension> listComFixDimension = session.QueryOver<Com_FixDimension>().Where(x => x.comFixInspection == comFixInspection).List();
-                    using (ITransaction trans = session.BeginTransaction())
+                    IList<Com_FixDimension> listComFixDimension = new List<Com_FixDimension>();
+                    CaxSQL.GetListCom_FixDimension(cCom_FixInspection, out listComFixDimension);
+                    foreach (Com_FixDimension i in listComFixDimension)
                     {
-                        foreach (Com_FixDimension i in listComFixDimension)
-                        {
-                            session.Delete(i);
-                        }
-                        trans.Commit();
+                        CaxSQL.Delete<Com_FixDimension>(i);
                     }
                     #endregion
                     #region 刪除Com_FixInspection
-                    using (ITransaction trans = session.BeginTransaction())
-                    {
-                        session.Delete(comFixInspection);
-                        trans.Commit();
-                    }
+                    CaxSQL.Delete<Com_FixInspection>(cCom_FixInspection);
                     #endregion
                     Is_Exit = false;
                 }
 
                 if (!Is_Exit)
                 {
-                    comFixInspection = new Com_FixInspection()
+                    cCom_FixInspection = new Com_FixInspection()
                     {
                         comPartOperation = cCom_PartOperation,
                         fixinsDescription = this.Desc.Text,
@@ -279,16 +267,12 @@ namespace FixInsUpload
                         //listCom_FixDimension.Add(cCom_FixDimension);
                         Com_FixDimension cCom_FixDimension = new Com_FixDimension();
                         cCom_FixDimension.MappingData(i);
-                        cCom_FixDimension.comFixInspection = comFixInspection;
+                        cCom_FixDimension.comFixInspection = cCom_FixInspection;
                         listCom_FixDimension.Add(cCom_FixDimension);
                     }
-                    comFixInspection.comFixDimension = listCom_FixDimension;
+                    cCom_FixInspection.comFixDimension = listCom_FixDimension;
 
-                    using (ITransaction trans = session.BeginTransaction())
-                    {
-                        session.Save(comFixInspection);
-                        trans.Commit();
-                    }
+                    CaxSQL.Save<Com_FixInspection>(cCom_FixInspection);
 
                     //傳OIS圖到SERVER
                     
