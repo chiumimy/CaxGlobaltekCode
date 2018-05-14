@@ -366,10 +366,10 @@ namespace MEUpload
             if (ExportPFD.Checked == true)
             {
                 //建立PFD資料夾
-                string PFDFullPath = string.Format(@"{0}\{1}", cMETE_Download_Upload_Path.Local_Folder_OIS, cCaxMEUpLoad.PartName + "_OIS" + cCaxMEUpLoad.OpNum + ".pdf");
+                string PFDFullPath = string.Format(@"{0}\{1}", sDownUpLoadDat.Local_Folder_OIS, cCaxMEUpLoad.PartName + "_OIS" + cCaxMEUpLoad.OpNum + ".pdf");
                 CaxME.CreateOISPDF(listDrawingSheet, PFDFullPath);
                 //OIS資料夾上傳
-                status = CaxPublic.DirectoryCopy(cMETE_Download_Upload_Path.Local_Folder_OIS, cMETE_Download_Upload_Path.Server_Folder_OIS, true);
+                status = CaxPublic.DirectoryCopy(sDownUpLoadDat.Local_Folder_OIS, sDownUpLoadDat.Server_Folder_OIS, true);
                 if (!status)
                 {
                     MessageBox.Show("OIS資料夾複製失敗，請聯繫開發工程師");
