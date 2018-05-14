@@ -14,14 +14,14 @@ namespace CaxGlobaltek
         {
             public string Server_IP { get; set; }
             public string Server_ShareStr { get; set; }
-            public string Server_Folder_MODEL { get; set; }
+            //public string Server_Folder_MODEL { get; set; }
             public string Server_Folder_CAM { get; set; }
             public string Server_Folder_OIS { get; set; }
-            public string Server_MEDownloadPart { get; set; }
-            public string Server_TEDownloadPart { get; set; }
+            //public string Server_MEDownloadPart { get; set; }
+            //public string Server_TEDownloadPart { get; set; }
             public string Local_IP { get; set; }
             public string Local_ShareStr { get; set; }
-            public string Local_Folder_MODEL { get; set; }
+            //public string Local_Folder_MODEL { get; set; }
             public string Local_Folder_CAM { get; set; }
             public string Local_Folder_OIS { get; set; }
         }
@@ -83,9 +83,9 @@ namespace CaxGlobaltek
                 sDownUpLoadDat.Server_ShareStr = sDownUpLoadDat.Server_ShareStr.Replace("[OpRev]", opRev);
                 sDownUpLoadDat.Server_Folder_CAM = sDownUpLoadDat.Server_Folder_CAM.Replace("[Server_ShareStr]", sDownUpLoadDat.Server_ShareStr);
                 sDownUpLoadDat.Server_Folder_OIS = sDownUpLoadDat.Server_Folder_OIS.Replace("[Server_ShareStr]", sDownUpLoadDat.Server_ShareStr);
-                sDownUpLoadDat.Server_Folder_MODEL = sDownUpLoadDat.Server_Folder_MODEL.Replace("[Server_ShareStr]", sDownUpLoadDat.Server_ShareStr);
-                sDownUpLoadDat.Server_MEDownloadPart = sDownUpLoadDat.Server_MEDownloadPart.Replace("[Server_ShareStr]", sDownUpLoadDat.Server_ShareStr);
-                sDownUpLoadDat.Server_MEDownloadPart = sDownUpLoadDat.Server_MEDownloadPart.Replace("[PartNo]", partName);
+                //sDownUpLoadDat.Server_Folder_MODEL = sDownUpLoadDat.Server_Folder_MODEL.Replace("[Server_ShareStr]", sDownUpLoadDat.Server_ShareStr);
+                //sDownUpLoadDat.Server_MEDownloadPart = sDownUpLoadDat.Server_MEDownloadPart.Replace("[Server_ShareStr]", sDownUpLoadDat.Server_ShareStr);
+                //sDownUpLoadDat.Server_MEDownloadPart = sDownUpLoadDat.Server_MEDownloadPart.Replace("[PartNo]", partName);
 
                 sDownUpLoadDat.Local_ShareStr = sDownUpLoadDat.Local_ShareStr.Replace("[Local_IP]", localIP);
                 sDownUpLoadDat.Local_ShareStr = sDownUpLoadDat.Local_ShareStr.Replace("[CusName]", cusName);

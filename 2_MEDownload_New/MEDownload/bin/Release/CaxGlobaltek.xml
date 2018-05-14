@@ -4,6 +4,22 @@
         <name>CaxGlobaltek</name>
     </assembly>
     <members>
+        <member name="M:CaxGlobaltek.CaxMEUpLoad.SplitPartFullPath(System.String)">
+            <summary>
+            拆解OIS上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
+            </summary>
+            <param name="partFullPath"></param>
+            <param name="sPartInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxMEUpLoad.SplitMEFixInsPartFullPath(System.String)">
+            <summary>
+            拆解ME模檢治具上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
+            </summary>
+            <param name="partFullPath"></param>
+            <param name="sPartInfo"></param>
+            <returns></returns>
+        </member>
         <member name="M:CaxGlobaltek.CaxOper.AskOperNameFromTag(NXOpen.Tag)">
             <summary>
             取得Operatrion程式名
@@ -503,17 +519,17 @@
             <param name="responses"></param>
             <returns></returns>
         </member>
-        <member name="M:CaxGlobaltek.CaxMEUpLoad.SplitPartFullPath(System.String)">
+        <member name="M:CaxGlobaltek.CaxTEUpLoad.SplitPartFullPath(System.String)">
             <summary>
-            拆解OIS上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
+            拆解CAM上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
             </summary>
             <param name="partFullPath"></param>
             <param name="sPartInfo"></param>
             <returns></returns>
         </member>
-        <member name="M:CaxGlobaltek.CaxMEUpLoad.SplitFixPartFullPath(System.String)">
+        <member name="M:CaxGlobaltek.CaxTEUpLoad.SplitTEFixInsPartFullPath(System.String)">
             <summary>
-            拆解治具上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
+            拆解TE模檢治具上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
             </summary>
             <param name="partFullPath"></param>
             <param name="sPartInfo"></param>
