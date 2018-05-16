@@ -26,10 +26,12 @@ namespace FixInsUpload
         public static Part displayPart = theSession.Parts.Display;
         public static ISession session = MyHibernateHelper.SessionFactory.OpenSession();
         public bool status;
-        public string[] PicPathStr, PicNameStr;
+        public string[] PicPathStr, PicNameStr = new string[]{};
         public string S_PicPath, S_Folder, Is_Local, L_Folder;
         public static Part rootPart;
         public CaxMEUpLoad cCaxMEUpLoad;
+        public CaxTEUpLoad cCaxTEUpLoad;
+        public CaxUpLoad cCaxUpLoad;
 
         public FixInsUploadDlg()
         {
@@ -54,25 +56,29 @@ namespace FixInsUpload
                 this.Is_Local = Environment.GetEnvironmentVariable("UGII_ENV_FILE");
                 if (this.Is_Local != null)
                 {
-                    cCaxMEUpLoad = new CaxMEUpLoad();
+                    
                     CaxAsm.GetRootAssemblyPart(FixInsUploadDlg.workPart.Tag, out FixInsUploadDlg.rootPart);
                     //string directoryName = Path.GetDirectoryName(FixInsUploadDlg.rootPart.FullPath);
                     char[] chrArray = new char[] { '\\' };
                     //this.splitFullPath = directoryName.Split(chrArray);
                     if (this.Is_Local.Contains("ME"))
                     {
-                        cCaxMEUpLoad.SplitMEFixInsPartFullPath(FixInsUploadDlg.rootPart.FullPath);   
+                        cCaxMEUpLoad = new CaxMEUpLoad();
+                        cCaxMEUpLoad.SplitMEFixInsPartFullPath(FixInsUploadDlg.rootPart.FullPath);
+                        cCaxUpLoad = cCaxMEUpLoad;
                     }
                     else if (this.Is_Local.Contains("TE"))
                     {
-                        cCaxMEUpLoad.SplitTEFixInsPartFullPath(FixInsUploadDlg.rootPart.FullPath);
+                        cCaxTEUpLoad = new CaxTEUpLoad();
+                        cCaxTEUpLoad.SplitTEFixInsPartFullPath(FixInsUploadDlg.rootPart.FullPath);
+                        cCaxUpLoad = cCaxTEUpLoad;
                     }
-                    this.L_Folder = string.Format(@"{0}\OP{1}\OIS\{2}", Path.GetDirectoryName(FixInsUploadDlg.workPart.FullPath), cCaxMEUpLoad.OpNum, Path.GetFileNameWithoutExtension(FixInsUploadDlg.workPart.FullPath));
+                    this.L_Folder = string.Format(@"{0}\OP{1}\OIS\{2}", Path.GetDirectoryName(FixInsUploadDlg.workPart.FullPath), cCaxUpLoad.OpNum, Path.GetFileNameWithoutExtension(FixInsUploadDlg.workPart.FullPath));
                     if (!Directory.Exists(this.L_Folder))
                     {
                         Directory.CreateDirectory(this.L_Folder);
                     }
-                    object[] globaltekTaskDir = new object[] { CaxEnv.GetGlobaltekTaskDir(), cCaxMEUpLoad.CusName, cCaxMEUpLoad.PartName, cCaxMEUpLoad.CusRev, cCaxMEUpLoad.OpRev, cCaxMEUpLoad.OpNum, Path.GetFileNameWithoutExtension(FixInsUploadDlg.workPart.FullPath) };
+                    object[] globaltekTaskDir = new object[] { CaxEnv.GetGlobaltekTaskDir(), cCaxUpLoad.CusName, cCaxUpLoad.PartName, cCaxUpLoad.CusRev, cCaxUpLoad.OpRev, cCaxUpLoad.OpNum, Path.GetFileNameWithoutExtension(FixInsUploadDlg.workPart.FullPath) };
                     this.S_Folder = string.Format(@"{0}\{1}\{2}\{3}\{4}\OP{5}\OIS\{6}", globaltekTaskDir);
                 }
                 else
@@ -204,14 +210,14 @@ namespace FixInsUpload
 
                 //由料號查Com_PEMain 
                 Com_PEMain cCom_PEMain = new Com_PEMain();
-                status = CaxSQL.GetCom_PEMain(cCaxMEUpLoad.PartName, cCaxMEUpLoad.CusRev, cCaxMEUpLoad.OpRev, out cCom_PEMain);
+                status = CaxSQL.GetCom_PEMain(cCaxUpLoad.PartName, cCaxUpLoad.CusRev, cCaxUpLoad.OpRev, out cCom_PEMain);
                 if (!status)
                 {
                     return;
                 }
                 //由Com_PEMain和Op查Com_PartOperation
                 Com_PartOperation cCom_PartOperation = new Com_PartOperation();
-                status = CaxSQL.GetCom_PartOperation(cCom_PEMain, cCaxMEUpLoad.OpNum, out cCom_PartOperation);
+                status = CaxSQL.GetCom_PartOperation(cCom_PEMain, cCaxUpLoad.OpNum, out cCom_PartOperation);
                 if (!status)
                 {
                     return;
