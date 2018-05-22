@@ -486,7 +486,7 @@ namespace MEUpload
 
             //由料號查Com_PEMain 
             Com_PEMain cCom_PEMain = new Com_PEMain();
-            status = CaxSQL.GetCom_PEMain(cCaxMEUpLoad.PartName, cCaxMEUpLoad.CusRev, cCaxMEUpLoad.OpRev, out cCom_PEMain);
+            status = CaxSQL.GetCom_PEMain(cCaxMEUpLoad.CusName, cCaxMEUpLoad.PartName, cCaxMEUpLoad.CusRev, cCaxMEUpLoad.OpRev, out cCom_PEMain);
             if (!status)
             {
                 return;

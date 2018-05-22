@@ -384,13 +384,6 @@
             <param name="cControlerConfig"></param>
             <returns></returns>
         </member>
-        <member name="M:CaxGlobaltek.CaxGetDatData.GetDraftingConfigData(CaxGlobaltek.DraftingConfig@)">
-            <summary>
-            取得DraftingConfig.dat資料  (路徑：IP:Globaltek\ME_Config\DraftingConfig.dat)
-            </summary>
-            <param name="cControlerConfig"></param>
-            <returns></returns>
-        </member>
         <member name="M:CaxGlobaltek.CaxGetDatData.GetAssignGaugeData(System.String[]@)">
             <summary>
             取得AssignGaugeData.dat資料  (路徑：IP:Globaltek\ME_Config\AssignGaugeData.dat)
@@ -533,6 +526,13 @@
             </summary>
             <param name="partFullPath"></param>
             <param name="sPartInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxPartInformation.GetDraftingConfigData(CaxGlobaltek.CaxPartInformation.DraftingConfig@)">
+            <summary>
+            取得DraftingConfig.dat資料  (路徑：IP:Globaltek\ME_Config\DraftingConfig.dat)
+            </summary>
+            <param name="cControlerConfig"></param>
             <returns></returns>
         </member>
     </members>
