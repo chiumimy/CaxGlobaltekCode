@@ -418,6 +418,22 @@
             <param name="view"></param>
             <returns></returns>
         </member>
+        <member name="M:CaxGlobaltek.CaxTEUpLoad.SplitPartFullPath(System.String)">
+            <summary>
+            拆解CAM上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
+            </summary>
+            <param name="partFullPath"></param>
+            <param name="sPartInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxTEUpLoad.SplitTEFixInsPartFullPath(System.String)">
+            <summary>
+            拆解TE模檢治具上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
+            </summary>
+            <param name="partFullPath"></param>
+            <param name="sPartInfo"></param>
+            <returns></returns>
+        </member>
         <member name="M:CaxGlobaltek.CaxEnv.GetGlobaltekEnvDir">
             <summary>
             回傳：IP\Globaltek
@@ -478,6 +494,22 @@
             取得每一筆料號的製程資料
             </summary>
             <param name="cPECreateData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxMEUpLoad.SplitPartFullPath(System.String)">
+            <summary>
+            拆解OIS上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
+            </summary>
+            <param name="partFullPath"></param>
+            <param name="sPartInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CaxGlobaltek.CaxMEUpLoad.SplitMEFixInsPartFullPath(System.String)">
+            <summary>
+            拆解ME模檢治具上傳的全路徑，取得客戶、料號、客戶版次、製程版次、製程序
+            </summary>
+            <param name="partFullPath"></param>
+            <param name="sPartInfo"></param>
             <returns></returns>
         </member>
         <member name="M:CaxGlobaltek.CaxPart.OpenBaseDisplay(System.String,NXOpen.BasePart@)">

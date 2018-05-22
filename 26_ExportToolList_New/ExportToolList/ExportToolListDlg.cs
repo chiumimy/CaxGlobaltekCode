@@ -89,7 +89,126 @@ namespace ExportToolList
             panel = SGC.PrimaryGrid;
         }
 
+        public void ExportToolListDlg_Load(object sender, EventArgs e)
+        {
+            if (!Doit())
+            {
+                MessageBox.Show("取得資料失敗，請聯繫開發工程師");
+                this.Close();
+                return;
+            }
+        }
+        public bool Doit()
+        {
+            try
+            {
+                int module_id;
+                theUfSession.UF.AskApplicationModule(out module_id);
+                if (module_id != UFConstants.UF_APP_CAM)
+                {
+                    MessageBox.Show("請先轉換為加工模組後再執行！");
+                    return false;
+                }
 
+                if (!GetToolListPath(out ToolListPath))
+                {
+                    MessageBox.Show("取得ToolList.xls失敗");
+                    return false;
+                }
+
+
+
+                //取得正確路徑，拆零件路徑字串取得客戶名稱、料號、版本
+                status = CaxPublic.GetAllPath("TE", displayPart.FullPath, out sPartInfo, ref cMETE_Download_Upload_Path);
+                if (!status)
+                {
+                    Is_Local = null;
+                }
+
+                //此條件判斷是否為走系統的零件
+                if (!displayPart.FullPath.Contains("Task"))
+                {
+                    Is_Local = null;
+                }
+
+                if (Is_Local == null)
+                {
+                    PartNo = Path.GetFileNameWithoutExtension(displayPart.FullPath);
+                }
+                else
+                {
+                    PartNo = sPartInfo.PartNo;
+                }
+
+                //取得所有GroupAry，用來判斷Group的Type決定是NC、Tool、Geometry
+                NXOpen.CAM.NCGroup[] NCGroupAry = displayPart.CAMSetup.CAMGroupCollection.ToArray();
+                //取得所有OperationAry
+                NXOpen.CAM.Operation[] OperationAry = displayPart.CAMSetup.CAMOperationCollection.ToArray();
+
+                #region 取得相關資訊，填入DIC
+                DicNCData = new Dictionary<string, List<OperData>>();
+                foreach (NXOpen.CAM.NCGroup ncGroup in NCGroupAry)
+                {
+                    if (!IsNC(ncGroup))
+                    {
+                        continue;
+                    }
+
+                    if (!ncGroup.Name.Contains("OP"))
+                    {
+                        MessageBox.Show("請先手動將Group名稱：" + ncGroup.Name + "，改為正確格式，再重新啟動功能！");
+                        return false;
+                    }
+
+                    //取得此NCGroup下的所有Oper
+                    CAMObject[] OperGroup = ncGroup.GetMembers();
+
+                    foreach (NXOpen.CAM.Operation item in OperGroup)
+                    {
+                        bool cheValue;
+                        List<OperData> listOperData = new List<OperData>();
+                        cheValue = DicNCData.TryGetValue(ncGroup.Name, out listOperData);
+                        if (!cheValue)
+                        {
+                            listOperData = new List<OperData>();
+                        }
+                        bool chk = true;
+                        foreach (OperData i in listOperData)
+                        {
+                            if (i.ToolNumber == "T" + CaxOper.AskOperToolNumber(item))
+                            {
+                                chk = false;
+                                break;
+                            }
+                        }
+                        if (!chk)
+                        {
+                            continue;
+                        }
+                        OperData sOperData = new OperData();
+                        GetOperToolAttr(item, ref sOperData);
+                        listOperData.Add(sOperData);
+                        DicNCData[ncGroup.Name] = listOperData;
+                    }
+                }
+
+                //將DicNCData的key存入程式群組下拉選單中
+                foreach (KeyValuePair<string, List<OperData>> kvp in DicNCData)
+                {
+                    comboBoxNCName.Items.Add(kvp.Key);
+                }
+                if (comboBoxNCName.Items.Count == 1)
+                {
+                    comboBoxNCName.Text = comboBoxNCName.Items[0].ToString();
+                }
+                #endregion
+            }
+            catch (System.Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
         private static bool IsNC(NXOpen.CAM.NCGroup ncGroup)
         {
             try
@@ -251,117 +370,7 @@ namespace ExportToolList
                 MessageBox.Show("判斷是否重複的刀具與刀柄失敗");
             }
         }
-        public bool Doit()
-        {
-            try
-            {
-                int module_id;
-                theUfSession.UF.AskApplicationModule(out module_id);
-                if (module_id != UFConstants.UF_APP_CAM)
-                {
-                    MessageBox.Show("請先轉換為加工模組後再執行！");
-                    return false;
-                }
-
-                if (!GetToolListPath(out ToolListPath))
-                {
-                    MessageBox.Show("取得ToolList.xls失敗");
-                    return false;
-                }
-
-
-
-                //取得正確路徑，拆零件路徑字串取得客戶名稱、料號、版本
-                status = CaxPublic.GetAllPath("TE", displayPart.FullPath, out sPartInfo, ref cMETE_Download_Upload_Path);
-                if (!status)
-                {
-                    Is_Local = null;
-                }
-
-                //此條件判斷是否為走系統的零件
-                if (!displayPart.FullPath.Contains("Task"))
-                {
-                    Is_Local = null;
-                }
-
-                if (Is_Local == null)
-                {
-                    PartNo = Path.GetFileNameWithoutExtension(displayPart.FullPath);
-                }
-                else
-                {
-                    PartNo = sPartInfo.PartNo;
-                }
-
-                //取得所有GroupAry，用來判斷Group的Type決定是NC、Tool、Geometry
-                NXOpen.CAM.NCGroup[] NCGroupAry = displayPart.CAMSetup.CAMGroupCollection.ToArray();
-                //取得所有OperationAry
-                NXOpen.CAM.Operation[] OperationAry = displayPart.CAMSetup.CAMOperationCollection.ToArray();
-
-                #region 取得相關資訊，填入DIC
-                DicNCData = new Dictionary<string, List<OperData>>();
-                foreach (NXOpen.CAM.NCGroup ncGroup in NCGroupAry)
-                {
-                    if (!IsNC(ncGroup))
-                    {
-                        continue;
-                    }
-
-                    if (!ncGroup.Name.Contains("OP"))
-                    {
-                        MessageBox.Show("請先手動將Group名稱：" + ncGroup.Name + "，改為正確格式，再重新啟動功能！");
-                        return false;
-                    }
-
-                    //取得此NCGroup下的所有Oper
-                    CAMObject[] OperGroup = ncGroup.GetMembers();
-
-                    foreach (NXOpen.CAM.Operation item in OperGroup)
-                    {
-                        bool cheValue;
-                        List<OperData> listOperData = new List<OperData>();
-                        cheValue = DicNCData.TryGetValue(ncGroup.Name, out listOperData);
-                        if (!cheValue)
-                        {
-                            listOperData = new List<OperData>();
-                        }
-                        bool chk = true;
-                        foreach (OperData i in listOperData)
-                        {
-                            if (i.ToolNumber == "T" + CaxOper.AskOperToolNumber(item))
-                            {
-                                chk = false;
-                                break;
-                            }
-                        }
-                        if (!chk)
-                        {
-                            continue;
-                        }
-                        OperData sOperData = new OperData();
-                        GetOperToolAttr(item, ref sOperData);
-                        listOperData.Add(sOperData);
-                        DicNCData[ncGroup.Name] = listOperData;
-                    }
-                }
-
-                //將DicNCData的key存入程式群組下拉選單中
-                foreach (KeyValuePair<string, List<OperData>> kvp in DicNCData)
-                {
-                    comboBoxNCName.Items.Add(kvp.Key);
-                }
-                if (comboBoxNCName.Items.Count == 1)
-                {
-                    comboBoxNCName.Text = comboBoxNCName.Items[0].ToString();
-                }
-                #endregion
-            }
-            catch (System.Exception ex)
-            {
-                return false;
-            }
-            return true;
-        }
+        
         private static bool GetOperToolAttr(NXOpen.CAM.Operation item, ref OperData sOperData)
         {
             try
@@ -426,15 +435,7 @@ namespace ExportToolList
             return true;
             
         }
-        public void ExportToolListDlg_Load(object sender, EventArgs e)
-        {
-            if (!Doit())
-            {
-                MessageBox.Show("取得資料失敗，請聯繫開發工程師");
-                this.Close();
-                return;
-            }
-        }
+        
         private void comboBoxNCName_SelectedIndexChanged(object sender, EventArgs e)
         {
             //清空superGrid資料
