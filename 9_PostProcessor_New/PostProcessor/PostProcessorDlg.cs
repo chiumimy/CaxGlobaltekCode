@@ -192,14 +192,23 @@ namespace PostProcessor
             Is_Local = Environment.GetEnvironmentVariable("UGII_ENV_FILE");
             if (Is_Local != null)
             {
-                CaxPublic.GetAllPath("TE", displayPart.FullPath, out sPartInfo, ref cMETE_Download_Upload_Path);
-                if (!cMETE_Download_Upload_Path.Local_Folder_CAM.Contains("Oper1"))
+                //CaxPublic.GetAllPath("TE", displayPart.FullPath, out sPartInfo, ref cMETE_Download_Upload_Path);
+                //if (!cMETE_Download_Upload_Path.Local_Folder_CAM.Contains("Oper1"))
+                //{
+                //    NCFolderPath = string.Format(@"{0}\{1}_{2}", cMETE_Download_Upload_Path.Local_Folder_CAM, CurrentNCGroup, "NC");
+                //}
+                //else
+                //{
+                //    NCFolderPath = string.Format(@"{0}\{1}_{2}", Path.GetDirectoryName(displayPart.FullPath), CurrentNCGroup, "NC");
+                //}
+                if (displayPart.FullPath.Contains("D:\\Globaltek\\Task"))
                 {
+                    CaxPublic.GetAllPath("TE", displayPart.FullPath, out sPartInfo, ref cMETE_Download_Upload_Path);
                     NCFolderPath = string.Format(@"{0}\{1}_{2}", cMETE_Download_Upload_Path.Local_Folder_CAM, CurrentNCGroup, "NC");
                 }
                 else
                 {
-                    NCFolderPath = string.Format(@"{0}\{1}_{2}", Path.GetDirectoryName(displayPart.FullPath), CurrentNCGroup, "NC");
+                    NCFolderPath = string.Format(@"{0}\{1}_{2}", System.IO.Path.GetDirectoryName(displayPart.FullPath), CurrentNCGroup, "NC");
                 }
             }
             else
