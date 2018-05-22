@@ -55,7 +55,7 @@ namespace PartInformation
                 draftingNoteBuilder1.Style.LetteringStyle.GeneralTextFont = a;
 
                 string[] text1;
-                if (attrStr == PartInformationDlg.TablePosi.MaterialPos)
+                if (attrStr == CaxPartInformation.MaterialPos)
                 {
                     string[] splitText = text.Split(' ');
                     text1 = new string[splitText.Length];
@@ -364,7 +364,7 @@ namespace PartInformation
             return true;
         }
 
-        public static bool GetTextPos(DraftingConfig cDraftingConfig, int i, string KeyToCompare, string ValueToCompare, out Point3d TextPos, out string FontSize)
+        public static bool GetTextPos(CaxPartInformation.DraftingConfig cDraftingConfig, int i, string KeyToCompare, string ValueToCompare, out Point3d TextPos, out string FontSize)
         {
             TextPos = new Point3d();
             FontSize = "";
@@ -644,7 +644,7 @@ namespace PartInformation
             return true;
         }
 
-        public static bool GetTextPos(Drafting sDrafting, string KeyToCompare, string ValueToCompare, string PartUnits, out Point3d TextPos, out string FontSize)
+        public static bool GetTextPos(CaxPartInformation.Drafting sDrafting, string KeyToCompare, string ValueToCompare, string PartUnits, out Point3d TextPos, out string FontSize)
         {
             TextPos = new Point3d();
             FontSize = "";
@@ -936,50 +936,9 @@ namespace PartInformation
             return true;
         }
 
-        public static bool RenameSheet(int SheetCount, Tag[] SheetTagAry)
-        {
-            try
-            {
-                int count = 2;//續頁從S2開始
-                for (int i = 0; i < SheetCount; i++)
-                {
-                    //輪巡每個Sheet
-                    NXOpen.Drawings.DrawingSheet CurrentSheet = (NXOpen.Drawings.DrawingSheet)NXObjectManager.Get(SheetTagAry[i]);
-                    CurrentSheet.Open();
-                    NXObject[] SheetObj = CaxME.FindObjectsInView(CurrentSheet.View.Tag).ToArray();
-                    string SheetType = "";
-                    foreach (NXObject obj in SheetObj)
-                    {
-                        try
-                        {
-                            SheetType = obj.GetStringAttribute("SheetType");
-                            break;
-                        }
-                        catch (System.Exception ex)
-                        {
-                            continue;
-                        }
-                    }
-                    if (SheetType == "1")
-                    {
-                        CaxME.SheetRename(CurrentSheet, "S1");
-                    }
-                    else
-                    {
-                        CaxME.SheetRename(CurrentSheet, "S" + count.ToString());
-                        count++;
-                    }
-                }
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-                return false;
-            }
-            return true;
-        }
 
-        public static bool WriteSheetData(NXOpen.Annotations.Note[] NotesAry, Drafting sDrafting, string AttTitle, string AttValue, string PartUnits, string CusRevText = "")
+
+        public static bool WriteSheetData(NXOpen.Annotations.Note[] NotesAry, CaxPartInformation.Drafting sDrafting, string AttTitle, string AttValue, string PartUnits, string CusRevText = "")
         {
             try
             {
@@ -1013,8 +972,8 @@ namespace PartInformation
                 Point3d TextPt = new Point3d();
                 string FontSize = "";
                 GetTextPos(sDrafting, AttTitle, PartNumCusRev, PartUnits, out TextPt, out FontSize);
-                
-                if (AttTitle == PartInformationDlg.TablePosi.ERPRevPos || AttTitle == PartInformationDlg.TablePosi.ERPcodePos)
+
+                if (AttTitle == CaxPartInformation.ERPRevPos || AttTitle == CaxPartInformation.ERPcodePos)
                 {
                     InsertERPNote(AttTitle, PartNumCusRev, FontSize, TextPt);
                 }
@@ -1031,7 +990,7 @@ namespace PartInformation
             return true;
         }
 
-        public static bool WriteHistoryOfRevsion(Drafting sDrafting, string AttTitle, string AttValue, string PartUnits, int RevCount, string RevRowHeight)
+        public static bool WriteHistoryOfRevsion(CaxPartInformation.Drafting sDrafting, string AttTitle, string AttValue, string PartUnits, int RevCount, string RevRowHeight)
         {
             try
             {
@@ -1059,38 +1018,7 @@ namespace PartInformation
             return true;
         }
 
-        public static bool GetDraftingConfig(DraftingConfig cDraftingConfig, Tag SheetTagAry, string PartUnits, out Drafting sDrafting)
-        {
-            sDrafting = new Drafting();
-            try
-            {
-                for (int i = 0; i < cDraftingConfig.Drafting.Count; i++)
-                {
-                    NXOpen.Drawings.DrawingSheet CurrentSheet = (NXOpen.Drawings.DrawingSheet)NXObjectManager.Get(SheetTagAry);
-                    string SheetSize = cDraftingConfig.Drafting[i].SheetSize;
-                    if (PartUnits == "mm")
-                    {
-                        if (Math.Ceiling(CurrentSheet.Height) != Convert.ToDouble(SheetSize.Split(',')[0]) || Math.Ceiling(CurrentSheet.Length) != Convert.ToDouble(SheetSize.Split(',')[1]))
-                        {
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        if (Math.Ceiling(CurrentSheet.Height * 25.4) != Convert.ToDouble(SheetSize.Split(',')[0]) || Math.Ceiling(CurrentSheet.Length * 25.4) != Convert.ToDouble(SheetSize.Split(',')[1]))
-                        {
-                            continue;
-                        }
-                    }
-                    sDrafting = cDraftingConfig.Drafting[i];
-                }
-            }
-            catch (System.Exception ex)
-            {
-                return false;
-            }
-            return true;
-        }
+        
 
         public static bool DeleteNote(Part workPart, NXOpen.Annotations.Note[] NotesAry)
         {
@@ -1102,7 +1030,7 @@ namespace PartInformation
                     #region 處理0
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.TolTitle0Pos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.TolTitle0Pos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1111,12 +1039,12 @@ namespace PartInformation
                     if (NoteValue1 != "")
                     {
                         CaxPublic.DelectObject(singleNote);
-                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, PartInformationDlg.TablePosi.TolValue0Pos);
+                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, CaxPartInformation.TolValue0Pos);
                         continue;
                     }
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.TolValue0Pos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.TolValue0Pos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1131,7 +1059,7 @@ namespace PartInformation
                     #region 處理1
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.TolTitle1Pos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.TolTitle1Pos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1140,12 +1068,12 @@ namespace PartInformation
                     if (NoteValue1 != "")
                     {
                         CaxPublic.DelectObject(singleNote);
-                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, PartInformationDlg.TablePosi.TolValue1Pos);
+                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, CaxPartInformation.TolValue1Pos);
                         continue;
                     }
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.TolValue1Pos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.TolValue1Pos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1160,7 +1088,7 @@ namespace PartInformation
                     #region 處理2
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.TolTitle2Pos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.TolTitle2Pos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1169,12 +1097,12 @@ namespace PartInformation
                     if (NoteValue1 != "")
                     {
                         CaxPublic.DelectObject(singleNote);
-                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, PartInformationDlg.TablePosi.TolValue2Pos);
+                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, CaxPartInformation.TolValue2Pos);
                         continue;
                     }
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.TolValue2Pos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.TolValue2Pos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1189,7 +1117,7 @@ namespace PartInformation
                     #region 處理3
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.TolTitle3Pos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.TolTitle3Pos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1198,12 +1126,12 @@ namespace PartInformation
                     if (NoteValue1 != "")
                     {
                         CaxPublic.DelectObject(singleNote);
-                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, PartInformationDlg.TablePosi.TolValue3Pos);
+                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, CaxPartInformation.TolValue3Pos);
                         continue;
                     }
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.TolValue3Pos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.TolValue3Pos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1218,7 +1146,7 @@ namespace PartInformation
                     #region 處理4
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.TolTitle4Pos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.TolTitle4Pos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1227,12 +1155,12 @@ namespace PartInformation
                     if (NoteValue1 != "")
                     {
                         CaxPublic.DelectObject(singleNote);
-                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, PartInformationDlg.TablePosi.TolValue4Pos);
+                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, CaxPartInformation.TolValue4Pos);
                         continue;
                     }
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.TolValue4Pos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.TolValue4Pos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1247,7 +1175,7 @@ namespace PartInformation
                     #region 處理角度
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.AngleTitlePos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.AngleTitlePos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1256,12 +1184,12 @@ namespace PartInformation
                     if (NoteValue1 != "")
                     {
                         CaxPublic.DelectObject(singleNote);
-                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, PartInformationDlg.TablePosi.AngleTitlePos);
+                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, CaxPartInformation.AngleTitlePos);
                         continue;
                     }
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.AngleValuePos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.AngleValuePos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1276,7 +1204,7 @@ namespace PartInformation
                     #region 處理製圖
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.PreparedPos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.PreparedPos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1285,14 +1213,14 @@ namespace PartInformation
                     if (NoteValue1 != "")
                     {
                         CaxPublic.DelectObject(singleNote);
-                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, PartInformationDlg.TablePosi.PreparedPos);
+                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, CaxPartInformation.PreparedPos);
                         continue;
                     }
                     #endregion
                     #region 處理校對
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.ReviewedPos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.ReviewedPos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1301,14 +1229,14 @@ namespace PartInformation
                     if (NoteValue1 != "")
                     {
                         CaxPublic.DelectObject(singleNote);
-                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, PartInformationDlg.TablePosi.ReviewedPos);
+                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, CaxPartInformation.ReviewedPos);
                         continue;
                     }
                     #endregion
                     #region 處理審核
                     try
                     {
-                        NoteValue1 = singleNote.GetStringAttribute(PartInformationDlg.TablePosi.ApprovedPos);
+                        NoteValue1 = singleNote.GetStringAttribute(CaxPartInformation.ApprovedPos);
                     }
                     catch (System.Exception ex)
                     {
@@ -1317,7 +1245,7 @@ namespace PartInformation
                     if (NoteValue1 != "")
                     {
                         CaxPublic.DelectObject(singleNote);
-                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, PartInformationDlg.TablePosi.ApprovedPos);
+                        workPart.DeleteAttributeByTypeAndTitle(NXObject.AttributeType.String, CaxPartInformation.ApprovedPos);
                         continue;
                     }
                     #endregion
@@ -1340,7 +1268,7 @@ namespace PartInformation
                 {
                     try
                     {
-                        ListRev.Add(singleNote.GetStringAttribute(PartInformationDlg.TablePosi.RevStartPos));
+                        ListRev.Add(singleNote.GetStringAttribute(CaxPartInformation.RevStartPos));
                         RevCount++;
                     }
                     catch (System.Exception ex)
@@ -1348,7 +1276,7 @@ namespace PartInformation
 
                     try
                     {
-                        singleNote.GetStringAttribute(PartInformationDlg.TablePosi.InstructionPos);
+                        singleNote.GetStringAttribute(CaxPartInformation.InstructionPos);
                         ListInstruction.Add(singleNote);
                     }
                     catch (System.Exception ex)
@@ -1367,7 +1295,7 @@ namespace PartInformation
             string x = "";
             try
             {
-                x = workPart.GetStringAttribute(PartInformationDlg.TablePosi.TolTitle0Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle0Pos);
                 if (x.Contains("X"))
                 {
                     return 0;
@@ -1383,7 +1311,7 @@ namespace PartInformation
             }
             try
             {
-                x = workPart.GetStringAttribute(PartInformationDlg.TablePosi.TolTitle1Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle1Pos);
                 if (x.Contains("X"))
                 {
                     return 0;
@@ -1399,7 +1327,7 @@ namespace PartInformation
             }
             try
             {
-                x = workPart.GetStringAttribute(PartInformationDlg.TablePosi.TolTitle2Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle2Pos);
                 if (x.Contains("X"))
                 {
                     return 0;
@@ -1415,7 +1343,7 @@ namespace PartInformation
             }
             try
             {
-                x = workPart.GetStringAttribute(PartInformationDlg.TablePosi.TolTitle3Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle3Pos);
                 if (x.Contains("X"))
                 {
                     return 0;
@@ -1431,7 +1359,7 @@ namespace PartInformation
             }
             try
             {
-                x = workPart.GetStringAttribute(PartInformationDlg.TablePosi.TolTitle4Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle4Pos);
                 if (x.Contains("X"))
                 {
                     return 0;
