@@ -27,9 +27,9 @@ namespace PartInformation
         public static Part InsdisplayPart;
         
         public static bool status;
-        public static DraftingConfig cDraftingConfig = new DraftingConfig();
+        public static CaxPartInformation.DraftingConfig cDraftingConfig = new CaxPartInformation.DraftingConfig();
         public static Point3d NotePosition = new Point3d();
-
+        public static CaxMEUpLoad cCaxMEUpLoad;
         public static Dictionary<string, string> DicPartNumberPos = new Dictionary<string, string>();
         public static Dictionary<string, string> DicERPcodePos = new Dictionary<string, string>();
         public static Dictionary<string, string> DicERPRevPos = new Dictionary<string, string>();
@@ -73,41 +73,6 @@ namespace PartInformation
         public static int SheetCount = 0;
         public static NXOpen.Tag[] SheetTagAry = null;
 
-        public class TablePosi
-        {
-            public static string PartNumberPos = "PartNumberPos";
-            public static string ERPcodePos = "ERPcodePos";
-            public static string ERPRevPos = "ERPRevPos";
-            public static string CusRevPos = "CusRevPos";
-            public static string PartDescriptionPos = "PartDescriptionPos";
-            public static string RevStartPos = "RevStartPos";
-            public static string PartUnitPos = "PartUnitPos";
-            public static string TolTitle0Pos = "TolTitle0Pos";
-            public static string TolTitle1Pos = "TolTitle1Pos";
-            public static string TolTitle2Pos = "TolTitle2Pos";
-            public static string TolTitle3Pos = "TolTitle3Pos";
-            public static string TolTitle4Pos = "TolTitle4Pos";
-            public static string AngleTitlePos = "AngleTitlePos";
-            public static string TolValue0Pos = "TolValue0Pos";
-            public static string TolValue1Pos = "TolValue1Pos";
-            public static string TolValue2Pos = "TolValue2Pos";
-            public static string TolValue3Pos = "TolValue3Pos";
-            public static string TolValue4Pos = "TolValue4Pos";
-            public static string AngleValuePos = "AngleValuePos";
-            public static string RevDateStartPos = "RevDateStartPos";
-            public static string AuthDatePos = "AuthDatePos";
-            public static string MaterialPos = "MaterialPos";
-            public static string ProcNamePos = "ProcNamePos";
-            public static string PageNumberPos = "PageNumberPos";
-            public static string PreparedPos = "PreparedPos";
-            public static string ReviewedPos = "ReviewedPos";
-            public static string ApprovedPos = "ApprovedPos";
-            public static string InstructionPos = "InstructionPos";
-            public static string InstApprovedPos = "InstApprovedPos";
-            public static string SecondPartNumberPos = "SecondPartNumberPos";
-            public static string SecondPageNumberPos = "SecondPageNumberPos";
-        }
-
 
         public InspectionDlg()
         {
@@ -138,18 +103,26 @@ namespace PartInformation
                 return;
             }
 
-            //取得料號
-            string[] splitFullPath = Path.GetDirectoryName(workPart.FullPath).Split('\\');
-            //取得製程序
-            string op1 = Path.GetFileNameWithoutExtension(workPart.FullPath).Split(new string[] { "OIS" }, StringSplitOptions.RemoveEmptyEntries)[1];
-            op1 = op1.Substring(0, 3);
+            ////取得料號
+            //string[] splitFullPath = Path.GetDirectoryName(workPart.FullPath).Split('\\');
+            ////取得製程序
+            //string op1 = Path.GetFileNameWithoutExtension(workPart.FullPath).Split(new string[] { "OIS" }, StringSplitOptions.RemoveEmptyEntries)[1];
+            //op1 = op1.Substring(0, 3);
+
+            //拆解出客戶、料號、客戶版次、製程版次、製程序
+            cCaxMEUpLoad = new CaxMEUpLoad();
+            status = cCaxMEUpLoad.SplitPartFullPath(displayPart.FullPath);
+            if (!status)
+            {
+                return;
+            }
             
             //找回最源頭的總組立並設定為workPart來取得屬性填入對話框中
-            string RootAssemblyName = string.Format(@"{0}_OIS{1}", splitFullPath[4], op1);
+            string RootAssemblyName = string.Format(@"{0}_OIS{1}", cCaxMEUpLoad.PartName, cCaxMEUpLoad.OpNum);
             workPart = (Part)theSession.Parts.FindObject(RootAssemblyName);
 
             //取得DraftingData
-            status = CaxGetDatData.GetDraftingConfigData(out cDraftingConfig);
+            status = CaxPartInformation.GetDraftingConfigData(out cDraftingConfig);
             if (!status)
             {
                 return;
@@ -178,8 +151,8 @@ namespace PartInformation
             #endregion
 
             //取得零件資訊(SplitPath[3]=CusName、SplitPath[4]=PartNo、SplitPath[5]=CusRev)
-            string PartFullPath = displayPart.FullPath;
-            string[] SplitPath = PartFullPath.Split('\\');
+            //string PartFullPath = displayPart.FullPath;
+            //string[] SplitPath = PartFullPath.Split('\\');
 
             //取得製圖版次的增加高度
             RevRowHeight = cDraftingConfig.Drafting[0].RevRowHeight;
@@ -196,27 +169,27 @@ namespace PartInformation
             //---製圖
             try
             {
-                Prepared.Text = workPart.GetStringAttribute(TablePosi.PreparedPos);
+                Prepared.Text = workPart.GetStringAttribute(CaxPartInformation.PreparedPos);
             }
             catch (System.Exception ex) { Prepared.Text = ""; }
 
             //---校對
             try
             {
-                Reviewed.Text = workPart.GetStringAttribute(TablePosi.ReviewedPos);
+                Reviewed.Text = workPart.GetStringAttribute(CaxPartInformation.ReviewedPos);
             }
             catch (System.Exception ex) { Reviewed.Text = ""; }
 
             //---審核
             try
             {
-                Approved.Text = workPart.GetStringAttribute(TablePosi.ApprovedPos);
+                Approved.Text = workPart.GetStringAttribute(CaxPartInformation.ApprovedPos);
             }
             catch (System.Exception ex) { Approved.Text = ""; }
             //---角度
             try
             {
-                AngleText.Text = workPart.GetStringAttribute(TablePosi.AngleValuePos);
+                AngleText.Text = workPart.GetStringAttribute(CaxPartInformation.AngleValuePos);
             }
             catch (System.Exception ex) { AngleText.Text = "1"; }
 
@@ -227,42 +200,42 @@ namespace PartInformation
             //---料號PartNumber
             try
             {
-                PartNumberText.Text = workPart.GetStringAttribute(TablePosi.PartNumberPos);
+                PartNumberText.Text = workPart.GetStringAttribute(CaxPartInformation.PartNumberPos);
             }
             catch (System.Exception ex) { PartNumberText.Text = ""; }
 
             //---ERPcode
             try
             {
-                ERPcodeText.Text = workPart.GetStringAttribute(TablePosi.ERPcodePos);
+                ERPcodeText.Text = workPart.GetStringAttribute(CaxPartInformation.ERPcodePos);
             }
             catch (System.Exception ex) { ERPcodeText.Text = ""; }
 
             //---品名PartDescription
             try
             {
-                PartDescriptionText.Text = workPart.GetStringAttribute(TablePosi.PartDescriptionPos);
+                PartDescriptionText.Text = workPart.GetStringAttribute(CaxPartInformation.PartDescriptionPos);
             }
             catch (System.Exception ex) { PartDescriptionText.Text = ""; }
 
             //---材質Material
             try
             {
-                PartMaterialText.Text = workPart.GetStringAttribute(TablePosi.MaterialPos);
+                PartMaterialText.Text = workPart.GetStringAttribute(CaxPartInformation.MaterialPos);
             }
             catch (System.Exception ex) { PartMaterialText.Text = ""; }
 
             //---出圖日期AuthDate
             try
             {
-                AuthDate = workPart.GetStringAttribute(TablePosi.AuthDatePos);
+                AuthDate = workPart.GetStringAttribute(CaxPartInformation.AuthDatePos);
             }
             catch (System.Exception ex) { AuthDate = ""; }
 
             //---製圖版次DraftingRev
             try
             {
-                string SplitString = workPart.GetStringAttribute(TablePosi.RevStartPos).Split(',')[0];
+                string SplitString = workPart.GetStringAttribute(CaxPartInformation.RevStartPos).Split(',')[0];
                 DraftingRevText.Text = SplitString;
             }
             catch (System.Exception ex) { DraftingRevText.Text = ""; }
@@ -274,7 +247,7 @@ namespace PartInformation
             //---說明
             try
             {
-                string SplitString = workPart.GetStringAttribute(TablePosi.InstructionPos).Split(',')[0];
+                string SplitString = workPart.GetStringAttribute(CaxPartInformation.InstructionPos).Split(',')[0];
                 Instruction.Text = SplitString;
             }
             catch (System.Exception ex) { Instruction.Text = "新增"; }
@@ -339,10 +312,14 @@ namespace PartInformation
             try
             {
                 tempRevCount = workPart.GetStringAttribute("RevCount");
+                //當PE建完馬上CreateFamilyPart時，RevCount會是空的，所以要給-1
+                if (tempRevCount == "")
+                {
+                    tempRevCount = "-1";
+                }
             }
             catch (System.Exception ex)
             {
-            	
             }
 
             //NXOpen.Preferences.WorkPlane aaa = 
@@ -358,7 +335,7 @@ namespace PartInformation
             }
 
             //取得要使用的座標配置檔的資料
-            Drafting sDrafting = new Drafting();
+            CaxPartInformation.Drafting sDrafting = new CaxPartInformation.Drafting();
             status = Functions.GetDraftingConfig(cDraftingConfig, SheetTagAry[0], PartUnitText.Text, out sDrafting);
             if (!status)
             {
@@ -379,7 +356,7 @@ namespace PartInformation
                 if (CurrentSheet.Name != "S1")
                 {
                     string tempString = CurrentSheet.Name.Split('S')[1] + "/" + SheetCount.ToString();
-                    DicSecondPageNumberPos[TablePosi.SecondPageNumberPos] = tempString;
+                    DicSecondPageNumberPos[CaxPartInformation.SecondPageNumberPos] = tempString;
                 }
 
 
@@ -397,7 +374,7 @@ namespace PartInformation
                         }
                     }
                     #endregion
-
+          
                     #region 處理ERP
                     foreach (KeyValuePair<string, string> kvp in DicERPcodePos)
                     {
@@ -410,7 +387,7 @@ namespace PartInformation
                         }
                     }
                     #endregion
-
+                 
                     #region 處理ERPRev
                     foreach (KeyValuePair<string, string> kvp in DicERPRevPos)
                     {
@@ -423,7 +400,7 @@ namespace PartInformation
                         }
                     }
                     #endregion
-
+               
                     #region 處理品名
                     foreach (KeyValuePair<string, string> kvp in DicPartDescriptionPos)
                     {
@@ -436,7 +413,7 @@ namespace PartInformation
                         }
                     }
                     #endregion
-
+                    
                     #region 處理單位
                     foreach (KeyValuePair<string, string> kvp in DicPartUnitPos)
                     {
@@ -449,7 +426,7 @@ namespace PartInformation
                         }
                     }
                     #endregion
-
+             
                     #region 處理材質
                     foreach (KeyValuePair<string, string> kvp in DicMaterialPos)
                     {
@@ -462,7 +439,7 @@ namespace PartInformation
                         }
                     }
                     #endregion
-
+              
                         
                     //以下新版
 
@@ -481,7 +458,7 @@ namespace PartInformation
                     {
                         string RevSplit = singleRev.Split(',')[0]; 
                         string CountSplit = singleRev.Split(',')[1];
-                        if (DicRevStartPos[TablePosi.RevStartPos] != RevSplit)
+                        if (DicRevStartPos[CaxPartInformation.RevStartPos] != RevSplit)
                         {
                             compareRev++;
                         }
@@ -492,12 +469,12 @@ namespace PartInformation
                             //當不須新增製圖版次時，判斷是否需更新Instruction
                             foreach (NXOpen.Annotations.Note singleIns in ListInstruction.ToArray())
                             {
-                                if ((singleIns.GetStringAttribute(TablePosi.InstructionPos)).Split(',')[1] != CountSplit)
+                                if ((singleIns.GetStringAttribute(CaxPartInformation.InstructionPos)).Split(',')[1] != CountSplit)
                                 {
                                     //找到目前版次，比對如果不相同就跳下一個
                                     continue;
                                 }
-                                if ((singleIns.GetStringAttribute(TablePosi.InstructionPos)).Split(',')[0] == DicInstructionPos[TablePosi.InstructionPos])
+                                if ((singleIns.GetStringAttribute(CaxPartInformation.InstructionPos)).Split(',')[0] == DicInstructionPos[CaxPartInformation.InstructionPos])
                                 {
                                     continue;
                                 }
@@ -517,7 +494,7 @@ namespace PartInformation
                             }
                         }
                     }
-
+         
 
                     #region (有需要新增製圖版次才進來)處理製圖版次、製圖版次日期、說明
                     if (compareRev == ListRev.Count)
@@ -575,7 +552,7 @@ namespace PartInformation
                         }
                     }
                     #endregion
-
+ 
                     #region 處理出圖日期
                     foreach (KeyValuePair<string, string> kvp in DicAuthDatePos)
                     {
@@ -592,7 +569,7 @@ namespace PartInformation
                         }
                     }
                     #endregion
-
+             
                     #region 處理頁數
                     foreach (KeyValuePair<string, string> kvp in DicPageNumberPos)
                     {
@@ -605,7 +582,7 @@ namespace PartInformation
                         }
                     }
                     #endregion
-
+            
                     #region 刪除所有公差資訊
                     status = Functions.DeleteNote(workPart, NotesAry);
                     if (!status)
@@ -615,7 +592,7 @@ namespace PartInformation
                         return;
                     }
                     #endregion
-
+               
                     #region 處理TolTitle0，X.
                     foreach (KeyValuePair<string, string> kvp in DicTolTitle0Pos)
                     {
@@ -625,7 +602,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
                     }
                     #endregion
-
+         
                     #region 處理TolTitle1， .X
                     foreach (KeyValuePair<string, string> kvp in DicTolTitle1Pos)
                     {
@@ -635,7 +612,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
                     }
                     #endregion
-
+         
                     #region 處理TolTitle2， .XX
                     foreach (KeyValuePair<string, string> kvp in DicTolTitle2Pos)
                     {
@@ -645,7 +622,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
                     }
                     #endregion
-
+             
                     #region 處理TolTitle3， .XXX
                     foreach (KeyValuePair<string, string> kvp in DicTolTitle3Pos)
                     {
@@ -655,7 +632,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
                     }
                     #endregion
-
+              
                     #region 處理TolTitle4， .XXXX
                     foreach (KeyValuePair<string, string> kvp in DicTolTitle4Pos)
                     {
@@ -665,7 +642,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
                     }
                     #endregion
-
+           
                     #region 處理AngleTitle，角度
                     foreach (KeyValuePair<string, string> kvp in DicAngleTitlePos)
                     {
@@ -675,7 +652,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
                     }
                     #endregion
-
+                 
                     #region 處理TolValue0，X.
                     foreach (KeyValuePair<string, string> kvp in DicTolValue0Pos)
                     {
@@ -685,7 +662,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
                     }
                     #endregion
-
+                   
                     #region 處理TolValue1， .X
                     foreach (KeyValuePair<string, string> kvp in DicTolValue1Pos)
                     {
@@ -695,7 +672,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
                     }
                     #endregion
-
+             
                     #region 處理TolValue2， .XX
                     foreach (KeyValuePair<string, string> kvp in DicTolValue2Pos)
                     {
@@ -705,7 +682,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
                     }
                     #endregion
-
+               
                     #region 處理TolValue3， .XXX
                     foreach (KeyValuePair<string, string> kvp in DicTolValue3Pos)
                     {
@@ -715,7 +692,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
                     }
                     #endregion
-
+               
                     #region 處理TolValue4， .XXXX
                     foreach (KeyValuePair<string, string> kvp in DicTolValue4Pos)
                     {
@@ -725,7 +702,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
                     }
                     #endregion
-
+            
                     #region 處理AngleValue，角度
                     foreach (KeyValuePair<string, string> kvp in DicAngleValuePos)
                     {
@@ -735,7 +712,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft);
                     }
                     #endregion
-
+            
                     #region 處理製圖
                     foreach (KeyValuePair<string, string> kvp in DicPreparedPos)
                     {
@@ -745,7 +722,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidCenter);
                     }
                     #endregion
-
+                
                     #region 處理校對
                     foreach (KeyValuePair<string, string> kvp in DicReviewedPos)
                     {
@@ -755,7 +732,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidCenter);
                     }
                     #endregion
-
+                
                     #region 處理審核
                     foreach (KeyValuePair<string, string> kvp in DicApprovedPos)
                     {
@@ -765,7 +742,7 @@ namespace PartInformation
                         Functions.InsertNote(kvp.Key, kvp.Value, FontSize, TextPt, "", NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidCenter);
                     }
                     #endregion
-
+                  
                 }
                 else
                 {
@@ -896,7 +873,7 @@ namespace PartInformation
                     string a = "", b = "", c = "";
                     try
                     {
-                        a = singleNote.GetStringAttribute(TablePosi.RevStartPos);
+                        a = singleNote.GetStringAttribute(CaxPartInformation.RevStartPos);
                         if (a.Split(',')[1] == RevCount.ToString())
                         {
                             CaxPublic.DelectObject(singleNote);
@@ -907,7 +884,7 @@ namespace PartInformation
 
                     try
                     {
-                        b = singleNote.GetStringAttribute(TablePosi.RevDateStartPos);
+                        b = singleNote.GetStringAttribute(CaxPartInformation.RevDateStartPos);
                         if (b.Split(',')[1] == RevCount.ToString())
                         {
                             CaxPublic.DelectObject(singleNote);
@@ -918,7 +895,7 @@ namespace PartInformation
 
                     try
                     {
-                        c = singleNote.GetStringAttribute(TablePosi.InstructionPos);
+                        c = singleNote.GetStringAttribute(CaxPartInformation.InstructionPos);
                         if (c.Split(',')[1] == RevCount.ToString())
                         {
                             CaxPublic.DelectObject(singleNote);
@@ -987,7 +964,7 @@ namespace PartInformation
                 //---公差TolValue0
                 try
                 {
-                    TolValue0.Text = InsworkPart.GetStringAttribute(TablePosi.TolValue0Pos);
+                    TolValue0.Text = InsworkPart.GetStringAttribute(CaxPartInformation.TolValue0Pos);
                 }
                 catch (System.Exception ex) 
                 { 
@@ -997,7 +974,7 @@ namespace PartInformation
                 //---公差TolValue1
                 try
                 {
-                    TolValue1.Text = InsworkPart.GetStringAttribute(TablePosi.TolValue1Pos);
+                    TolValue1.Text = InsworkPart.GetStringAttribute(CaxPartInformation.TolValue1Pos);
                 }
                 catch (System.Exception ex) 
                 { 
@@ -1007,7 +984,7 @@ namespace PartInformation
                 //---公差TolValue2
                 try
                 {
-                    TolValue2.Text = InsworkPart.GetStringAttribute(TablePosi.TolValue2Pos);
+                    TolValue2.Text = InsworkPart.GetStringAttribute(CaxPartInformation.TolValue2Pos);
                 }
                 catch (System.Exception ex) 
                 { 
@@ -1017,7 +994,7 @@ namespace PartInformation
                 //---公差TolValue3
                 try
                 {
-                    TolValue3.Text = InsworkPart.GetStringAttribute(TablePosi.TolValue3Pos);
+                    TolValue3.Text = InsworkPart.GetStringAttribute(CaxPartInformation.TolValue3Pos);
                 }
                 catch (System.Exception ex) 
                 { 
@@ -1027,7 +1004,7 @@ namespace PartInformation
                 //---公差TolValue4
                 try
                 {
-                    TolValue4.Text = InsworkPart.GetStringAttribute(TablePosi.TolValue4Pos);
+                    TolValue4.Text = InsworkPart.GetStringAttribute(CaxPartInformation.TolValue4Pos);
                 }
                 catch (System.Exception ex) 
                 { 
@@ -1123,7 +1100,7 @@ namespace PartInformation
                     try
                     {
                         //刪除角度Title
-                        i.GetStringAttribute(TablePosi.AngleTitlePos);
+                        i.GetStringAttribute(CaxPartInformation.AngleTitlePos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1132,7 +1109,7 @@ namespace PartInformation
                     try
                     {
                         //刪除角度Value
-                        i.GetStringAttribute(TablePosi.AngleValuePos);
+                        i.GetStringAttribute(CaxPartInformation.AngleValuePos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1141,7 +1118,7 @@ namespace PartInformation
                     try
                     {
                         //刪除出圖日期
-                        i.GetStringAttribute(TablePosi.AuthDatePos);
+                        i.GetStringAttribute(CaxPartInformation.AuthDatePos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1150,7 +1127,7 @@ namespace PartInformation
                     try
                     {
                         //刪除客戶版次
-                        i.GetStringAttribute(TablePosi.CusRevPos);
+                        i.GetStringAttribute(CaxPartInformation.CusRevPos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1159,7 +1136,7 @@ namespace PartInformation
                     try
                     {
                         //刪除ERP
-                        i.GetStringAttribute(TablePosi.ERPcodePos);
+                        i.GetStringAttribute(CaxPartInformation.ERPcodePos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1168,7 +1145,7 @@ namespace PartInformation
                     try
                     {
                         //刪除ERP版本
-                        i.GetStringAttribute(TablePosi.ERPRevPos);
+                        i.GetStringAttribute(CaxPartInformation.ERPRevPos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1177,7 +1154,7 @@ namespace PartInformation
                     try
                     {
                         //刪除材質
-                        i.GetStringAttribute(TablePosi.MaterialPos);
+                        i.GetStringAttribute(CaxPartInformation.MaterialPos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1186,7 +1163,7 @@ namespace PartInformation
                     try
                     {
                         //刪除頁數
-                        i.GetStringAttribute(TablePosi.PageNumberPos);
+                        i.GetStringAttribute(CaxPartInformation.PageNumberPos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1195,7 +1172,7 @@ namespace PartInformation
                     try
                     {
                         //刪除品名
-                        i.GetStringAttribute(TablePosi.PartDescriptionPos);
+                        i.GetStringAttribute(CaxPartInformation.PartDescriptionPos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1204,7 +1181,7 @@ namespace PartInformation
                     try
                     {
                         //刪除料號
-                        i.GetStringAttribute(TablePosi.PartNumberPos);
+                        i.GetStringAttribute(CaxPartInformation.PartNumberPos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1213,7 +1190,7 @@ namespace PartInformation
                     try
                     {
                         //刪除單位
-                        i.GetStringAttribute(TablePosi.PartUnitPos);
+                        i.GetStringAttribute(CaxPartInformation.PartUnitPos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1222,7 +1199,7 @@ namespace PartInformation
                     try
                     {
 
-                        i.GetStringAttribute(TablePosi.ProcNamePos);
+                        i.GetStringAttribute(CaxPartInformation.ProcNamePos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1231,7 +1208,7 @@ namespace PartInformation
                     try
                     {
                         //刪除製圖日期
-                        //i.GetStringAttribute(TablePosi.RevDateStartPos);
+                        //i.GetStringAttribute(CaxPartInformation.RevDateStartPos);
                         //CaxPublic.DelectObject(i);
                         //continue;
                     }
@@ -1240,7 +1217,7 @@ namespace PartInformation
                     try
                     {
                         //刪除製圖版次
-                        //i.GetStringAttribute(TablePosi.RevStartPos);
+                        //i.GetStringAttribute(CaxPartInformation.RevStartPos);
                         //CaxPublic.DelectObject(i);
                         //continue;
                     }
@@ -1249,7 +1226,7 @@ namespace PartInformation
                     try
                     {
                         //刪除製圖人員
-                        i.GetStringAttribute(TablePosi.PreparedPos);
+                        i.GetStringAttribute(CaxPartInformation.PreparedPos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1258,7 +1235,7 @@ namespace PartInformation
                     try
                     {
                         //刪除校對人員
-                        i.GetStringAttribute(TablePosi.ReviewedPos);
+                        i.GetStringAttribute(CaxPartInformation.ReviewedPos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1267,7 +1244,7 @@ namespace PartInformation
                     try
                     {
                         //刪除審核人員
-                        i.GetStringAttribute(TablePosi.ApprovedPos);
+                        i.GetStringAttribute(CaxPartInformation.ApprovedPos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1276,7 +1253,7 @@ namespace PartInformation
                     try
                     {
                         //刪除製圖審核人員
-                        //i.GetStringAttribute(TablePosi.InstApprovedPos);
+                        //i.GetStringAttribute(CaxPartInformation.InstApprovedPos);
                         //CaxPublic.DelectObject(i);
                         //continue;
                     }
@@ -1285,7 +1262,7 @@ namespace PartInformation
                     try
                     {
                         //刪除說明
-                        //i.GetStringAttribute(TablePosi.InstructionPos);
+                        //i.GetStringAttribute(CaxPartInformation.InstructionPos);
                         //CaxPublic.DelectObject(i);
                         //continue;
                     }
@@ -1294,7 +1271,7 @@ namespace PartInformation
                     try
                     {
                         //刪除第二頁料號
-                        i.GetStringAttribute(TablePosi.SecondPageNumberPos);
+                        i.GetStringAttribute(CaxPartInformation.SecondPageNumberPos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1303,7 +1280,7 @@ namespace PartInformation
                     try
                     {
                         //刪除第二頁頁數
-                        i.GetStringAttribute(TablePosi.SecondPartNumberPos);
+                        i.GetStringAttribute(CaxPartInformation.SecondPartNumberPos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1312,7 +1289,7 @@ namespace PartInformation
                     try
                     {
                         //刪除一般公差
-                        i.GetStringAttribute(TablePosi.TolTitle0Pos);
+                        i.GetStringAttribute(CaxPartInformation.TolTitle0Pos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1321,7 +1298,7 @@ namespace PartInformation
                     try
                     {
                         //刪除一般公差
-                        i.GetStringAttribute(TablePosi.TolTitle1Pos);
+                        i.GetStringAttribute(CaxPartInformation.TolTitle1Pos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1330,7 +1307,7 @@ namespace PartInformation
                     try
                     {
                         //刪除一般公差
-                        i.GetStringAttribute(TablePosi.TolTitle2Pos);
+                        i.GetStringAttribute(CaxPartInformation.TolTitle2Pos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1339,7 +1316,7 @@ namespace PartInformation
                     try
                     {
                         //刪除一般公差
-                        i.GetStringAttribute(TablePosi.TolTitle3Pos);
+                        i.GetStringAttribute(CaxPartInformation.TolTitle3Pos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1348,7 +1325,7 @@ namespace PartInformation
                     try
                     {
                         //刪除一般公差
-                        i.GetStringAttribute(TablePosi.TolTitle4Pos);
+                        i.GetStringAttribute(CaxPartInformation.TolTitle4Pos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1357,7 +1334,7 @@ namespace PartInformation
                     try
                     {
                         //刪除一般公差
-                        i.GetStringAttribute(TablePosi.TolValue0Pos);
+                        i.GetStringAttribute(CaxPartInformation.TolValue0Pos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1366,7 +1343,7 @@ namespace PartInformation
                     try
                     {
                         //刪除一般公差
-                        i.GetStringAttribute(TablePosi.TolValue1Pos);
+                        i.GetStringAttribute(CaxPartInformation.TolValue1Pos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1375,7 +1352,7 @@ namespace PartInformation
                     try
                     {
                         //刪除一般公差
-                        i.GetStringAttribute(TablePosi.TolValue2Pos);
+                        i.GetStringAttribute(CaxPartInformation.TolValue2Pos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1384,7 +1361,7 @@ namespace PartInformation
                     try
                     {
                         //刪除一般公差
-                        i.GetStringAttribute(TablePosi.TolValue3Pos);
+                        i.GetStringAttribute(CaxPartInformation.TolValue3Pos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1393,7 +1370,7 @@ namespace PartInformation
                     try
                     {
                         //刪除一般公差
-                        i.GetStringAttribute(TablePosi.TolValue4Pos);
+                        i.GetStringAttribute(CaxPartInformation.TolValue4Pos);
                         CaxPublic.DelectObject(i);
                         continue;
                     }
@@ -1475,83 +1452,83 @@ namespace PartInformation
 
         private void WriteDlgDataToDic()
         {
-            DicPartNumberPos.Add(TablePosi.PartNumberPos, PartNumberText.Text);//料號
-            DicERPcodePos.Add(TablePosi.ERPcodePos, ERPcodeText.Text);//ERP
-            DicERPcodePos.Add(TablePosi.ERPRevPos, DraftingRevText.Text.ToUpper());//ERPRev
-            //DicCusRevPos.Add(TablePosi.CusRevPos, CusRevText.Text);//客戶版次
-            DicPartDescriptionPos.Add(TablePosi.PartDescriptionPos, PartDescriptionText.Text);//品名
-            DicPartUnitPos.Add(TablePosi.PartUnitPos, PartUnitText.Text);//單位
-            DicRevStartPos.Add(TablePosi.RevStartPos, DraftingRevText.Text.ToUpper());//製圖版次
-            DicRevDateStartPos.Add(TablePosi.RevDateStartPos, DateTime.Now.ToShortDateString());//版次日期
-            DicAuthDatePos.Add(TablePosi.AuthDatePos, DateTime.Now.ToShortDateString());//出圖日期
-            DicMaterialPos.Add(TablePosi.MaterialPos, PartMaterialText.Text);//材質
-            DicPageNumberPos.Add(TablePosi.PageNumberPos, "1/" + SheetCount.ToString());//頁數
-            DicPreparedPos.Add(TablePosi.PreparedPos, Prepared.Text);//製圖
-            DicReviewedPos.Add(TablePosi.ReviewedPos, Reviewed.Text);//校對
-            DicApprovedPos.Add(TablePosi.ApprovedPos, Approved.Text);//審核
-            DicInstructionPos.Add(TablePosi.InstructionPos, Instruction.Text);//說明
-            DicInstApprovedPos.Add(TablePosi.InstApprovedPos, Approved.Text);//製圖審核
+            DicPartNumberPos.Add(CaxPartInformation.PartNumberPos, PartNumberText.Text);//料號
+            DicERPcodePos.Add(CaxPartInformation.ERPcodePos, ERPcodeText.Text);//ERP
+            DicERPcodePos.Add(CaxPartInformation.ERPRevPos, DraftingRevText.Text.ToUpper());//ERPRev
+            //DicCusRevPos.Add(CaxPartInformation.CusRevPos, CusRevText.Text);//客戶版次
+            DicPartDescriptionPos.Add(CaxPartInformation.PartDescriptionPos, PartDescriptionText.Text);//品名
+            DicPartUnitPos.Add(CaxPartInformation.PartUnitPos, PartUnitText.Text);//單位
+            DicRevStartPos.Add(CaxPartInformation.RevStartPos, DraftingRevText.Text.ToUpper());//製圖版次
+            DicRevDateStartPos.Add(CaxPartInformation.RevDateStartPos, DateTime.Now.ToShortDateString());//版次日期
+            DicAuthDatePos.Add(CaxPartInformation.AuthDatePos, DateTime.Now.ToShortDateString());//出圖日期
+            DicMaterialPos.Add(CaxPartInformation.MaterialPos, PartMaterialText.Text);//材質
+            DicPageNumberPos.Add(CaxPartInformation.PageNumberPos, "1/" + SheetCount.ToString());//頁數
+            DicPreparedPos.Add(CaxPartInformation.PreparedPos, Prepared.Text);//製圖
+            DicReviewedPos.Add(CaxPartInformation.ReviewedPos, Reviewed.Text);//校對
+            DicApprovedPos.Add(CaxPartInformation.ApprovedPos, Approved.Text);//審核
+            DicInstructionPos.Add(CaxPartInformation.InstructionPos, Instruction.Text);//說明
+            DicInstApprovedPos.Add(CaxPartInformation.InstApprovedPos, Approved.Text);//製圖審核
 
             if (TolValue0.Text != "")
             {
-                DicTolValue0Pos.Add(TablePosi.TolValue0Pos, "<$t>" + TolValue0.Text);
-                DicTolTitle0Pos.Add(TablePosi.TolTitle0Pos, TolTitle0.Text);
+                DicTolValue0Pos.Add(CaxPartInformation.TolValue0Pos, "<$t>" + TolValue0.Text);
+                DicTolTitle0Pos.Add(CaxPartInformation.TolTitle0Pos, TolTitle0.Text);
             }
             else
             {
-                DicTolValue0Pos.Add(TablePosi.TolValue0Pos, TolValue0.Text);
+                DicTolValue0Pos.Add(CaxPartInformation.TolValue0Pos, TolValue0.Text);
             }
 
 
             if (TolValue1.Text != "")
             {
-                DicTolValue1Pos.Add(TablePosi.TolValue1Pos, "<$t>" + TolValue1.Text);
-                DicTolTitle1Pos.Add(TablePosi.TolTitle1Pos, TolTitle1.Text);
+                DicTolValue1Pos.Add(CaxPartInformation.TolValue1Pos, "<$t>" + TolValue1.Text);
+                DicTolTitle1Pos.Add(CaxPartInformation.TolTitle1Pos, TolTitle1.Text);
             }
             else
             {
-                DicTolValue1Pos.Add(TablePosi.TolValue1Pos, TolValue1.Text);
+                DicTolValue1Pos.Add(CaxPartInformation.TolValue1Pos, TolValue1.Text);
             }
 
             if (TolValue2.Text != "")
             {
-                DicTolValue2Pos.Add(TablePosi.TolValue2Pos, "<$t>" + TolValue2.Text);
-                DicTolTitle2Pos.Add(TablePosi.TolTitle2Pos, TolTitle2.Text);
+                DicTolValue2Pos.Add(CaxPartInformation.TolValue2Pos, "<$t>" + TolValue2.Text);
+                DicTolTitle2Pos.Add(CaxPartInformation.TolTitle2Pos, TolTitle2.Text);
             }
             else
             {
-                DicTolValue2Pos.Add(TablePosi.TolValue2Pos, TolValue2.Text);
+                DicTolValue2Pos.Add(CaxPartInformation.TolValue2Pos, TolValue2.Text);
             }
 
             if (TolValue3.Text != "")
             {
-                DicTolValue3Pos.Add(TablePosi.TolValue3Pos, "<$t>" + TolValue3.Text);
-                DicTolTitle3Pos.Add(TablePosi.TolTitle3Pos, TolTitle3.Text);
+                DicTolValue3Pos.Add(CaxPartInformation.TolValue3Pos, "<$t>" + TolValue3.Text);
+                DicTolTitle3Pos.Add(CaxPartInformation.TolTitle3Pos, TolTitle3.Text);
             }
             else
             {
-                DicTolValue3Pos.Add(TablePosi.TolValue3Pos, TolValue3.Text);
+                DicTolValue3Pos.Add(CaxPartInformation.TolValue3Pos, TolValue3.Text);
             }
 
             if (TolValue4.Text != "")
             {
-                DicTolValue4Pos.Add(TablePosi.TolValue4Pos, "<$t>" + TolValue4.Text);
-                DicTolTitle4Pos.Add(TablePosi.TolTitle4Pos, TolTitle4.Text);
+                DicTolValue4Pos.Add(CaxPartInformation.TolValue4Pos, "<$t>" + TolValue4.Text);
+                DicTolTitle4Pos.Add(CaxPartInformation.TolTitle4Pos, TolTitle4.Text);
             }
             else
             {
-                DicTolValue4Pos.Add(TablePosi.TolValue4Pos, TolValue4.Text);
+                DicTolValue4Pos.Add(CaxPartInformation.TolValue4Pos, TolValue4.Text);
             }
 
             if (AngleText.Text != "")
             {
-                DicAngleValuePos.Add(TablePosi.AngleValuePos, "<$t>" + AngleText.Text + "<$s>");
-                DicAngleTitlePos.Add(TablePosi.AngleTitlePos, "角度");
+                DicAngleValuePos.Add(CaxPartInformation.AngleValuePos, "<$t>" + AngleText.Text + "<$s>");
+                DicAngleTitlePos.Add(CaxPartInformation.AngleTitlePos, "角度");
             }
 
             if (SheetCount > 1)
             {
-                DicSecondPartNumberPos.Add(TablePosi.SecondPartNumberPos, PartNumberText.Text);//第二頁以上的料號
+                DicSecondPartNumberPos.Add(CaxPartInformation.SecondPartNumberPos, PartNumberText.Text);//第二頁以上的料號
             }
         }
     }
