@@ -98,32 +98,7 @@ namespace CaxGlobaltek
             return true;
         }
 
-        /// <summary>
-        /// 取得DraftingConfig.dat資料  (路徑：IP:Globaltek\ME_Config\DraftingConfig.dat)
-        /// </summary>
-        /// <param name="cControlerConfig"></param>
-        /// <returns></returns>
-        public static bool GetDraftingConfigData(out DraftingConfig cDraftingData)
-        {
-            cDraftingData = new DraftingConfig();
-            try
-            {
-                string DraftingConfig_dat = "DraftingConfig.dat";
-                string DraftingConfig_Path = string.Format(@"{0}\{1}\{2}\{3}", CaxEnv.GetGlobaltekEnvDir(), "ME_Config", "Config", DraftingConfig_dat);
-                if (!System.IO.File.Exists(DraftingConfig_Path))
-                {
-                    MessageBox.Show("路徑：" + DraftingConfig_Path + "不存在");
-                    return false;
-                }
-
-                CaxPublic.ReadDraftingConfig(DraftingConfig_Path, out cDraftingData);
-            }
-            catch (System.Exception ex)
-            {
-            	return false;
-            }
-            return true;
-        }
+        
 
         /// <summary>
         /// 取得AssignGaugeData.dat資料  (路徑：IP:Globaltek\ME_Config\AssignGaugeData.dat)

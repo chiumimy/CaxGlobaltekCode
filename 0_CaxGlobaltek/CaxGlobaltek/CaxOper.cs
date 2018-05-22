@@ -638,13 +638,14 @@ namespace CaxGlobaltek
                 objects1[0] = OperObject;
                 workPart.CAMSetup.Postprocess(objects1, PostName, OutputPath, NXOpen.CAM.CAMSetup.OutputUnits.PostDefined);
             }
-            catch (NXOpen.NXException NXex)
-            {
-                if (NXex.ErrorCode == 11)
-                {
-                    return true;
-                }
-            }
+            //catch (NXOpen.NXException NXex)
+            //{
+            //    MessageBox.Show(NXex.ToString());
+            //    if (NXex.ErrorCode == 11)
+            //    {
+            //        return true;
+            //    }
+            //}
             catch (System.Exception ex)
             {
                 return false;

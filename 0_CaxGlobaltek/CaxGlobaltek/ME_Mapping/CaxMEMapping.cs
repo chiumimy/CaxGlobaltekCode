@@ -24,6 +24,7 @@ namespace CaxGlobaltek
 
     public class DadDimension
     {
+        
         public virtual string keyChara { get; set; }
         public virtual string productName { get; set; }
         public virtual string excelType { get; set; }
@@ -69,6 +70,7 @@ namespace CaxGlobaltek
         public virtual string freq { get; set; }
         public virtual string selfCheck_Size { get; set; }
         public virtual string selfCheck_Freq { get; set; }
+        
 
         public struct WorkPartAttribute
         {
@@ -326,9 +328,25 @@ namespace CaxGlobaltek
                 if (splitTol.Length > 1)
                 {
                     upperTol = splitTol[0].Remove(0, 2);
-                    upperTol = upperTol.Replace("+", "");
+                    if (upperTol == "")
+                    {
+                        //當遇到使用單一下公差時，上公差填0
+                        upperTol = "0";
+                    }
+                    else
+                    {
+                        upperTol = upperTol.Replace("+", "");
+                    }
                     lowerTol = splitTol[1].Remove(splitTol[1].Length - 1);
-                    lowerTol = lowerTol.Replace("-", "");
+                    if (lowerTol == "")
+                    {
+                        //當遇到使用單一下公差時，下公差填0
+                        lowerTol = "0";
+                    }
+                    else
+                    {
+                        lowerTol = lowerTol.Replace("-", "");
+                    }
                 }
                 else if (splitTol[0].Contains("<$t>"))
                 {
@@ -409,9 +427,9 @@ namespace CaxGlobaltek
             string x = "", value = "", y = "";
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle0Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle0Pos);
                 value = x.Split('-')[1];
-                y = workPart.GetStringAttribute(CaxME.TablePosi.TolValue0Pos);
+                y = workPart.GetStringAttribute(CaxPartInformation.TolValue0Pos);
                 DicTolRegion[Convert.ToDouble(value)] = Convert.ToDouble(y);
             }
             catch (System.Exception ex)
@@ -422,9 +440,9 @@ namespace CaxGlobaltek
             }
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle1Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle1Pos);
                 value = x.Split('-')[1];
-                y = workPart.GetStringAttribute(CaxME.TablePosi.TolValue1Pos);
+                y = workPart.GetStringAttribute(CaxPartInformation.TolValue1Pos);
                 DicTolRegion[Convert.ToDouble(value)] = Convert.ToDouble(y);
             }
             catch (System.Exception ex)
@@ -435,9 +453,9 @@ namespace CaxGlobaltek
             }
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle2Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle2Pos);
                 value = x.Split('-')[1];
-                y = workPart.GetStringAttribute(CaxME.TablePosi.TolValue2Pos);
+                y = workPart.GetStringAttribute(CaxPartInformation.TolValue2Pos);
                 DicTolRegion[Convert.ToDouble(value)] = Convert.ToDouble(y);
             }
             catch (System.Exception ex)
@@ -448,9 +466,9 @@ namespace CaxGlobaltek
             }
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle3Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle3Pos);
                 value = x.Split('-')[1];
-                y = workPart.GetStringAttribute(CaxME.TablePosi.TolValue3Pos);
+                y = workPart.GetStringAttribute(CaxPartInformation.TolValue3Pos);
                 DicTolRegion[Convert.ToDouble(value)] = Convert.ToDouble(y);
             }
             catch (System.Exception ex)
@@ -461,9 +479,9 @@ namespace CaxGlobaltek
             }
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle4Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle4Pos);
                 value = x.Split('-')[1];
-                y = workPart.GetStringAttribute(CaxME.TablePosi.TolValue4Pos);
+                y = workPart.GetStringAttribute(CaxPartInformation.TolValue4Pos);
                 DicTolRegion[Convert.ToDouble(value)] = Convert.ToDouble(y);
             }
             catch (System.Exception ex)
@@ -481,27 +499,27 @@ namespace CaxGlobaltek
             string[] SplitValue;
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle0Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle0Pos);
                 SplitValue = x.Split('.');
                 if (SplitValue.Length == 1 || (SplitValue.Length == 2 && SplitValue[1] == ""))
                 {
-                    DicTolPoint["0"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue0Pos);
+                    DicTolPoint["0"] = workPart.GetStringAttribute(CaxPartInformation.TolValue0Pos);
                 }
                 else
                 {
                     switch (SplitValue[1].Length)
                     {
                         case 1:
-                            DicTolPoint["1"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue0Pos);
+                            DicTolPoint["1"] = workPart.GetStringAttribute(CaxPartInformation.TolValue0Pos);
                             break;
                         case 2:
-                            DicTolPoint["2"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue0Pos);
+                            DicTolPoint["2"] = workPart.GetStringAttribute(CaxPartInformation.TolValue0Pos);
                             break;
                         case 3:
-                            DicTolPoint["3"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue0Pos);
+                            DicTolPoint["3"] = workPart.GetStringAttribute(CaxPartInformation.TolValue0Pos);
                             break;
                         case 4:
-                            DicTolPoint["4"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue0Pos);
+                            DicTolPoint["4"] = workPart.GetStringAttribute(CaxPartInformation.TolValue0Pos);
                             break;
                     }
                 }
@@ -513,27 +531,27 @@ namespace CaxGlobaltek
             }
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle1Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle1Pos);
                 SplitValue = x.Split('.');
                 if (SplitValue.Length == 1)
                 {
-                    DicTolPoint["0"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue1Pos);
+                    DicTolPoint["0"] = workPart.GetStringAttribute(CaxPartInformation.TolValue1Pos);
                 }
                 else
                 {
                     switch (SplitValue[1].Length)
                     {
                         case 1:
-                            DicTolPoint["1"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue1Pos);
+                            DicTolPoint["1"] = workPart.GetStringAttribute(CaxPartInformation.TolValue1Pos);
                             break;
                         case 2:
-                            DicTolPoint["2"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue1Pos);
+                            DicTolPoint["2"] = workPart.GetStringAttribute(CaxPartInformation.TolValue1Pos);
                             break;
                         case 3:
-                            DicTolPoint["3"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue1Pos);
+                            DicTolPoint["3"] = workPart.GetStringAttribute(CaxPartInformation.TolValue1Pos);
                             break;
                         case 4:
-                            DicTolPoint["4"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue1Pos);
+                            DicTolPoint["4"] = workPart.GetStringAttribute(CaxPartInformation.TolValue1Pos);
                             break;
                     }
                 }
@@ -545,27 +563,27 @@ namespace CaxGlobaltek
             }
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle2Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle2Pos);
                 SplitValue = x.Split('.');
                 if (SplitValue.Length == 1)
                 {
-                    DicTolPoint["0"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue2Pos);
+                    DicTolPoint["0"] = workPart.GetStringAttribute(CaxPartInformation.TolValue2Pos);
                 }
                 else
                 {
                     switch (SplitValue[1].Length)
                     {
                         case 1:
-                            DicTolPoint["1"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue2Pos);
+                            DicTolPoint["1"] = workPart.GetStringAttribute(CaxPartInformation.TolValue2Pos);
                             break;
                         case 2:
-                            DicTolPoint["2"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue2Pos);
+                            DicTolPoint["2"] = workPart.GetStringAttribute(CaxPartInformation.TolValue2Pos);
                             break;
                         case 3:
-                            DicTolPoint["3"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue2Pos);
+                            DicTolPoint["3"] = workPart.GetStringAttribute(CaxPartInformation.TolValue2Pos);
                             break;
                         case 4:
-                            DicTolPoint["4"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue2Pos);
+                            DicTolPoint["4"] = workPart.GetStringAttribute(CaxPartInformation.TolValue2Pos);
                             break;
                     }
                 }
@@ -577,27 +595,27 @@ namespace CaxGlobaltek
             }
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle3Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle3Pos);
                 SplitValue = x.Split('.');
                 if (SplitValue.Length == 1)
                 {
-                    DicTolPoint["0"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue3Pos);
+                    DicTolPoint["0"] = workPart.GetStringAttribute(CaxPartInformation.TolValue3Pos);
                 }
                 else
                 {
                     switch (SplitValue[1].Length)
                     {
                         case 1:
-                            DicTolPoint["1"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue3Pos);
+                            DicTolPoint["1"] = workPart.GetStringAttribute(CaxPartInformation.TolValue3Pos);
                             break;
                         case 2:
-                            DicTolPoint["2"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue3Pos);
+                            DicTolPoint["2"] = workPart.GetStringAttribute(CaxPartInformation.TolValue3Pos);
                             break;
                         case 3:
-                            DicTolPoint["3"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue3Pos);
+                            DicTolPoint["3"] = workPart.GetStringAttribute(CaxPartInformation.TolValue3Pos);
                             break;
                         case 4:
-                            DicTolPoint["4"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue3Pos);
+                            DicTolPoint["4"] = workPart.GetStringAttribute(CaxPartInformation.TolValue3Pos);
                             break;
                     }
                 }
@@ -609,27 +627,27 @@ namespace CaxGlobaltek
             }
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle4Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle4Pos);
                 SplitValue = x.Split('.');
                 if (SplitValue.Length == 1)
                 {
-                    DicTolPoint["0"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue4Pos);
+                    DicTolPoint["0"] = workPart.GetStringAttribute(CaxPartInformation.TolValue4Pos);
                 }
                 else
                 {
                     switch (SplitValue[1].Length)
                     {
                         case 1:
-                            DicTolPoint["1"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue4Pos);
+                            DicTolPoint["1"] = workPart.GetStringAttribute(CaxPartInformation.TolValue4Pos);
                             break;
                         case 2:
-                            DicTolPoint["2"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue4Pos);
+                            DicTolPoint["2"] = workPart.GetStringAttribute(CaxPartInformation.TolValue4Pos);
                             break;
                         case 3:
-                            DicTolPoint["3"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue4Pos);
+                            DicTolPoint["3"] = workPart.GetStringAttribute(CaxPartInformation.TolValue4Pos);
                             break;
                         case 4:
-                            DicTolPoint["4"] = workPart.GetStringAttribute(CaxME.TablePosi.TolValue4Pos);
+                            DicTolPoint["4"] = workPart.GetStringAttribute(CaxPartInformation.TolValue4Pos);
                             break;
                     }
                 }
@@ -646,7 +664,7 @@ namespace CaxGlobaltek
             angle = "";
             try
             {
-                angle = workPart.GetStringAttribute(CaxME.TablePosi.AngleValuePos);
+                angle = workPart.GetStringAttribute(CaxPartInformation.AngleValuePos);
             }
             catch (System.Exception ex)
             {
@@ -660,7 +678,7 @@ namespace CaxGlobaltek
             string x = "";
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle0Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle0Pos);
                 if (x.Contains("X"))
                 {
                     return 0;
@@ -676,7 +694,7 @@ namespace CaxGlobaltek
             }
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle1Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle1Pos);
                 if (x.Contains("X"))
                 {
                     return 0;
@@ -692,7 +710,7 @@ namespace CaxGlobaltek
             }
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle2Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle2Pos);
                 if (x.Contains("X"))
                 {
                     return 0;
@@ -708,7 +726,7 @@ namespace CaxGlobaltek
             }
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle3Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle3Pos);
                 if (x.Contains("X"))
                 {
                     return 0;
@@ -724,7 +742,7 @@ namespace CaxGlobaltek
             }
             try
             {
-                x = workPart.GetStringAttribute(CaxME.TablePosi.TolTitle4Pos);
+                x = workPart.GetStringAttribute(CaxPartInformation.TolTitle4Pos);
                 if (x.Contains("X"))
                 {
                     return 0;
@@ -781,19 +799,18 @@ namespace CaxGlobaltek
     public class Com_Dimension : DadDimension
     {
         public static bool status;
-        public static Session theSession = Session.GetSession();
-        public static UI theUI;
-        public static UFSession theUfSession = UFSession.GetUFSession();
-        public static Part workPart = theSession.Parts.Work;
-        public static Part displayPart = theSession.Parts.Display;
+        //public static Session theSession = Session.GetSession();
+        //public static UI theUI;
+        //public static UFSession theUfSession = UFSession.GetUFSession();
+        //public static Part workPart = theSession.Parts.Work;
+        //public static Part displayPart = theSession.Parts.Display;
         public static ObjectAttribute sObjectAttribute;
         //public static WorkPartAttribute sWorkPartAttribute;
         public static DadDimension cDadDimension;
         public virtual Int32 dimensionSrNo { get; set; }
         public virtual Com_MEMain comMEMain { get; set; }
         public virtual IList<Com_PFMEA> comPFMEA { get; set; }
-
-
+        
         public struct ObjectAttribute
         {
             public string singleObjExcel { get; set; }
@@ -804,8 +821,14 @@ namespace CaxGlobaltek
             public string spcControl { get; set; }
         }
 
+        
         public static bool RecordDimension(DisplayableObject[] SheetObj, WorkPartAttribute sWorkPartAttribute, ref List<DadDimension> listDadDimension)
         {
+            Session theSession = Session.GetSession();
+            //UI theUI;
+            UFSession theUfSession = UFSession.GetUFSession();
+            Part workPart = theSession.Parts.Work;
+            Part displayPart = theSession.Parts.Display;
             try
             {
                 foreach (DisplayableObject singleObj in SheetObj)
@@ -853,6 +876,11 @@ namespace CaxGlobaltek
         }
         private static bool GetSingleDimenData(string excelType, DisplayableObject singleObj, WorkPartAttribute sWorkPartAttribute, out DadDimension cDadDimension)
         {
+            Session theSession = Session.GetSession();
+            //UI theUI;
+            UFSession theUfSession = UFSession.GetUFSession();
+            Part workPart = theSession.Parts.Work;
+            Part displayPart = theSession.Parts.Display;
             cDadDimension = new DadDimension();
             try
             {
@@ -880,6 +908,11 @@ namespace CaxGlobaltek
         }
         private static bool GetDimenAttribute(DisplayableObject singleObj, out ObjectAttribute sObjectAttribute)
         {
+            Session theSession = Session.GetSession();
+            //UI theUI;
+            UFSession theUfSession = UFSession.GetUFSession();
+            Part workPart = theSession.Parts.Work;
+            Part displayPart = theSession.Parts.Display;
             sObjectAttribute = new ObjectAttribute();
             try
             {
@@ -912,6 +945,11 @@ namespace CaxGlobaltek
         }
         private static bool GetDimenData(string dimenExcelType, DisplayableObject singleObj, out DadDimension cDadDimension)
         {
+            Session theSession = Session.GetSession();
+            //UI theUI;
+            UFSession theUfSession = UFSession.GetUFSession();
+            Part workPart = theSession.Parts.Work;
+            Part displayPart = theSession.Parts.Display;
             cDadDimension = new DadDimension();
             try
             {
@@ -1129,7 +1167,7 @@ namespace CaxGlobaltek
                             {
                                 if (type == 0)
                                 {
-                                    #region 小數點
+                                    #region 一般值
                                     Dictionary<string, string> DicTolPoint = new Dictionary<string, string>();
                                     GetTolPoint(workPart, out DicTolPoint);
                                     //判斷是小數點幾位
@@ -1182,25 +1220,41 @@ namespace CaxGlobaltek
                             }
                             else if (WhichGeneralTol(workPart) == 1)
                             {
-                                #region 範圍
-                                Dictionary<double, double> DicTolRegion = new Dictionary<double, double>();
-                                GetTolRegion(workPart, out DicTolRegion);
-                                foreach (KeyValuePair<double, double> kvp in DicTolRegion)
+                                if (type == 0)
                                 {
-                                    if (Convert.ToDouble(cDadDimension.mainText) > kvp.Key)
+                                    #region 一般值
+                                    Dictionary<double, double> DicTolRegion = new Dictionary<double, double>();
+                                    GetTolRegion(workPart, out DicTolRegion);
+                                    foreach (KeyValuePair<double, double> kvp in DicTolRegion)
                                     {
-                                        continue;
+                                        if (Convert.ToDouble(cDadDimension.mainText) > kvp.Key)
+                                        {
+                                            continue;
+                                        }
+                                        else
+                                        {
+                                            cDadDimension.maxTolerance = (Convert.ToDouble(cDadDimension.mainText) + kvp.Value).ToString();
+                                            cDadDimension.minTolerance = (Convert.ToDouble(cDadDimension.mainText) - kvp.Value).ToString();
+                                            cDadDimension.lowTolerance = kvp.Value.ToString();
+                                            cDadDimension.upTolerance = kvp.Value.ToString();
+                                            break;
+                                        }
                                     }
-                                    else
-                                    {
-                                        cDadDimension.maxTolerance = (Convert.ToDouble(cDadDimension.mainText) + kvp.Value).ToString();
-                                        cDadDimension.minTolerance = (Convert.ToDouble(cDadDimension.mainText) - kvp.Value).ToString();
-                                        cDadDimension.lowTolerance = kvp.Value.ToString();
-                                        cDadDimension.upTolerance = kvp.Value.ToString();
-                                        break;
-                                    }
+                                    #endregion
                                 }
-                                #endregion
+                                else if (type == 1)
+                                {
+                                    #region 角度
+                                    string angleTol = "";
+                                    GetTolAngle(workPart, out angleTol);
+                                    temp = cDadDimension.mainText;
+                                    temp = temp.Replace("<$s>", "");
+                                    cDadDimension.maxTolerance = (Convert.ToDouble(temp) + Convert.ToDouble(angleTol)).ToString() + "~";
+                                    cDadDimension.minTolerance = (Convert.ToDouble(temp) - Convert.ToDouble(angleTol)).ToString() + "~";
+                                    cDadDimension.lowTolerance = angleTol + "<$s>";
+                                    cDadDimension.upTolerance = angleTol + "<$s>";
+                                    #endregion
+                                }
                             }
                         }
                     }
@@ -1216,6 +1270,7 @@ namespace CaxGlobaltek
             }
             return true;
         }
+        
     }
 
     public class Com_FixInspection
@@ -1233,11 +1288,11 @@ namespace CaxGlobaltek
     public class Com_FixDimension : DadDimension
     {
         public static bool status;
-        public static Session theSession = Session.GetSession();
-        public static UI theUI;
-        public static UFSession theUfSession = UFSession.GetUFSession();
-        public static Part workPart = theSession.Parts.Work;
-        public static Part displayPart = theSession.Parts.Display;
+        //public static Session theSession = Session.GetSession();
+        //public static UI theUI;
+        //public static UFSession theUfSession = UFSession.GetUFSession();
+        //public static Part workPart = theSession.Parts.Work;
+        //public static Part displayPart = theSession.Parts.Display;
         public static FixDimenAttr sFixDimenAttr;
         public static DadDimension cDadDimension;
         public virtual Int32 fixDimensionSrNo { get; set; }
@@ -1253,6 +1308,11 @@ namespace CaxGlobaltek
 
         public static bool RecordFixDimension(DisplayableObject[] SheetObj, WorkPartAttribute sWorkPartAttribute, ref List<DadDimension> listDimensionData)
         {
+            Session theSession = Session.GetSession();
+            //UI theUI;
+            UFSession theUfSession = UFSession.GetUFSession();
+            Part workPart = theSession.Parts.Work;
+            Part displayPart = theSession.Parts.Display;
             try
             {
                 foreach (DisplayableObject singleObj in SheetObj)
@@ -1291,6 +1351,11 @@ namespace CaxGlobaltek
         }
         private static bool GetFixDimenAttribute(DisplayableObject singleObj, out FixDimenAttr sFixDimenAttr)
         {
+            Session theSession = Session.GetSession();
+            //UI theUI;
+            UFSession theUfSession = UFSession.GetUFSession();
+            Part workPart = theSession.Parts.Work;
+            Part displayPart = theSession.Parts.Display;
             sFixDimenAttr = new FixDimenAttr();
             try
             {
@@ -1314,6 +1379,11 @@ namespace CaxGlobaltek
         }
         private static bool GetFixDimenData(DisplayableObject singleObj, out DadDimension cDadDimension)
         {
+            Session theSession = Session.GetSession();
+            //UI theUI;
+            UFSession theUfSession = UFSession.GetUFSession();
+            Part workPart = theSession.Parts.Work;
+            Part displayPart = theSession.Parts.Display;
             cDadDimension = new DadDimension();
             try
             {

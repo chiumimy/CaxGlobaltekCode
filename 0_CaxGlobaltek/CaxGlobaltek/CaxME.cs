@@ -20,40 +20,7 @@ namespace CaxGlobaltek
         public static Part displayPart = theSession.Parts.Display;
         public static bool status;
         
-        public struct TablePosi
-        {
-            public static string PartNumberPos = "PartNumberPos";
-            public static string ERPcodePos = "ERPcodePos";
-            public static string ERPRevPos = "ERPRevPos";
-            public static string CusRevPos = "CusRevPos";
-            public static string PartDescriptionPos = "PartDescriptionPos";
-            public static string RevStartPos = "RevStartPos";
-            public static string PartUnitPos = "PartUnitPos";
-            public static string TolTitle0Pos = "TolTitle0Pos";
-            public static string TolTitle1Pos = "TolTitle1Pos";
-            public static string TolTitle2Pos = "TolTitle2Pos";
-            public static string TolTitle3Pos = "TolTitle3Pos";
-            public static string TolTitle4Pos = "TolTitle4Pos";
-            public static string AngleTitlePos = "AngleTitlePos";
-            public static string TolValue0Pos = "TolValue0Pos";
-            public static string TolValue1Pos = "TolValue1Pos";
-            public static string TolValue2Pos = "TolValue2Pos";
-            public static string TolValue3Pos = "TolValue3Pos";
-            public static string TolValue4Pos = "TolValue4Pos";
-            public static string AngleValuePos = "AngleValuePos";
-            public static string RevDateStartPos = "RevDateStartPos";
-            public static string AuthDatePos = "AuthDatePos";
-            public static string MaterialPos = "MaterialPos";
-            public static string ProcNamePos = "ProcNamePos";
-            public static string PageNumberPos = "PageNumberPos";
-            public static string PreparedPos = "PreparedPos";
-            public static string ReviewedPos = "ReviewedPos";
-            public static string ApprovedPos = "ApprovedPos";
-            public static string InstructionPos = "InstructionPos";
-            public static string InstApprovedPos = "InstApprovedPos";
-            public static string SecondPartNumberPos = "SecondPartNumberPos";
-            public static string SecondPageNumberPos = "SecondPageNumberPos";
-        }
+        
 
         public class DimenAttr
         {
@@ -1621,7 +1588,7 @@ namespace CaxGlobaltek
                 draftingNoteBuilder1.Style.LetteringStyle.GeneralTextFont = a;
 
                 string[] text1;
-                if (attrStr == TablePosi.MaterialPos)
+                if (attrStr == CaxPartInformation.MaterialPos)
                 {
                     string[] splitText = text.Split(' ');
                     text1 = new string[splitText.Length];

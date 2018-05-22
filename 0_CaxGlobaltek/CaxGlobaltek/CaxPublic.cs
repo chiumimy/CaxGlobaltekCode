@@ -84,7 +84,7 @@ namespace CaxGlobaltek
     #endregion
 
     #region DraftingConfig Json 結構
-
+    /*
     public class Drafting
     {
         public string SheetSize { get; set; }
@@ -166,12 +166,13 @@ namespace CaxGlobaltek
         public string InstApprovedPosText { get; set; }
         public string InstApprovedPos { get; set; }
     }
-
+    */
+    /*
     public class DraftingConfig
     {
         public List<Drafting> Drafting { get; set; }
     }
-
+    */
     #endregion
 
     #region test
@@ -336,33 +337,7 @@ namespace CaxGlobaltek
             return true;
         }
 
-        public static bool ReadDraftingConfig(string jsonPath, out DraftingConfig cDraftingConfig)
-        {
-            cDraftingConfig = null;
-            try
-            {
-                if (!System.IO.File.Exists(jsonPath))
-                {
-                    return false;
-                }
-
-                bool status;
-
-                string jsonText;
-                status = ReadFileDataUTF8(jsonPath, out jsonText);
-                if (!status)
-                {
-                    return false;
-                }
-
-                cDraftingConfig = JsonConvert.DeserializeObject<DraftingConfig>(jsonText);
-            }
-            catch (System.Exception ex)
-            {
-                return false;
-            }
-            return true;
-        }
+        
 
         /// <summary>
         /// 單選，fileName=(檔名+副檔名)，filePath=(路徑+檔名+副檔名)，defaultPath=預設開啟路徑，filter=預設為Part檔，使用者可自行定義，
