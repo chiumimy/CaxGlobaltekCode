@@ -41,7 +41,9 @@ namespace ExportShopDoc
         public static Part workPart = theSession.Parts.Work;
         public static Part displayPart = theSession.Parts.Display;
         public static bool status;
-        public static METE_Download_Upload_Path cMETE_Download_Upload_Path = new METE_Download_Upload_Path();
+        //public static METE_Download_Upload_Path cMETE_Download_Upload_Path = new METE_Download_Upload_Path();
+        public static CaxTEUpLoad cCaxTEUpLoad;
+        public static CaxDownUpLoad.DownUpLoadDat sDownUpLoadDat;
         public static int CurrentRowIndex = -1;
         public static string CurrentSelOperName = "";
         public static List<string> ListSelOper = new List<string>();
@@ -55,7 +57,7 @@ namespace ExportShopDoc
             OutputPath = "",
             PostProcessor = "";
         public static bool Is_Click_Rename = false, Is_BigDlg = false;
-        public PartInfo sPartInfo = new PartInfo();
+        //public PartInfo sPartInfo = new PartInfo();
         public static Dictionary<string, List<string>> Dic_MachineNo = new Dictionary<string, List<string>>();
         public static NXOpen.CAM.NCGroup CurrentNC = null;
         public static Dictionary<ControlDimen_Key, List<ControlDimen_Value>> DicControlDimen = new Dictionary<ControlDimen_Key, List<ControlDimen_Value>>();
@@ -482,14 +484,17 @@ namespace ExportShopDoc
         {
             Is_Local = Environment.GetEnvironmentVariable("UGII_ENV_FILE");
             #region 取得ShopDoc.xls路徑
-            
+            cCaxTEUpLoad = new CaxTEUpLoad();
             if (Is_Local != null)
             {
                 //取得Server的ShopDoc.xls路徑
                 ShopDocPath = string.Format(@"{0}\{1}\{2}\{3}", CaxEnv.GetGlobaltekEnvDir(), "TE_Config", "Config", "ShopDoc.xls");
                 
                 //取得METEDownload_Upload.dat
-                CaxGetDatData.GetMETEDownload_Upload(out cMETE_Download_Upload_Path);
+                sDownUpLoadDat = new CaxDownUpLoad.DownUpLoadDat();
+                status = CaxDownUpLoad.GetDownUpLoadDat(out sDownUpLoadDat);
+                
+                //CaxGetDatData.GetMETEDownload_Upload(out cMETE_Download_Upload_Path);
 
                 //加入機台資訊
                 InitialzeMachineTree();
@@ -502,7 +507,8 @@ namespace ExportShopDoc
             #endregion
 
             //取得正確路徑，拆零件路徑字串取得客戶名稱、料號、版本
-            status = CaxPublic.GetAllPath("TE", displayPart.FullPath, out sPartInfo, ref cMETE_Download_Upload_Path);
+            status = cCaxTEUpLoad.SplitPartFullPath(displayPart.FullPath);
+            //status = CaxPublic.GetAllPath("TE", displayPart.FullPath, out sPartInfo, ref cMETE_Download_Upload_Path);
             if (!status && !displayPart.FullPath.Contains("Task"))
             {
                 Is_Local = null;
@@ -510,9 +516,19 @@ namespace ExportShopDoc
             }
             else
             {
-                PartNo = sPartInfo.PartNo;
+                PartNo = cCaxTEUpLoad.PartName;
             }
 
+            //取代正確路徑
+            status = CaxDownUpLoad.ReplaceDatPath(sDownUpLoadDat.Server_IP, sDownUpLoadDat.Local_IP, cCaxTEUpLoad.CusName, cCaxTEUpLoad.PartName, cCaxTEUpLoad.CusRev, cCaxTEUpLoad.OpRev, ref sDownUpLoadDat);
+            if (!status)
+            {
+                return;
+            }
+            sDownUpLoadDat.Server_Folder_CAM = sDownUpLoadDat.Server_Folder_CAM.Replace("[Oper1]", cCaxTEUpLoad.OpNum);
+            sDownUpLoadDat.Server_Folder_OIS = sDownUpLoadDat.Server_Folder_OIS.Replace("[Oper1]", cCaxTEUpLoad.OpNum);
+            sDownUpLoadDat.Local_Folder_CAM = sDownUpLoadDat.Local_Folder_CAM.Replace("[Oper1]", cCaxTEUpLoad.OpNum);
+            sDownUpLoadDat.Local_Folder_OIS = sDownUpLoadDat.Local_Folder_OIS.Replace("[Oper1]", cCaxTEUpLoad.OpNum);
 
             //取得所有GroupAry，用來判斷Group的Type決定是NC、Tool、Geometry
             NCGroupAry = displayPart.CAMSetup.CAMGroupCollection.ToArray();
@@ -840,7 +856,7 @@ namespace ExportShopDoc
             #region 建立ImageFolder、ShopDocFolder資料夾
             if (Is_Local != null)
             {
-                PhotoFolderPath = string.Format(@"{0}\{1}_Image", cMETE_Download_Upload_Path.Local_Folder_CAM, CurrentNCGroup);
+                PhotoFolderPath = string.Format(@"{0}\{1}_Image", sDownUpLoadDat.Local_Folder_CAM, CurrentNCGroup);
                 //ShopDocFolderPath = string.Format(@"{0}\{1}_ShopDoc", cMETE_Download_Upload_Path.Local_Folder_CAM, CurrentNCGroup);
             }
             else
@@ -1001,9 +1017,9 @@ namespace ExportShopDoc
                 try
                 {
                     ISession session = MyHibernateHelper.SessionFactory.OpenSession();
-                    Com_PEMain comPEMain = session.QueryOver<Com_PEMain>().Where(x => x.partName == sPartInfo.PartNo)
-                                                                      .Where(x => x.customerVer == sPartInfo.CusRev)
-                                                                      .Where(x => x.opVer == sPartInfo.OpRev).SingleOrDefault<Com_PEMain>();
+                    Com_PEMain comPEMain = session.QueryOver<Com_PEMain>().Where(x => x.partName == cCaxTEUpLoad.PartName)
+                                                                      .Where(x => x.customerVer == cCaxTEUpLoad.CusRev)
+                                                                      .Where(x => x.opVer == cCaxTEUpLoad.OpRev).SingleOrDefault<Com_PEMain>();
                     Com_PartOperation comPartOperation = session.QueryOver<Com_PartOperation>().Where(x => x.comPEMain == comPEMain)
                                                                                            .Where(x => x.operation1 == OperNum)
                                                                                            .SingleOrDefault<Com_PartOperation>();
@@ -1670,10 +1686,10 @@ namespace ExportShopDoc
                 #region 由料號查peSrNo
                 try
                 {
-                    
-                    comPEMain = session.QueryOver<Com_PEMain>().Where(x => x.partName == sPartInfo.PartNo)
-                                                               .Where(x => x.customerVer == sPartInfo.CusRev)
-                                                               .Where(x => x.opVer == sPartInfo.OpRev)
+
+                    comPEMain = session.QueryOver<Com_PEMain>().Where(x => x.partName == cCaxTEUpLoad.PartName)
+                                                               .Where(x => x.customerVer == cCaxTEUpLoad.CusRev)
+                                                               .Where(x => x.opVer == cCaxTEUpLoad.OpRev)
                                                                .SingleOrDefault<Com_PEMain>();
                 }
                 catch (System.Exception ex)
@@ -1696,7 +1712,7 @@ namespace ExportShopDoc
                 {
                     comPartOperation = session.QueryOver<Com_PartOperation>()
                                                          .Where(x => x.comPEMain.peSrNo == comPEMain.peSrNo)
-                                                         .Where(x => x.operation1 == sPartInfo.OpNum)
+                                                         .Where(x => x.operation1 == cCaxTEUpLoad.OpNum)
                                                          .SingleOrDefault<Com_PartOperation>();
                 }
                 catch (System.Exception ex)
@@ -1780,7 +1796,7 @@ namespace ExportShopDoc
 
                     Com_TEMain cCom_TEMain = new Com_TEMain();
                     cCom_TEMain.comPartOperation = comPartOperation;
-                    cCom_TEMain.fixtureImgPath = string.Format(@"{0}\{1}_Image\{2}", cMETE_Download_Upload_Path.Server_Folder_CAM, CurrentNCGroup, FixtureNameStr);
+                    cCom_TEMain.fixtureImgPath = string.Format(@"{0}\{1}_Image\{2}", sDownUpLoadDat.Server_Folder_CAM, CurrentNCGroup, FixtureNameStr);
                     cCom_TEMain.sysTEExcel = session.QueryOver<Sys_TEExcel>().Where(x => x.teExcelType == "ShopDoc").SingleOrDefault<Sys_TEExcel>();
                     cCom_TEMain.createDate = DateTime.Now.ToString();
                     cCom_TEMain.machineNo = MachineNo.Text;
@@ -1822,7 +1838,7 @@ namespace ExportShopDoc
                         cCom_ShopDoc.toolID = sSplitData.OperToolID[i];
                         cCom_ShopDoc.toolNo = sSplitData.OperToolNo[i];
                         cCom_ShopDoc.holderID = sSplitData.OperHolderID[i];
-                        cCom_ShopDoc.opImagePath = string.Format(@"{0}\{1}_Image\{2}.jpg", cMETE_Download_Upload_Path.Server_Folder_CAM, CurrentNCGroup, sSplitData.OperName[i]);
+                        cCom_ShopDoc.opImagePath = string.Format(@"{0}\{1}_Image\{2}.jpg", sDownUpLoadDat.Server_Folder_CAM, CurrentNCGroup, sSplitData.OperName[i]);
                         cCom_ShopDoc.machiningtime = string.Format("{0}m {1}s", Math.Truncate((Convert.ToDouble(sSplitData.OperCuttingTime[i]) / 60))
                                                                                             , (Convert.ToDouble(sSplitData.OperCuttingTime[i]) % 60));
                         cCom_ShopDoc.feed = sSplitData.OperToolFeed[i];
@@ -2831,7 +2847,7 @@ namespace ExportShopDoc
             else
             {
                 this.Hide();
-                Dimension sDimensionDlg = new Dimension(this.FindForm(), sPartInfo, sControlDimen_Key.OperationName);
+                Dimension sDimensionDlg = new Dimension(this.FindForm(), cCaxTEUpLoad, sControlDimen_Key.OperationName);
                 sDimensionDlg.Show();
             }
 
@@ -3018,7 +3034,7 @@ namespace ExportShopDoc
             //    AllToolNo.Add(i.Cells[2].Value.ToString());
             //}
             this.Hide();
-            ToolControlDimen cToolControlDimen = new ToolControlDimen(this.FindForm(), sPartInfo, DicToolNoControl);
+            ToolControlDimen cToolControlDimen = new ToolControlDimen(this.FindForm(), cCaxTEUpLoad, DicToolNoControl);
             cToolControlDimen.Show();
 
         }

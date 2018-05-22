@@ -34,7 +34,7 @@ namespace ExportShopDoc
         public static GridPanel panel = new GridPanel();
         public bool status;
 
-        public Dimension(Form pForm, PartInfo partInfo, string OpName)
+        public Dimension(Form pForm, CaxTEUpLoad partInfo, string OpName)
         {
             InitializeComponent();
 
@@ -67,20 +67,20 @@ namespace ExportShopDoc
 
         }
 
-        private void InitialLabel(PartInfo sPartInfo, string OpName)
+        private void InitialLabel(CaxTEUpLoad sPartInfo, string OpName)
         {
             try
             {
                 //設定基礎資料資訊
                 CusName.Text = sPartInfo.CusName;
-                PartNo.Text = sPartInfo.PartNo;
+                PartNo.Text = sPartInfo.PartName;
                 CusRev.Text = sPartInfo.CusRev;
                 OpRev.Text = sPartInfo.OpRev;
                 OIS.Text = sPartInfo.OpNum;
 
                 //由料號取得DB中PEMain的資訊
                 comPEMain = session.QueryOver<Com_PEMain>()
-                    .Where(x => x.partName == sPartInfo.PartNo)
+                    .Where(x => x.partName == sPartInfo.PartName)
                     .And(x => x.customerVer == sPartInfo.CusRev)
                     .And(x => x.opVer == sPartInfo.OpRev)
                     .SingleOrDefault<Com_PEMain>();

@@ -29,7 +29,7 @@ namespace ExportShopDoc
         public static int CurrentRowIndex = -1;
         public static string CurrentSelOperName = "";
         public static List<string> ListSelOper = new List<string>();
-        public ToolControlDimen(Form pForm, PartInfo partInfo, Dictionary<string, List<string>> DicToolNoControl)
+        public ToolControlDimen(Form pForm, CaxTEUpLoad partInfo, Dictionary<string, List<string>> DicToolNoControl)
         {
             InitializeComponent();
             //將父層的Form傳進來
@@ -43,13 +43,13 @@ namespace ExportShopDoc
             InitialLabel(partInfo, DicToolNoControl);
         }
 
-        private void InitialLabel(PartInfo sPartInfo, Dictionary<string, List<string>> DicToolNoControl)
+        private void InitialLabel(CaxTEUpLoad sPartInfo, Dictionary<string, List<string>> DicToolNoControl)
         {
             try
             {
                 //設定基礎資料資訊
                 CusName.Text = sPartInfo.CusName;
-                PartNo.Text = sPartInfo.PartNo;
+                PartNo.Text = sPartInfo.PartName;
                 CusRev.Text = sPartInfo.CusRev;
                 OpRev.Text = sPartInfo.OpRev;
                 OIS.Text = sPartInfo.OpNum;
@@ -57,7 +57,7 @@ namespace ExportShopDoc
 
                 //由料號取得DB中PEMain的資訊
                 comPEMain = session.QueryOver<Com_PEMain>()
-                    .Where(x => x.partName == sPartInfo.PartNo)
+                    .Where(x => x.partName == sPartInfo.PartName)
                     .And(x => x.customerVer == sPartInfo.CusRev)
                     .And(x => x.opVer == sPartInfo.OpRev)
                     .SingleOrDefault<Com_PEMain>();
