@@ -745,11 +745,13 @@ namespace OutputExcelForm.Excel
                 }
                 #endregion
 
+                //設定Row高為29
+                ((Range)worksheet.Rows[currentRow.ToString() + ":" + currentRow.ToString()]).RowHeight = 29;
                 if (cCom_Dimension.toleranceType == "Basic" || cCom_Dimension.toleranceType == "Reference")
                 {
                     #region 基本公差
                     //拉高Row
-                    ((Range)worksheet.Rows[currentRow.ToString() + ":" + currentRow.ToString()]).RowHeight = 30;
+                    //((Range)worksheet.Rows[currentRow.ToString() + ":" + currentRow.ToString()]).RowHeight = 29;
                     //計算初始高度&初始左偏度
                     //初始高度 
                     double topDistance = 0;

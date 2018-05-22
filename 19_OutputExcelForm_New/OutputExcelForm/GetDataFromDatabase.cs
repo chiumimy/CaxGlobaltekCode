@@ -99,7 +99,9 @@ namespace OutputExcelForm
         {
             try
             {
-                IList<Sys_Customer> customerName = session.QueryOver<Sys_Customer>().List<Sys_Customer>();
+                //IList<Sys_Customer> customerName = session.QueryOver<Sys_Customer>().List<Sys_Customer>();
+                IList<Sys_Customer> customerName = new List<Sys_Customer>();
+                CaxSQL.GetListCustomer(out customerName);
                 CusComboBox.DisplayMember = "customerName";
                 //CusComboBox.ValueMember = "customerSrNo";
                 foreach (Sys_Customer i in customerName)
@@ -118,11 +120,12 @@ namespace OutputExcelForm
             try
             {
                 //MessageBox.Show(customerSrNo.customerSrNo.ToString());
-                IList<Com_PEMain> comPEMain = session.QueryOver<Com_PEMain>()
-                                              .Where(x => x.sysCustomer == customerSrNo)
-                                              .List<Com_PEMain>();
-
-                foreach (Com_PEMain i in comPEMain)
+                //IList<Com_PEMain> comPEMain = session.QueryOver<Com_PEMain>()
+                //                              .Where(x => x.sysCustomer == customerSrNo)
+                //                              .List<Com_PEMain>();
+                IList<Com_PEMain> comPEMain1 = new List<Com_PEMain>();
+                CaxSQL.GetListCom_PEMain(customerSrNo, out comPEMain1);
+                foreach (Com_PEMain i in comPEMain1)
                 {
                     if (PartNoCombobox.Items.Contains(i.partName))
                     {
@@ -141,13 +144,13 @@ namespace OutputExcelForm
         {
             try
             {
-                IList<Com_PEMain> comPEMain = session.QueryOver<Com_PEMain>()
-                                              .Where(x => x.sysCustomer == customerSrNo)
-                                              .Where(x => x.partName == partNo)
-                                              .List<Com_PEMain>();
-                //CusVerCombobox.DisplayMember = "customerVer";
-                //CusVerCombobox.ValueMember = "peSrNo";
-                foreach (Com_PEMain i in comPEMain)
+                //IList<Com_PEMain> comPEMain = session.QueryOver<Com_PEMain>()
+                //                              .Where(x => x.sysCustomer == customerSrNo)
+                //                              .Where(x => x.partName == partNo)
+                //                              .List<Com_PEMain>();
+                IList<Com_PEMain> comPEMain1 = new List<Com_PEMain>();
+                CaxSQL.GetListCom_PEMain(customerSrNo, partNo, out comPEMain1);
+                foreach (Com_PEMain i in comPEMain1)
                 {
                     if (CusVerCombobox.Items.Contains(i.customerVer))
                     {
@@ -168,14 +171,16 @@ namespace OutputExcelForm
         {
             try
             {
-                IList<Com_PEMain> comPEMain = session.QueryOver<Com_PEMain>()
-                                              .Where(x => x.sysCustomer == customerSrNo)
-                                              .Where(x => x.partName == partNo)
-                                              .Where(x => x.customerVer == cusVer)
-                                              .List<Com_PEMain>();
+                //IList<Com_PEMain> comPEMain = session.QueryOver<Com_PEMain>()
+                //                              .Where(x => x.sysCustomer == customerSrNo)
+                //                              .Where(x => x.partName == partNo)
+                //                              .Where(x => x.customerVer == cusVer)
+                //                              .List<Com_PEMain>();
+                IList<Com_PEMain> comPEMain1 = new List<Com_PEMain>();
+                CaxSQL.GetListCom_PEMain(customerSrNo, partNo, cusVer, out comPEMain1);
                 //CusVerCombobox.DisplayMember = "customerVer";
                 //CusVerCombobox.ValueMember = "peSrNo";
-                foreach (Com_PEMain i in comPEMain)
+                foreach (Com_PEMain i in comPEMain1)
                 {
                     if (OpVerCombobox.Items.Contains(i.opVer))
                     {
@@ -191,41 +196,19 @@ namespace OutputExcelForm
             }
             return true;
         }
-        public static bool SetOp1Data(Sys_Customer customerSrNo, string partNo, string cusVer, string opVer, ComboBoxEx Op1Combobox)
-        {
-            try
-            {
-                Com_PEMain comPEMain = session.QueryOver<Com_PEMain>()
-                                              .Where(x => x.sysCustomer == customerSrNo)
-                                              .Where(x => x.partName == partNo)
-                                              .Where(x => x.customerVer == cusVer)
-                                              .Where(x => x.opVer == opVer)
-                                              .SingleOrDefault<Com_PEMain>();
-                IList<Com_PartOperation> comPartOperation = session.QueryOver<Com_PartOperation>()
-                                                            .Where(x => x.comPEMain == comPEMain)
-                                                            .List<Com_PartOperation>();
-                Op1Combobox.DisplayMember = "operation1";
-                Op1Combobox.ValueMember = "partOperationSrNo";
-                //Op1Combobox.DataSource = comPartOperation;
-                foreach (Com_PartOperation i in comPartOperation)
-                {
-                    Op1Combobox.Items.Add(i);
-                }
-            }
-            catch (System.Exception ex)
-            {
-                return false;
-            }
-            return true;
-        }
+        
         public static bool SetOp1Data(Com_PEMain comPEMain, ComboBoxEx Op1Combobox)
         {
             try
             {
-                IList<Com_PartOperation> comPartOperation = session.QueryOver<Com_PartOperation>()
-                                                            .Where(x => x.comPEMain == comPEMain)
-                                                            .OrderBy(x => x.operation1).Asc
-                                                            .List<Com_PartOperation>();
+                //IList<Com_PartOperation> comPartOperation = session.QueryOver<Com_PartOperation>()
+                //                                            .Where(x => x.comPEMain == comPEMain)
+                //                                            .OrderBy(x => x.operation1).Asc
+                //                                            .List<Com_PartOperation>();
+                IList<Com_PartOperation> comPartOperation = new List<Com_PartOperation>();
+                CaxSQL.GetListCom_PartOperation(comPEMain, out comPartOperation);
+
+
                 Op1Combobox.DisplayMember = "operation1";
                 Op1Combobox.ValueMember = "partOperationSrNo";
                 //Op1Combobox.DataSource = comPartOperation;
@@ -368,14 +351,19 @@ namespace OutputExcelForm
         {
             try
             {
-                Com_MEMain comMEMain = session.QueryOver<Com_MEMain>()
-                                              .Where(x => x.comPartOperation == comPartOperation).SingleOrDefault<Com_MEMain>();
+                Com_MEMain comMEMain1 = new Com_MEMain();
+                IList<Com_Dimension> listComDimension1 = new List<Com_Dimension>();
+                CaxSQL.GetCom_MEMain(comPartOperation,out comMEMain1);
+                CaxSQL.GetListCom_Dimension(comMEMain1,out listComDimension1);
 
-                IList<Com_Dimension> listComDimension = session.QueryOver<Com_Dimension>()
-                                              .Where(x => x.comMEMain == comMEMain).List<Com_Dimension>();
+                //Com_MEMain comMEMain = session.QueryOver<Com_MEMain>()
+                //                              .Where(x => x.comPartOperation == comPartOperation).SingleOrDefault<Com_MEMain>();
+
+                //IList<Com_Dimension> listComDimension = session.QueryOver<Com_Dimension>()
+                //                              .Where(x => x.comMEMain == comMEMain).List<Com_Dimension>();
 
                 int MECount = -1;
-                foreach (Com_Dimension i in listComDimension)
+                foreach (Com_Dimension i in listComDimension1)
                 {
                     //2017.02.14判斷是否已經有插入過
                     bool IsExist = false;

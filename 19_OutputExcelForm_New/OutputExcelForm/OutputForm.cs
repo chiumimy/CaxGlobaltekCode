@@ -211,11 +211,13 @@ namespace OutputExcelForm
             CPPanel.Rows.Clear();
             FixInsPanel.Rows.Clear();
 
-            comPEMain = session.QueryOver<Com_PEMain>()
-                               .Where(x => x.partName == PartNoCombobox.Text)
-                               .Where(x => x.customerVer == CusVerCombobox.Text)
-                               .Where(x => x.opVer == OpVerCombobox.Text)
-                               .SingleOrDefault<Com_PEMain>();
+            //comPEMain = session.QueryOver<Com_PEMain>()
+            //                   .Where(x => x.partName == PartNoCombobox.Text)
+            //                   .Where(x => x.customerVer == CusVerCombobox.Text)
+            //                   .Where(x => x.opVer == OpVerCombobox.Text)
+            //                   .SingleOrDefault<Com_PEMain>();
+
+            CaxSQL.GetCom_PEMain(CusComboBox.Text, PartNoCombobox.Text, CusVerCombobox.Text, OpVerCombobox.Text, out comPEMain);
 
             status = GetDataFromDatabase.SetPEPanelData(comPEMain, ref PEPanel);
             if (!status)
