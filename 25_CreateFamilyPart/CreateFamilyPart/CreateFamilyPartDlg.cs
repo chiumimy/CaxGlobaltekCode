@@ -1550,7 +1550,7 @@ namespace CreateFamilyPart
                             string RevStartPos = "";//將【製圖版次】抓出來後重新填回檔案中，如此ME重新出PartInformation時才不會被刪除
                             try
                             {
-                                RevStartPos = MakeDisplayPart.GetStringAttribute(CaxME.TablePosi.RevStartPos);
+                                RevStartPos = MakeDisplayPart.GetStringAttribute(CaxPartInformation.RevStartPos);
                             }
                             catch (System.Exception ex)
                             {
@@ -1559,7 +1559,7 @@ namespace CreateFamilyPart
                             string RevDateStartPos = "";//將【製圖日期】抓出來後重新填回檔案中，如此ME重新出PartInformation時才不會被刪除
                             try
                             {
-                                RevDateStartPos = MakeDisplayPart.GetStringAttribute(CaxME.TablePosi.RevDateStartPos);
+                                RevDateStartPos = MakeDisplayPart.GetStringAttribute(CaxPartInformation.RevDateStartPos);
                             }
                             catch (System.Exception ex)
                             {
@@ -1568,7 +1568,7 @@ namespace CreateFamilyPart
                             string InstructionPos = "";//將【製圖說明】抓出來後重新填回檔案中，如此ME重新出PartInformation時才不會被刪除
                             try
                             {
-                                InstructionPos = MakeDisplayPart.GetStringAttribute(CaxME.TablePosi.InstructionPos);
+                                InstructionPos = MakeDisplayPart.GetStringAttribute(CaxPartInformation.InstructionPos);
                             }
                             catch (System.Exception ex)
                             {
@@ -1577,7 +1577,7 @@ namespace CreateFamilyPart
                             string InstApprovedPos = "";//將【製圖審核人員】抓出來後重新填回檔案中，如此ME重新出PartInformation時才不會被刪除
                             try
                             {
-                                InstApprovedPos = MakeDisplayPart.GetStringAttribute(CaxME.TablePosi.InstApprovedPos);
+                                InstApprovedPos = MakeDisplayPart.GetStringAttribute(CaxPartInformation.InstApprovedPos);
                             }
                             catch (System.Exception ex)
                             {
@@ -1595,14 +1595,14 @@ namespace CreateFamilyPart
 
                             MakeDisplayPart.DeleteAllAttributesByType(NXObject.AttributeType.Any);
                             MakeDisplayPart.SetAttribute("ERPCODE", j.ERPCode);
-                            MakeDisplayPart.SetAttribute(CaxME.TablePosi.PartDescriptionPos, New_PartDesc.Text);
-                            MakeDisplayPart.SetAttribute(CaxME.TablePosi.MaterialPos, New_Material.Text);
+                            MakeDisplayPart.SetAttribute(CaxPartInformation.PartDescriptionPos, New_PartDesc.Text);
+                            MakeDisplayPart.SetAttribute(CaxPartInformation.MaterialPos, New_Material.Text);
                             MakeDisplayPart.SetAttribute("IsFamilyPart", "IsFamilyPart");
                             MakeDisplayPart.SetAttribute("ExcelType", excelType);
-                            MakeDisplayPart.SetAttribute(CaxME.TablePosi.RevStartPos, RevStartPos);
-                            MakeDisplayPart.SetAttribute(CaxME.TablePosi.RevDateStartPos, RevDateStartPos);
-                            MakeDisplayPart.SetAttribute(CaxME.TablePosi.InstructionPos, InstructionPos);
-                            MakeDisplayPart.SetAttribute(CaxME.TablePosi.InstApprovedPos, InstApprovedPos);
+                            MakeDisplayPart.SetAttribute(CaxPartInformation.RevStartPos, RevStartPos);
+                            MakeDisplayPart.SetAttribute(CaxPartInformation.RevDateStartPos, RevDateStartPos);
+                            MakeDisplayPart.SetAttribute(CaxPartInformation.InstructionPos, InstructionPos);
+                            MakeDisplayPart.SetAttribute(CaxPartInformation.InstApprovedPos, InstApprovedPos);
                             MakeDisplayPart.SetAttribute("RevCount", RevCount);
                         }
                     }
