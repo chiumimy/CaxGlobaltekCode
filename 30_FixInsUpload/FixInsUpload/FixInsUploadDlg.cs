@@ -210,7 +210,7 @@ namespace FixInsUpload
 
                 //由料號查Com_PEMain 
                 Com_PEMain cCom_PEMain = new Com_PEMain();
-                status = CaxSQL.GetCom_PEMain(cCaxUpLoad.PartName, cCaxUpLoad.CusRev, cCaxUpLoad.OpRev, out cCom_PEMain);
+                status = CaxSQL.GetCom_PEMain(cCaxUpLoad.CusName, cCaxUpLoad.PartName, cCaxUpLoad.CusRev, cCaxUpLoad.OpRev, out cCom_PEMain);
                 if (!status)
                 {
                     return;
