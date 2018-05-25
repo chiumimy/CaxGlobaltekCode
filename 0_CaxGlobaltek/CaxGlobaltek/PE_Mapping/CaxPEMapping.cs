@@ -54,6 +54,8 @@ namespace CaxGlobaltek
     {
         public virtual Int32 operation2SrNo { get; set; }
         public virtual string operation2Name { get; set; }
+        public virtual string operation2NameCH { get; set; }
+        public virtual string operationCode { get; set; }
         public virtual string category { get; set; }
         public virtual IList<Com_PartOperation> comPartOperation { get; set; }
     }

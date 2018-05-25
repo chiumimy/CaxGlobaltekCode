@@ -17,6 +17,8 @@ License Type: Evaluation
 				&#35069;&#31243;&#21029;&#21517;&#31281;
 			</meta>
 		</property>
+    <property name="operation2NameCH" column="operation2NameCH" type="String" length="255" not-null="false"/>
+    <property name="operationCode" column="operationCode" type="String" length="255" not-null="false"/>
     <property name="category" column="category" type="String" length="255" not-null="false"/>
     <bag name="comPartOperation" lazy="true" cascade="all" inverse="true">
 			<key column="operation2SrNo"/>
