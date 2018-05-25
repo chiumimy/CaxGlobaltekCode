@@ -25,7 +25,7 @@ namespace AddDeleteDB
         private List<string> listProduct = new List<string>();
         private List<InstrumentData> listInstrument = new List<InstrumentData>();
         private Dictionary<string, List<MachineNoData>> DicMachine = new Dictionary<string, List<MachineNoData>>();
-        private Dictionary<string, List<string>> DicOperation2 = new Dictionary<string, List<string>>();
+        private Dictionary<string, List<Operation2Data>> DicOperation2 = new Dictionary<string, List<Operation2Data>>();
         private Dictionary<string, List<string>> DicMaterial = new Dictionary<string, List<string>>();
         private List<string> listSelItems = new List<string>();
         private List<string> listSelInstItems = new List<string>();
@@ -35,6 +35,11 @@ namespace AddDeleteDB
         private List<RenewERP.PartData> listPartData = new List<RenewERP.PartData>();
         private Com_PEMain ComPEMain = new Com_PEMain();
         private string TaskPath = "";
+        public struct Operation2Data
+        {
+            public string operation2Name;
+            public string operation2NameCH;
+        }
         public struct MachineNoData
         {
             public string MachineNo;
@@ -138,7 +143,8 @@ namespace AddDeleteDB
                 Op2Tree.Nodes.Clear();
                 Op2_Category.Items.Clear();
                 SelOp2Num.Text = "0";
-                Op2Text.Text = "";
+                Op2Eng.Text = "";
+                Op2Cht.Text = "";
 
                 //材質
                 MaterialTree.Nodes.Clear();
@@ -176,7 +182,7 @@ namespace AddDeleteDB
                 else if (TabControl.SelectedTab.Text == "製程別")
                 {
                     #region 取得製程別
-                    DicOperation2 = new Dictionary<string, List<string>>();
+                    DicOperation2 = new Dictionary<string, List<Operation2Data>>();
                     //Op2Tree.BeginUpdate();
                     status = Operation2.GetOperation2Data(out DicOperation2);
                     if (!status)
@@ -190,12 +196,29 @@ namespace AddDeleteDB
                     }
                     Op2_Category.Items.AddRange(DicOperation2.Keys.ToArray());
 
-                    status = CommonFun.RenewAdvTree(DicOperation2, Op2Tree);
-                    if (!status)
+                    foreach (KeyValuePair<string, List<Operation2Data>> kvp in DicOperation2)
                     {
-                        MessageBox.Show("填寫製程別資料失敗");
-                        return;
+                        Node node1 = new Node();
+                        node1.Text = kvp.Key;
+                        node1.ExpandVisibility = eNodeExpandVisibility.Visible;
+                        foreach (Operation2Data i in kvp.Value)
+                        {
+                            Node node2 = new Node();
+                            node2.Text = i.operation2Name;
+                            node2.CheckBoxVisible = true;
+                            Cell cell1 = new Cell();
+                            cell1.Text = i.operation2NameCH;
+                            node2.Cells.Add(cell1);
+                            node1.Nodes.Add(node2);
+                        }
+                        Op2Tree.Nodes.Add(node1);
                     }
+                    //status = CommonFun.RenewAdvTree(DicOperation2, Op2Tree);
+                    //if (!status)
+                    //{
+                    //    MessageBox.Show("填寫製程別資料失敗");
+                    //    return;
+                    //}
 
                     //Op2Tree.EndUpdate();
                     #endregion
@@ -774,24 +797,23 @@ namespace AddDeleteDB
         {
             try
             {
-                status = Operation2.CheckData(Op2_Category.Text, Op2Text.Text, DicOperation2);
+                status = Operation2.CheckData(Op2_Category.Text, Op2Eng.Text, Op2Cht.Text, DicOperation2);
                 if (!status)
                 {
-                    Op2Text.Text = "";
                     return;
                 }
 
                 Sys_Operation2 sysOperation2 = new Sys_Operation2();
-                sysOperation2.operation2Name = Op2Text.Text;
                 sysOperation2.category = Op2_Category.Text;
+                sysOperation2.operation2NameCH = Op2Cht.Text;
+                sysOperation2.operation2Name = Op2Eng.Text;
+
                 session.Save(sysOperation2);
                 ITransaction trans = session.BeginTransaction();
                 trans.Commit();
 
                 //將目前操作對象重新更新列表
                 TabControl_SelectedTabChanged(sender, CurrentE);
-                Op2Text.Text = "";
-                Op2_Category.Text = "";
             }
             catch (System.Exception ex)
             {
