@@ -385,15 +385,7 @@ namespace MEUpload
             status = DadDimension.GetWorkPartAttribute(workPart, out sWorkPartAttribute);
             if (!status)
             {
-                MessageBox.Show("workPart屬性取得失敗，無法上傳");
-                this.Close();
-                return;
-            }
-            if (sWorkPartAttribute.meExcelType == "" || sWorkPartAttribute.draftingVer == "" || sWorkPartAttribute.draftingDate == "" || 
-                sWorkPartAttribute.partDescription == "" || sWorkPartAttribute.material == "")
-            {
-                MessageBox.Show("量測資訊不足，僅上傳Part檔案到伺服器");
-                MessageBox.Show("上傳完成！");
+                MessageBox.Show("量測資訊不足，僅上傳CAD檔案，上傳完成！");
                 this.Close();
                 return;
             }

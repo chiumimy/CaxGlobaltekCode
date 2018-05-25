@@ -489,6 +489,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:CaxGlobaltek.CaxPartInformation.GetDraftingConfigData(CaxGlobaltek.CaxPartInformation.DraftingConfig@)">
+            <summary>
+            取得DraftingConfig.dat資料  (路徑：IP:Globaltek\ME_Config\DraftingConfig.dat)
+            </summary>
+            <param name="cControlerConfig"></param>
+            <returns></returns>
+        </member>
         <member name="M:CaxGlobaltek.CaxPart.OpenBaseDisplay(System.String,NXOpen.BasePart@)">
             <summary>
             開啟選擇的檔案
@@ -526,13 +533,6 @@
             </summary>
             <param name="partFullPath"></param>
             <param name="sPartInfo"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CaxGlobaltek.CaxPartInformation.GetDraftingConfigData(CaxGlobaltek.CaxPartInformation.DraftingConfig@)">
-            <summary>
-            取得DraftingConfig.dat資料  (路徑：IP:Globaltek\ME_Config\DraftingConfig.dat)
-            </summary>
-            <param name="cControlerConfig"></param>
             <returns></returns>
         </member>
     </members>
