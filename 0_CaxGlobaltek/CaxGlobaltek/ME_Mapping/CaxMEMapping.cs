@@ -763,28 +763,62 @@ namespace CaxGlobaltek
             sWorkPartAttribute = new WorkPartAttribute();
             try
             {
-                try { sWorkPartAttribute.meExcelType = workPart.GetStringAttribute("EXCELTYPE"); }
-                catch (System.Exception ex) { sWorkPartAttribute.meExcelType = ""; }
+                try 
+                {
+                    sWorkPartAttribute.meExcelType = workPart.GetStringAttribute(CaxME.DimenAttr.EXCELTYPE); 
+                }
+                catch (System.Exception ex) 
+                { 
+                    sWorkPartAttribute.meExcelType = "";
+                    MessageBox.Show("尚未指定EXCEL表單");
+                    return false;
+                }
 
                 try
                 {
-                    sWorkPartAttribute.draftingVer = workPart.GetStringAttribute("REVSTARTPOS");
+                    sWorkPartAttribute.draftingVer = workPart.GetStringAttribute(CaxME.DimenAttr.REVSTARTPOS);
                     sWorkPartAttribute.draftingVer = sWorkPartAttribute.draftingVer.Split(',')[0];
                 }
-                catch (System.Exception ex) { sWorkPartAttribute.draftingVer = ""; }
+                catch (System.Exception ex) 
+                {
+                    sWorkPartAttribute.draftingVer = "";
+                    MessageBox.Show("無製程圖版次");
+                    return false;
+                }
 
-                try { sWorkPartAttribute.partDescription = workPart.GetStringAttribute("PARTDESCRIPTIONPOS"); }
-                catch (System.Exception ex) { sWorkPartAttribute.partDescription = ""; }
+                try
+                { 
+                    sWorkPartAttribute.partDescription = workPart.GetStringAttribute(CaxME.DimenAttr.PARTDESCRIPTIONPOS);
+                }
+                catch (System.Exception ex) 
+                { 
+                    sWorkPartAttribute.partDescription = "";
+                    MessageBox.Show("無品名");
+                    return false;
+                }
 
                 try
                 {
-                    sWorkPartAttribute.draftingDate = workPart.GetStringAttribute("REVDATESTARTPOS");
+                    sWorkPartAttribute.draftingDate = workPart.GetStringAttribute(CaxME.DimenAttr.REVDATESTARTPOS);
                     sWorkPartAttribute.draftingDate = sWorkPartAttribute.draftingDate.Split(',')[0];
                 }
-                catch (System.Exception ex) { sWorkPartAttribute.draftingDate = ""; }
+                catch (System.Exception ex) 
+                {
+                    sWorkPartAttribute.draftingDate = "";
+                    MessageBox.Show("無製程圖日期");
+                    return false;
+                }
 
-                try { sWorkPartAttribute.material = workPart.GetStringAttribute("MATERIALPOS"); }
-                catch (System.Exception ex) { sWorkPartAttribute.material = ""; }
+                try 
+                {
+                    sWorkPartAttribute.material = workPart.GetStringAttribute(CaxME.DimenAttr.MATERIALPOS); 
+                }
+                catch (System.Exception ex) 
+                { 
+                    sWorkPartAttribute.material = "";
+                    MessageBox.Show("無材質");
+                    return false;
+                }
 
                 sWorkPartAttribute.createDate = DateTime.Now.ToString();
             }

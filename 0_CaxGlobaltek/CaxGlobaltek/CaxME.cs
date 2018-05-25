@@ -32,7 +32,12 @@ namespace CaxGlobaltek
 
             public static string FixDimension = "FixDimension";
             public static string DiCount = "DiCount";
-            
+            public static string EXCELTYPE = "EXCELTYPE";
+            public static string REVSTARTPOS = "REVSTARTPOS";
+            public static string PARTDESCRIPTIONPOS = "PARTDESCRIPTIONPOS";
+            public static string REVDATESTARTPOS = "REVDATESTARTPOS";
+            public static string MATERIALPOS = "MATERIALPOS";
+
             public static string OldColor = "OldColor";
 
             public static string IPQC_Frequency = "IPQC_Frequency";
