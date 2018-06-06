@@ -149,27 +149,57 @@ namespace FixInsUpload
         {
             try
             {
+                int SheetCount = 0;
+                NXOpen.Tag[] SheetTagAry = null;
+                theUfSession.Draw.AskDrawings(out SheetCount, out SheetTagAry);
+                //判斷是否需要出PDF
+                List<DrawingSheet> drawingSheets = new List<DrawingSheet>();
+                for (int j = 0; j < SheetCount; j++)
+                {
+                    drawingSheets.Add((DrawingSheet)NXObjectManager.Get(SheetTagAry[j]));
+                }
+                if (this.ExportPDF.Checked)
+                {
+                    if (!Directory.Exists(this.L_Folder))
+                    {
+                        Directory.CreateDirectory(this.L_Folder);
+                    }
+                    string str1 = string.Format(@"{0}\{1}.pdf", this.L_Folder, Path.GetFileNameWithoutExtension(FixInsUploadDlg.displayPart.FullPath));
+                    CaxME.CreateOISPDF(drawingSheets, str1);
+
+                    //傳OIS圖到SERVER
+                    if (!Directory.Exists(S_Folder))
+                    {
+                        System.IO.Directory.CreateDirectory(S_Folder);
+                    }
+                    CaxPublic.DirectoryCopy(this.L_Folder, S_Folder, true);
+                }
                 //取得WorkPart資訊並檢查資料是否完整
                 DadDimension.WorkPartAttribute sWorkPartAttribute = new DadDimension.WorkPartAttribute();
                 status = DadDimension.GetWorkPartAttribute(workPart, out sWorkPartAttribute);
                 if (!status)
                 {
-                    MessageBox.Show("workPart屬性取得失敗，無法上傳");
+                    if (this.ExportPDF.Checked)
+                    {
+                        MessageBox.Show("量測資訊不足，僅上傳PDF檔案，上傳完成！");
+                    }
+                    else
+                    {
+                        MessageBox.Show("量測資訊不足，無法上傳資料！");
+                    }
                     this.Close();
                     return;
                 }
-                if (sWorkPartAttribute.draftingVer == "" || sWorkPartAttribute.draftingDate == "" ||
-                    sWorkPartAttribute.partDescription == "" || sWorkPartAttribute.material == "")
-                {
-                    MessageBox.Show("量測資訊不足");
-                    this.Close();
-                    return;
-                }
+                //if (sWorkPartAttribute.draftingVer == "" || sWorkPartAttribute.draftingDate == "" ||
+                //    sWorkPartAttribute.partDescription == "" || sWorkPartAttribute.material == "")
+                //{
+                //    MessageBox.Show("量測資訊不足");
+                //    this.Close();
+                //    return;
+                //}
 
                 //取得所有量測尺寸資料
-                int SheetCount = 0;
-                NXOpen.Tag[] SheetTagAry = null;
-                theUfSession.Draw.AskDrawings(out SheetCount, out SheetTagAry);
+                
                 List<DadDimension> listDimensionData = new List<DadDimension>();
                 for (int i = 0; i < SheetCount; i++)
                 {
@@ -193,20 +223,7 @@ namespace FixInsUpload
                     File.Copy(PicPathStr[i], destFileName, true);
                 }
 
-                List<DrawingSheet> drawingSheets = new List<DrawingSheet>();
-                for (int j = 0; j < SheetCount; j++)
-                {
-                    drawingSheets.Add((DrawingSheet)NXObjectManager.Get(SheetTagAry[j]));
-                }
-                if (this.ExportPDF.Checked)
-                {
-                    if (!Directory.Exists(this.L_Folder))
-                    {
-                        Directory.CreateDirectory(this.L_Folder);
-                    }
-                    string str1 = string.Format("{0}\\{1}.pdf", this.L_Folder, Path.GetFileNameWithoutExtension(FixInsUploadDlg.displayPart.FullPath));
-                    CaxME.CreateOISPDF(drawingSheets, str1);
-                }
+                
 
                 //由料號查Com_PEMain 
                 Com_PEMain cCom_PEMain = new Com_PEMain();
@@ -281,7 +298,6 @@ namespace FixInsUpload
                     CaxSQL.Save<Com_FixInspection>(cCom_FixInspection);
 
                     //傳OIS圖到SERVER
-                    
                     if (!Directory.Exists(S_Folder))
                     {
                         System.IO.Directory.CreateDirectory(S_Folder);
