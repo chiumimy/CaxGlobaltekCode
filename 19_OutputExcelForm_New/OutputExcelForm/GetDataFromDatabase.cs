@@ -572,14 +572,32 @@ namespace OutputExcelForm
                     object[] o = new object[] { false, i.fixPartName, i.fixinsDescription, i.fixinsNo, i.fixinsERP};
                     FixInsPanel.Rows.Add(new GridRow(o));
                     //FixInsPanel.GetCell(FixInsCount, 0).Value = false;
-                    string pdfString = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}\{6}\{7}", OutputForm.EnvVariables.env_Task, cus, partNo, cusVer, opVer, "OP" + op1, "OIS", i.fixPartName);
-                    string[] pdfFiles = System.IO.Directory.GetFileSystemEntries(pdfString, "*.pdf");
-                    if (pdfFiles.Length > 0)
+                    //string pdfString = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}\{6}\{7}", OutputForm.EnvVariables.env_Task, cus, partNo, cusVer, opVer, "OP" + op1, "OIS", i.fixPartName);
+                    //string[] pdfFiles = System.IO.Directory.GetFileSystemEntries(pdfString, "*.pdf");
+                    //if (pdfFiles.Length > 0)
+                    //{
+                    //    o = new object[] { false, i.fixPartName + ".pdf", "", "", "" };
+                    //    FixInsPanel.Rows.Add(new GridRow(o));
+                    //}
+                }
+
+                //將模檢治具的PDF拉到外面搜尋
+                string pdfString = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}\{6}", OutputForm.EnvVariables.env_Task, cus, partNo, cusVer, opVer, "OP" + op1, "OIS");
+                string[] pdfFiles = Directory.GetDirectories(pdfString);
+                foreach (string i in pdfFiles)
+                {
+                    string[] pdfPath = System.IO.Directory.GetFileSystemEntries(i, "*.pdf");
+                    foreach (string y in pdfPath)
                     {
-                        o = new object[] { false, i.fixPartName + ".pdf", "", "", "" };
+                        object[] o = new object[] { false, Path.GetFileName(y), "", "", "" };
                         FixInsPanel.Rows.Add(new GridRow(o));
                     }
                 }
+                //if (pdfFiles.Length > 0)
+                //{
+                //    o = new object[] { false, i.fixPartName + ".pdf", "", "", "" };
+                //    FixInsPanel.Rows.Add(new GridRow(o));
+                //}
             }
             catch (System.Exception ex)
             {
