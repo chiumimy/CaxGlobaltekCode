@@ -204,10 +204,24 @@ public class Program
 
                         string Gauge = "", AssignExcelType = "";
                         #region 判斷是否有屬性，沒有屬性就跳下一個
-                        try{ AssignExcelType = singleObj.GetStringAttribute(CaxME.DimenAttr.AssignExcelType); }
-                        catch (System.Exception ex){ continue; }
-                        try{ Gauge = singleObj.GetStringAttribute(CaxME.DimenAttr.Gauge); }
-                        catch (System.Exception ex){ }
+                        try
+                        {
+                            AssignExcelType = singleObj.GetStringAttribute(CaxME.DimenAttr.AssignExcelType);
+                        }
+                        catch (System.Exception ex)
+                        { 
+                            continue;
+                        }
+                        try
+                        { 
+                            Gauge = singleObj.GetStringAttribute(CaxME.DimenAttr.Gauge);
+                            if (singleObj.GetType().ToString().Contains("Line"))
+                            {
+                                continue;
+                            }
+                        }
+                        catch (System.Exception ex)
+                        { }
                         #endregion
 
                         //事先塞入該尺寸所在Sheet
