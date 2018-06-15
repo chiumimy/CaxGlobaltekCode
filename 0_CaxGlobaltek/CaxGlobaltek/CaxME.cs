@@ -1423,20 +1423,36 @@ namespace CaxGlobaltek
                 NXOpen.Annotations.Note[] NotesAry = workPart.Notes.ToArray();
                 foreach (Note i in NotesAry)
                 {
-                    string symbolTime = "";
-                    try
-                    {
-                        symbolTime = i.GetStringAttribute("KCInsertTime");
-                    }
-                    catch (System.Exception ex)
-                    {
-                        symbolTime = "";
-                        continue;
-                    }
-                    if (symbolTime == insertTime)
-                    {
-                        CaxPublic.DelectObject(i);
-                    }
+                    DeleteKC(insertTime, i);
+                }
+                NXOpen.Annotations.CustomSymbol[] CusSymAry = workPart.Annotations.CustomSymbols.ToArray();
+                foreach (CustomSymbol i in CusSymAry)
+                {
+                    DeleteKC(insertTime, i);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool DeleteKC(string insertTime, NXObject obj)
+        {
+            try
+            {
+                string symbolTime = "";
+                try
+                {
+                    symbolTime = obj.GetStringAttribute("KCInsertTime");
+                }
+                catch (System.Exception ex)
+                {
+                    symbolTime = "";
+                }
+                if (symbolTime == insertTime)
+                {
+                    CaxPublic.DelectObject(obj);
                 }
             }
             catch (System.Exception ex)

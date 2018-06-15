@@ -401,67 +401,57 @@ namespace AssignGauge
                         if (eTaskDialogResult.Yes == CaxPublic.ShowMsgYesNo("SPC Control未完成，是否返回操作?\nYes：返回。\nNo：不返回，繼續執行。"))
                             return;
 
+                    //先刪除舊的資料
+                    RemoveKCNote(SelDimensionAry);
+
                     #region KeyChara
-                    if (chk_KCText.Checked == true)
+                    foreach (NXObject i in SelDimensionAry)
                     {
-                        if (KCText.Text == "")
-                        {
-                            MessageBox.Show("請先輸入關鍵尺寸代號");
-                            return;
-                        }
+                        //計算KC座標
+                        CaxME.BoxCoordinate cBoxCoordinate = new CaxME.BoxCoordinate();
+                        CaxME.GetTextBoxCoordinate(i.Tag, out cBoxCoordinate);
+                        CaxME.DimenData sDimenData = new CaxME.DimenData();
+                        CaxME.CalculateBallonCoordinateAfter(cBoxCoordinate, out sDimenData);
+                        //插入KCinsert時間，用來刪除的時候可以判斷是哪一個KC要刪除
+                        string datetime = DateTime.Now.TimeOfDay.ToString();
 
-                        //先刪除舊的文字
-                        RemoveKCNote(SelDimensionAry);
-
-                        foreach (NXObject i in SelDimensionAry)
+                        #region ********文字********
+                        if (chk_KCText.Checked == true)
                         {
+                            if (KCText.Text == "")
+                            {
+                                MessageBox.Show("請先輸入關鍵尺寸代號");
+                                return;
+                            }
+                            //插入KC文字
                             i.SetAttribute("KC", KCText.Text);
-                            //插入符號文字
-                            //計算符號圖片座標並插入
-                            CaxME.BoxCoordinate cBoxCoordinate = new CaxME.BoxCoordinate();
-                            CaxME.GetTextBoxCoordinate(i.Tag, out cBoxCoordinate);
-                            CaxME.DimenData sDimenData = new CaxME.DimenData();
-                            CaxME.CalculateBallonCoordinateAfter(cBoxCoordinate, out sDimenData);
-                            string datetime = DateTime.Now.TimeOfDay.ToString();
-                            Point3d point3d = new Point3d();
-                            point3d.X = sDimenData.LocationX;
-                            point3d.Y = sDimenData.LocationY;
-                            point3d.Z = sDimenData.LocationZ;
-                            InsertKCNote(KCText.Text, point3d, datetime);
-                            i.SetAttribute(CaxME.DimenAttr.KCInsertTime, datetime);
+                            status = InsertKCNote(KCText.Text, sDimenData, datetime);
+                            if (!status)
+                            {
+                                continue;
+                            }
                         }
-                    }
-                    if (chk_KCPic.Checked == true)
-                    {
-                        if (pictureBox1.Image == null)
+                        #endregion
+                        #region ********符號********
+                        if (chk_KCPic.Checked == true)
                         {
-                            MessageBox.Show("請先選擇圖片");
-                            return;
-                        }
-
-                        //先刪除舊的圖片
-                        RemoveKC(SelDimensionAry);
-
-                        foreach (NXObject i in SelDimensionAry)
-                        {
+                            if (pictureBox1.Image == null)
+                            {
+                                MessageBox.Show("請先選擇圖片");
+                                return;
+                            }
                             //插入符號圖片路徑屬性
                             i.SetAttribute("KC", filePath);
-                            //插入符號圖片
-                            //計算符號圖片座標並插入
-                            CaxME.BoxCoordinate cBoxCoordinate = new CaxME.BoxCoordinate();
-                            CaxME.GetTextBoxCoordinate(i.Tag, out cBoxCoordinate);
-                            CaxME.DimenData sDimenData = new CaxME.DimenData();
-                            CaxME.CalculateBallonCoordinateAfter(cBoxCoordinate, out sDimenData);
                             string symbolPartFile = string.Format(@"{0}\{1}", Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath) + ".prt");
-                            //插入KCinsert時間，用來刪除的時候可以判斷是哪一個KC要刪除
-                            string datetime = DateTime.Now.TimeOfDay.ToString();
                             status = symbol(symbolPartFile, sDimenData, datetime);
                             if (!status)
                             {
                                 continue;
                             }
-                            i.SetAttribute(CaxME.DimenAttr.KCInsertTime, datetime);
                         }
+                        #endregion
+
+                        i.SetAttribute(CaxME.DimenAttr.KCInsertTime, datetime);
                     }
                     foreach (NXObject i in SelDimensionAry)
                     {
@@ -513,7 +503,7 @@ namespace AssignGauge
 
                     if (chk_KC.Checked == true)
                     {
-                        status = RemoveKC(SelDimensionAry);
+                        status = RemoveKCNote(SelDimensionAry);
                         if (!status)
                         {
                             MessageBox.Show("【KC】移除失敗，請聯繫開發工程師");
@@ -1113,6 +1103,7 @@ namespace AssignGauge
                 chk_KCText.Checked = false;
                 KC_SelPic.Enabled = true;
                 KCText.Enabled = false;
+                KCText.Text = "";
                 KCText.WatermarkText = "請指定代號";
             }
         }
@@ -1214,7 +1205,7 @@ namespace AssignGauge
 
         }
 
-        public static bool InsertKCNote(string text, Point3d textLocation, string datetime, NXOpen.Annotations.OriginBuilder.AlignmentPosition defaultPosition = NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft)
+        public static bool InsertKCNote(string text, CaxME.DimenData location, string datetime, NXOpen.Annotations.OriginBuilder.AlignmentPosition defaultPosition = NXOpen.Annotations.OriginBuilder.AlignmentPosition.MidLeft)
         {
             try
             {
@@ -1287,7 +1278,8 @@ namespace AssignGauge
                 draftingNoteBuilder1.Origin.SetAssociativeOrigin(assocOrigin1);
 
                 //text擺放位置
-                draftingNoteBuilder1.Origin.Origin.SetValue(null, nullView, textLocation);
+                Point3d point1 = new Point3d(location.LocationX, location.LocationY, location.LocationZ);
+                draftingNoteBuilder1.Origin.Origin.SetValue(null, nullView, point1);
 
                 draftingNoteBuilder1.Origin.SetInferRelativeToGeometry(true);
                 //NXOpen.Session.UndoMarkId markId2;

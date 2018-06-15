@@ -1018,7 +1018,22 @@ namespace PartInformation
             return true;
         }
 
-        
+        public static bool GetAllControl(Control input, ref List<Control> listControl)
+        {
+            try
+            {
+                foreach (Control childControl in input.Controls)
+                {
+                    listControl.Add(childControl);
+                    GetAllControl(childControl, ref listControl);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
 
         public static bool DeleteNote(Part workPart, NXOpen.Annotations.Note[] NotesAry)
         {

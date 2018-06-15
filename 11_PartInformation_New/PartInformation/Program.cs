@@ -4,6 +4,8 @@ using NXOpen.UF;
 using System.Windows.Forms;
 using PartInformation;
 using NXOpenUI;
+using System.Collections.Generic;
+using System.Drawing;
 
 public class Program
 {
@@ -56,6 +58,18 @@ public class Program
             {
                 Application.EnableVisualStyles();
                 PartInformationDlg cPartInformationDlg = new PartInformationDlg();
+                List<Control> listControl = new List<Control>();
+                foreach (Control i in cPartInformationDlg.Controls)
+                {
+                    listControl.Add(i);
+                    Functions.GetAllControl(i, ref listControl);
+                }
+
+                foreach (Control c in listControl)
+                {
+                    c.Font = new Font(c.Font.Name, 9);
+                }
+
                 FormUtilities.ReparentForm(cPartInformationDlg);
                 System.Windows.Forms.Application.Run(cPartInformationDlg);
                 cPartInformationDlg.Dispose();

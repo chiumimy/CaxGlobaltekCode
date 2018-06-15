@@ -36,25 +36,25 @@
             this.TabControl = new DevComponents.DotNetBar.SuperTabControl();
             this.superTabControlPanel1 = new DevComponents.DotNetBar.SuperTabControlPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.DiCount = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX19 = new DevComponents.DotNetBar.LabelX();
-            this.IPQC_Freq_0 = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX17 = new DevComponents.DotNetBar.LabelX();
-            this.MoreThan5 = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.LessThan5 = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.labelX16 = new DevComponents.DotNetBar.LabelX();
             this.CheckLevel = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX15 = new DevComponents.DotNetBar.LabelX();
-            this.IPQC_Freq_1 = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.IPQC_Units = new DevComponents.DotNetBar.Controls.ComboBoxEx();
-            this.Gauge = new DevComponents.DotNetBar.Controls.ComboBoxEx();
-            this.labelX3 = new DevComponents.DotNetBar.LabelX();
-            this.labelX10 = new DevComponents.DotNetBar.LabelX();
+            this.DiCount = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.IPQC_Freq_0 = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.chk_IPQC = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.chk_FQC = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.chk_IQC = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.chk_FAI = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.labelX18 = new DevComponents.DotNetBar.LabelX();
+            this.labelX17 = new DevComponents.DotNetBar.LabelX();
+            this.labelX19 = new DevComponents.DotNetBar.LabelX();
+            this.chk_IQC = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.MoreThan5 = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.chk_FQC = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.chk_FAI = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.LessThan5 = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.Gauge = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.IPQC_Freq_1 = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX10 = new DevComponents.DotNetBar.LabelX();
+            this.IPQC_Units = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.labelX16 = new DevComponents.DotNetBar.LabelX();
+            this.labelX15 = new DevComponents.DotNetBar.LabelX();
+            this.labelX3 = new DevComponents.DotNetBar.LabelX();
             this.SelfCheck_Freq_1 = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.SelfCheck_Freq_0 = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.SelfCheck_Units = new DevComponents.DotNetBar.Controls.ComboBoxEx();
@@ -175,8 +175,8 @@
             this.TabControl.ControlBox.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
             this.TabControl.ControlBox.MenuBox,
             this.TabControl.ControlBox.CloseBox});
-            this.TabControl.Controls.Add(this.superTabControlPanel1);
             this.TabControl.Controls.Add(this.superTabControlPanel2);
+            this.TabControl.Controls.Add(this.superTabControlPanel1);
             this.TabControl.Controls.Add(this.superTabControlPanel4);
             this.TabControl.Controls.Add(this.superTabControlPanel3);
             this.TabControl.Location = new System.Drawing.Point(12, 41);
@@ -248,101 +248,6 @@
             this.splitContainer1.SplitterDistance = 220;
             this.splitContainer1.TabIndex = 7;
             // 
-            // DiCount
-            // 
-            // 
-            // 
-            // 
-            this.DiCount.Border.Class = "TextBoxBorder";
-            this.DiCount.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.DiCount.Location = new System.Drawing.Point(86, 81);
-            this.DiCount.Name = "DiCount";
-            this.DiCount.PreventEnterBeep = true;
-            this.DiCount.Size = new System.Drawing.Size(54, 22);
-            this.DiCount.TabIndex = 41;
-            // 
-            // labelX19
-            // 
-            // 
-            // 
-            // 
-            this.labelX19.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX19.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelX19.Location = new System.Drawing.Point(15, 82);
-            this.labelX19.Name = "labelX19";
-            this.labelX19.Size = new System.Drawing.Size(75, 23);
-            this.labelX19.TabIndex = 40;
-            this.labelX19.Text = "尺寸數量：";
-            // 
-            // IPQC_Freq_0
-            // 
-            // 
-            // 
-            // 
-            this.IPQC_Freq_0.Border.Class = "TextBoxBorder";
-            this.IPQC_Freq_0.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.IPQC_Freq_0.Location = new System.Drawing.Point(86, 187);
-            this.IPQC_Freq_0.Name = "IPQC_Freq_0";
-            this.IPQC_Freq_0.PreventEnterBeep = true;
-            this.IPQC_Freq_0.Size = new System.Drawing.Size(39, 22);
-            this.IPQC_Freq_0.TabIndex = 17;
-            // 
-            // labelX17
-            // 
-            // 
-            // 
-            // 
-            this.labelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX17.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelX17.Location = new System.Drawing.Point(15, 187);
-            this.labelX17.Name = "labelX17";
-            this.labelX17.Size = new System.Drawing.Size(75, 23);
-            this.labelX17.TabIndex = 38;
-            this.labelX17.Text = "檢驗頻率：";
-            // 
-            // MoreThan5
-            // 
-            // 
-            // 
-            // 
-            this.MoreThan5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.MoreThan5.Font = new System.Drawing.Font("新細明體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.MoreThan5.Location = new System.Drawing.Point(138, 151);
-            this.MoreThan5.Name = "MoreThan5";
-            this.MoreThan5.Size = new System.Drawing.Size(57, 23);
-            this.MoreThan5.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.MoreThan5.TabIndex = 37;
-            this.MoreThan5.Text = " > 5";
-            this.MoreThan5.CheckedChanged += new System.EventHandler(this.MoreThan5_CheckedChanged);
-            // 
-            // LessThan5
-            // 
-            // 
-            // 
-            // 
-            this.LessThan5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.LessThan5.Font = new System.Drawing.Font("新細明體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.LessThan5.Location = new System.Drawing.Point(85, 151);
-            this.LessThan5.Name = "LessThan5";
-            this.LessThan5.Size = new System.Drawing.Size(58, 23);
-            this.LessThan5.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.LessThan5.TabIndex = 36;
-            this.LessThan5.Text = " <= 5";
-            this.LessThan5.CheckedChanged += new System.EventHandler(this.LessThan5_CheckedChanged);
-            // 
-            // labelX16
-            // 
-            // 
-            // 
-            // 
-            this.labelX16.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX16.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelX16.Location = new System.Drawing.Point(15, 152);
-            this.labelX16.Name = "labelX16";
-            this.labelX16.Size = new System.Drawing.Size(75, 23);
-            this.labelX16.TabIndex = 35;
-            this.labelX16.Text = "加工數量：";
-            // 
             // CheckLevel
             // 
             // 
@@ -356,84 +261,31 @@
             this.CheckLevel.Size = new System.Drawing.Size(54, 22);
             this.CheckLevel.TabIndex = 34;
             // 
-            // labelX15
+            // DiCount
             // 
             // 
             // 
             // 
-            this.labelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX15.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelX15.Location = new System.Drawing.Point(15, 117);
-            this.labelX15.Name = "labelX15";
-            this.labelX15.Size = new System.Drawing.Size(75, 23);
-            this.labelX15.TabIndex = 33;
-            this.labelX15.Text = "檢驗等級：";
+            this.DiCount.Border.Class = "TextBoxBorder";
+            this.DiCount.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.DiCount.Location = new System.Drawing.Point(86, 81);
+            this.DiCount.Name = "DiCount";
+            this.DiCount.PreventEnterBeep = true;
+            this.DiCount.Size = new System.Drawing.Size(54, 22);
+            this.DiCount.TabIndex = 41;
             // 
-            // IPQC_Freq_1
-            // 
-            // 
-            // 
-            // 
-            this.IPQC_Freq_1.Border.Class = "TextBoxBorder";
-            this.IPQC_Freq_1.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.IPQC_Freq_1.Location = new System.Drawing.Point(156, 187);
-            this.IPQC_Freq_1.Name = "IPQC_Freq_1";
-            this.IPQC_Freq_1.PreventEnterBeep = true;
-            this.IPQC_Freq_1.Size = new System.Drawing.Size(39, 22);
-            this.IPQC_Freq_1.TabIndex = 19;
-            // 
-            // IPQC_Units
-            // 
-            this.IPQC_Units.DisplayMember = "Text";
-            this.IPQC_Units.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.IPQC_Units.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.IPQC_Units.FormattingEnabled = true;
-            this.IPQC_Units.ItemHeight = 16;
-            this.IPQC_Units.Location = new System.Drawing.Point(201, 187);
-            this.IPQC_Units.Name = "IPQC_Units";
-            this.IPQC_Units.Size = new System.Drawing.Size(85, 22);
-            this.IPQC_Units.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.IPQC_Units.TabIndex = 11;
-            this.IPQC_Units.SelectedIndexChanged += new System.EventHandler(this.IPQC_Units_SelectedIndexChanged);
-            // 
-            // Gauge
-            // 
-            this.Gauge.DisplayMember = "Text";
-            this.Gauge.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.Gauge.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.Gauge.FormattingEnabled = true;
-            this.Gauge.ItemHeight = 16;
-            this.Gauge.Location = new System.Drawing.Point(86, 46);
-            this.Gauge.Name = "Gauge";
-            this.Gauge.Size = new System.Drawing.Size(199, 22);
-            this.Gauge.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.Gauge.TabIndex = 4;
-            // 
-            // labelX3
+            // IPQC_Freq_0
             // 
             // 
             // 
             // 
-            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX3.Location = new System.Drawing.Point(125, 187);
-            this.labelX3.Name = "labelX3";
-            this.labelX3.Size = new System.Drawing.Size(31, 23);
-            this.labelX3.TabIndex = 23;
-            this.labelX3.Text = "PC/";
-            this.labelX3.TextAlignment = System.Drawing.StringAlignment.Center;
-            // 
-            // labelX10
-            // 
-            // 
-            // 
-            // 
-            this.labelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX10.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelX10.Location = new System.Drawing.Point(15, 47);
-            this.labelX10.Name = "labelX10";
-            this.labelX10.Size = new System.Drawing.Size(75, 23);
-            this.labelX10.TabIndex = 24;
-            this.labelX10.Text = "選擇檢具：";
+            this.IPQC_Freq_0.Border.Class = "TextBoxBorder";
+            this.IPQC_Freq_0.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.IPQC_Freq_0.Location = new System.Drawing.Point(86, 187);
+            this.IPQC_Freq_0.Name = "IPQC_Freq_0";
+            this.IPQC_Freq_0.PreventEnterBeep = true;
+            this.IPQC_Freq_0.Size = new System.Drawing.Size(39, 22);
+            this.IPQC_Freq_0.TabIndex = 17;
             // 
             // chk_IPQC
             // 
@@ -451,21 +303,44 @@
             this.chk_IPQC.Text = "IPQC";
             this.chk_IPQC.CheckedChanged += new System.EventHandler(this.chk_IPQC_CheckedChanged);
             // 
-            // chk_FQC
-            // 
-            this.chk_FQC.BackColor = System.Drawing.Color.Transparent;
+            // labelX18
             // 
             // 
             // 
-            this.chk_FQC.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.chk_FQC.Font = new System.Drawing.Font("新細明體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.chk_FQC.Location = new System.Drawing.Point(210, 10);
-            this.chk_FQC.Name = "chk_FQC";
-            this.chk_FQC.Size = new System.Drawing.Size(56, 23);
-            this.chk_FQC.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.chk_FQC.TabIndex = 3;
-            this.chk_FQC.Text = "FQC";
-            this.chk_FQC.CheckedChanged += new System.EventHandler(this.chk_FQC_CheckedChanged);
+            // 
+            this.labelX18.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX18.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelX18.Location = new System.Drawing.Point(15, 12);
+            this.labelX18.Name = "labelX18";
+            this.labelX18.Size = new System.Drawing.Size(75, 23);
+            this.labelX18.TabIndex = 39;
+            this.labelX18.Text = "指定表單：";
+            // 
+            // labelX17
+            // 
+            // 
+            // 
+            // 
+            this.labelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX17.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelX17.Location = new System.Drawing.Point(15, 187);
+            this.labelX17.Name = "labelX17";
+            this.labelX17.Size = new System.Drawing.Size(75, 23);
+            this.labelX17.TabIndex = 38;
+            this.labelX17.Text = "檢驗頻率：";
+            // 
+            // labelX19
+            // 
+            // 
+            // 
+            // 
+            this.labelX19.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX19.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelX19.Location = new System.Drawing.Point(15, 82);
+            this.labelX19.Name = "labelX19";
+            this.labelX19.Size = new System.Drawing.Size(75, 23);
+            this.labelX19.TabIndex = 40;
+            this.labelX19.Text = "尺寸數量：";
             // 
             // chk_IQC
             // 
@@ -483,6 +358,37 @@
             this.chk_IQC.Text = "IQC";
             this.chk_IQC.CheckedChanged += new System.EventHandler(this.chk_IQC_CheckedChanged);
             // 
+            // MoreThan5
+            // 
+            // 
+            // 
+            // 
+            this.MoreThan5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.MoreThan5.Font = new System.Drawing.Font("新細明體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.MoreThan5.Location = new System.Drawing.Point(138, 151);
+            this.MoreThan5.Name = "MoreThan5";
+            this.MoreThan5.Size = new System.Drawing.Size(57, 23);
+            this.MoreThan5.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.MoreThan5.TabIndex = 37;
+            this.MoreThan5.Text = " > 5";
+            this.MoreThan5.CheckedChanged += new System.EventHandler(this.MoreThan5_CheckedChanged);
+            // 
+            // chk_FQC
+            // 
+            this.chk_FQC.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.chk_FQC.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.chk_FQC.Font = new System.Drawing.Font("新細明體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.chk_FQC.Location = new System.Drawing.Point(210, 10);
+            this.chk_FQC.Name = "chk_FQC";
+            this.chk_FQC.Size = new System.Drawing.Size(56, 23);
+            this.chk_FQC.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.chk_FQC.TabIndex = 3;
+            this.chk_FQC.Text = "FQC";
+            this.chk_FQC.CheckedChanged += new System.EventHandler(this.chk_FQC_CheckedChanged);
+            // 
             // chk_FAI
             // 
             this.chk_FAI.BackColor = System.Drawing.Color.Transparent;
@@ -499,18 +405,112 @@
             this.chk_FAI.Text = "FAI";
             this.chk_FAI.CheckedChanged += new System.EventHandler(this.chk_FAI_CheckedChanged);
             // 
-            // labelX18
+            // LessThan5
             // 
             // 
             // 
             // 
-            this.labelX18.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX18.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelX18.Location = new System.Drawing.Point(15, 12);
-            this.labelX18.Name = "labelX18";
-            this.labelX18.Size = new System.Drawing.Size(75, 23);
-            this.labelX18.TabIndex = 39;
-            this.labelX18.Text = "指定表單：";
+            this.LessThan5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.LessThan5.Font = new System.Drawing.Font("新細明體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.LessThan5.Location = new System.Drawing.Point(85, 151);
+            this.LessThan5.Name = "LessThan5";
+            this.LessThan5.Size = new System.Drawing.Size(58, 23);
+            this.LessThan5.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.LessThan5.TabIndex = 36;
+            this.LessThan5.Text = " <= 5";
+            this.LessThan5.CheckedChanged += new System.EventHandler(this.LessThan5_CheckedChanged);
+            // 
+            // Gauge
+            // 
+            this.Gauge.DisplayMember = "Text";
+            this.Gauge.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.Gauge.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Gauge.FormattingEnabled = true;
+            this.Gauge.ItemHeight = 16;
+            this.Gauge.Location = new System.Drawing.Point(86, 46);
+            this.Gauge.Name = "Gauge";
+            this.Gauge.Size = new System.Drawing.Size(199, 22);
+            this.Gauge.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.Gauge.TabIndex = 4;
+            // 
+            // IPQC_Freq_1
+            // 
+            // 
+            // 
+            // 
+            this.IPQC_Freq_1.Border.Class = "TextBoxBorder";
+            this.IPQC_Freq_1.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.IPQC_Freq_1.Location = new System.Drawing.Point(156, 187);
+            this.IPQC_Freq_1.Name = "IPQC_Freq_1";
+            this.IPQC_Freq_1.PreventEnterBeep = true;
+            this.IPQC_Freq_1.Size = new System.Drawing.Size(39, 22);
+            this.IPQC_Freq_1.TabIndex = 19;
+            // 
+            // labelX10
+            // 
+            // 
+            // 
+            // 
+            this.labelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX10.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelX10.Location = new System.Drawing.Point(15, 47);
+            this.labelX10.Name = "labelX10";
+            this.labelX10.Size = new System.Drawing.Size(75, 23);
+            this.labelX10.TabIndex = 24;
+            this.labelX10.Text = "選擇檢具：";
+            // 
+            // IPQC_Units
+            // 
+            this.IPQC_Units.DisplayMember = "Text";
+            this.IPQC_Units.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.IPQC_Units.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.IPQC_Units.FormattingEnabled = true;
+            this.IPQC_Units.ItemHeight = 16;
+            this.IPQC_Units.Location = new System.Drawing.Point(201, 187);
+            this.IPQC_Units.Name = "IPQC_Units";
+            this.IPQC_Units.Size = new System.Drawing.Size(85, 22);
+            this.IPQC_Units.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.IPQC_Units.TabIndex = 11;
+            this.IPQC_Units.SelectedIndexChanged += new System.EventHandler(this.IPQC_Units_SelectedIndexChanged);
+            // 
+            // labelX16
+            // 
+            // 
+            // 
+            // 
+            this.labelX16.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX16.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelX16.Location = new System.Drawing.Point(15, 152);
+            this.labelX16.Name = "labelX16";
+            this.labelX16.Size = new System.Drawing.Size(75, 23);
+            this.labelX16.TabIndex = 35;
+            this.labelX16.Text = "加工數量：";
+            // 
+            // labelX15
+            // 
+            // 
+            // 
+            // 
+            this.labelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX15.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelX15.Location = new System.Drawing.Point(15, 117);
+            this.labelX15.Name = "labelX15";
+            this.labelX15.Size = new System.Drawing.Size(75, 23);
+            this.labelX15.TabIndex = 33;
+            this.labelX15.Text = "檢驗等級：";
+            // 
+            // labelX3
+            // 
+            // 
+            // 
+            // 
+            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX3.Location = new System.Drawing.Point(125, 187);
+            this.labelX3.Name = "labelX3";
+            this.labelX3.Size = new System.Drawing.Size(31, 23);
+            this.labelX3.TabIndex = 23;
+            this.labelX3.Text = "PC/";
+            this.labelX3.TextAlignment = System.Drawing.StringAlignment.Center;
             // 
             // SelfCheck_Freq_1
             // 
@@ -622,7 +622,7 @@
             this.superTabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.superTabControlPanel2.Location = new System.Drawing.Point(0, 24);
             this.superTabControlPanel2.Name = "superTabControlPanel2";
-            this.superTabControlPanel2.Size = new System.Drawing.Size(314, 247);
+            this.superTabControlPanel2.Size = new System.Drawing.Size(342, 307);
             this.superTabControlPanel2.TabIndex = 0;
             this.superTabControlPanel2.TabItem = this.KeyChara;
             // 

@@ -31,6 +31,14 @@
             this.components = new System.ComponentModel.Container();
             this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelX14 = new DevComponents.DotNetBar.LabelX();
+            this.labelX13 = new DevComponents.DotNetBar.LabelX();
+            this.labelX12 = new DevComponents.DotNetBar.LabelX();
+            this.labelX11 = new DevComponents.DotNetBar.LabelX();
+            this.Instruction = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.Approved = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.Reviewed = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.Prepared = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.TolValue4 = new System.Windows.Forms.TextBox();
             this.TolTitle4 = new System.Windows.Forms.TextBox();
@@ -73,14 +81,6 @@
             this.UserAddNote = new DevComponents.DotNetBar.ButtonX();
             this.PlusMinus = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.Prepared = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.Reviewed = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.Approved = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.Instruction = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX11 = new DevComponents.DotNetBar.LabelX();
-            this.labelX12 = new DevComponents.DotNetBar.LabelX();
-            this.labelX13 = new DevComponents.DotNetBar.LabelX();
-            this.labelX14 = new DevComponents.DotNetBar.LabelX();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -113,6 +113,114 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Part Information";
+            // 
+            // labelX14
+            // 
+            // 
+            // 
+            // 
+            this.labelX14.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX14.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelX14.Location = new System.Drawing.Point(394, 279);
+            this.labelX14.Name = "labelX14";
+            this.labelX14.Size = new System.Drawing.Size(63, 23);
+            this.labelX14.TabIndex = 24;
+            this.labelX14.Text = "審核：";
+            // 
+            // labelX13
+            // 
+            // 
+            // 
+            // 
+            this.labelX13.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX13.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelX13.Location = new System.Drawing.Point(312, 279);
+            this.labelX13.Name = "labelX13";
+            this.labelX13.Size = new System.Drawing.Size(63, 23);
+            this.labelX13.TabIndex = 23;
+            this.labelX13.Text = "校對：";
+            // 
+            // labelX12
+            // 
+            // 
+            // 
+            // 
+            this.labelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX12.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelX12.Location = new System.Drawing.Point(230, 279);
+            this.labelX12.Name = "labelX12";
+            this.labelX12.Size = new System.Drawing.Size(63, 23);
+            this.labelX12.TabIndex = 22;
+            this.labelX12.Text = "製圖：";
+            // 
+            // labelX11
+            // 
+            // 
+            // 
+            // 
+            this.labelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX11.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelX11.Location = new System.Drawing.Point(12, 279);
+            this.labelX11.Name = "labelX11";
+            this.labelX11.Size = new System.Drawing.Size(100, 23);
+            this.labelX11.TabIndex = 21;
+            this.labelX11.Text = "新增描述：";
+            // 
+            // Instruction
+            // 
+            // 
+            // 
+            // 
+            this.Instruction.Border.Class = "TextBoxBorder";
+            this.Instruction.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.Instruction.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Instruction.Location = new System.Drawing.Point(12, 304);
+            this.Instruction.Name = "Instruction";
+            this.Instruction.PreventEnterBeep = true;
+            this.Instruction.Size = new System.Drawing.Size(204, 22);
+            this.Instruction.TabIndex = 20;
+            // 
+            // Approved
+            // 
+            // 
+            // 
+            // 
+            this.Approved.Border.Class = "TextBoxBorder";
+            this.Approved.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.Approved.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Approved.Location = new System.Drawing.Point(394, 304);
+            this.Approved.Name = "Approved";
+            this.Approved.PreventEnterBeep = true;
+            this.Approved.Size = new System.Drawing.Size(63, 22);
+            this.Approved.TabIndex = 4;
+            // 
+            // Reviewed
+            // 
+            // 
+            // 
+            // 
+            this.Reviewed.Border.Class = "TextBoxBorder";
+            this.Reviewed.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.Reviewed.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Reviewed.Location = new System.Drawing.Point(312, 304);
+            this.Reviewed.Name = "Reviewed";
+            this.Reviewed.PreventEnterBeep = true;
+            this.Reviewed.Size = new System.Drawing.Size(63, 22);
+            this.Reviewed.TabIndex = 3;
+            // 
+            // Prepared
+            // 
+            // 
+            // 
+            // 
+            this.Prepared.Border.Class = "TextBoxBorder";
+            this.Prepared.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.Prepared.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Prepared.Location = new System.Drawing.Point(230, 304);
+            this.Prepared.Name = "Prepared";
+            this.Prepared.PreventEnterBeep = true;
+            this.Prepared.Size = new System.Drawing.Size(63, 22);
+            this.Prepared.TabIndex = 2;
             // 
             // groupBox3
             // 
@@ -632,118 +740,9 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "自定義Note";
             // 
-            // Prepared
-            // 
-            // 
-            // 
-            // 
-            this.Prepared.Border.Class = "TextBoxBorder";
-            this.Prepared.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.Prepared.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Prepared.Location = new System.Drawing.Point(230, 304);
-            this.Prepared.Name = "Prepared";
-            this.Prepared.PreventEnterBeep = true;
-            this.Prepared.Size = new System.Drawing.Size(63, 22);
-            this.Prepared.TabIndex = 2;
-            // 
-            // Reviewed
-            // 
-            // 
-            // 
-            // 
-            this.Reviewed.Border.Class = "TextBoxBorder";
-            this.Reviewed.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.Reviewed.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Reviewed.Location = new System.Drawing.Point(312, 304);
-            this.Reviewed.Name = "Reviewed";
-            this.Reviewed.PreventEnterBeep = true;
-            this.Reviewed.Size = new System.Drawing.Size(63, 22);
-            this.Reviewed.TabIndex = 3;
-            // 
-            // Approved
-            // 
-            // 
-            // 
-            // 
-            this.Approved.Border.Class = "TextBoxBorder";
-            this.Approved.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.Approved.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Approved.Location = new System.Drawing.Point(394, 304);
-            this.Approved.Name = "Approved";
-            this.Approved.PreventEnterBeep = true;
-            this.Approved.Size = new System.Drawing.Size(63, 22);
-            this.Approved.TabIndex = 4;
-            // 
-            // Instruction
-            // 
-            // 
-            // 
-            // 
-            this.Instruction.Border.Class = "TextBoxBorder";
-            this.Instruction.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.Instruction.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Instruction.Location = new System.Drawing.Point(12, 304);
-            this.Instruction.Name = "Instruction";
-            this.Instruction.PreventEnterBeep = true;
-            this.Instruction.Size = new System.Drawing.Size(204, 22);
-            this.Instruction.TabIndex = 20;
-            // 
-            // labelX11
-            // 
-            // 
-            // 
-            // 
-            this.labelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX11.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelX11.Location = new System.Drawing.Point(12, 279);
-            this.labelX11.Name = "labelX11";
-            this.labelX11.Size = new System.Drawing.Size(100, 23);
-            this.labelX11.TabIndex = 21;
-            this.labelX11.Text = "新增描述：";
-            // 
-            // labelX12
-            // 
-            // 
-            // 
-            // 
-            this.labelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX12.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelX12.Location = new System.Drawing.Point(230, 279);
-            this.labelX12.Name = "labelX12";
-            this.labelX12.Size = new System.Drawing.Size(63, 23);
-            this.labelX12.TabIndex = 22;
-            this.labelX12.Text = "製圖：";
-            // 
-            // labelX13
-            // 
-            // 
-            // 
-            // 
-            this.labelX13.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX13.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelX13.Location = new System.Drawing.Point(312, 279);
-            this.labelX13.Name = "labelX13";
-            this.labelX13.Size = new System.Drawing.Size(63, 23);
-            this.labelX13.TabIndex = 23;
-            this.labelX13.Text = "校對：";
-            // 
-            // labelX14
-            // 
-            // 
-            // 
-            // 
-            this.labelX14.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX14.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelX14.Location = new System.Drawing.Point(394, 279);
-            this.labelX14.Name = "labelX14";
-            this.labelX14.Size = new System.Drawing.Size(63, 23);
-            this.labelX14.TabIndex = 24;
-            this.labelX14.Text = "審核：";
-            // 
             // PartInformationDlg
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(489, 587);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.DefinedNote);

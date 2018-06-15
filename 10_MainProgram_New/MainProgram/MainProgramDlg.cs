@@ -274,6 +274,32 @@ namespace MainProgram
                 }
                 listView3.Items.Add(NewGroupName + "(" + NCGroupMessage + ")");
             }
+            else if (chb_Siemens.Checked == true)
+            {
+                for (int i = 0; i < cControlerConfig.Controler.Count; i++)
+                {
+                    if (cControlerConfig.Controler[i].CompanyName == chb_Siemens.Text)
+                    {
+                        if (cControlerConfig.Controler[i].MasterValue1 != "")
+                        {
+                            //ListViewItem tempViewItem = new ListViewItem(cControlerConfig.Controler[i].MasterValue1);
+                            //listView3.Items.Add(tempViewItem);
+                        }
+                        if (cControlerConfig.Controler[i].MasterValue2 != "")
+                        {
+                            //ListViewItem tempViewItem = new ListViewItem(cControlerConfig.Controler[i].MasterValue2);
+                            //listView4.Items.Add(tempViewItem);
+                        }
+                        if (cControlerConfig.Controler[i].MasterValue3 != "")
+                        {
+                            ListViewItem tempViewItem = new ListViewItem(cControlerConfig.Controler[i].MasterValue3);
+                            listView4.Items.Add(tempViewItem);
+                        }
+                        break;
+                    }
+                }
+                //listView3.Items.Add(NewGroupName + "(" + NCGroupMessage + ")");
+            }
 
             //取得Group下的所有OP
             OperObjAry = SelectNCGroup.GetMembers();
